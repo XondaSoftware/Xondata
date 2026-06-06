@@ -67,11 +67,13 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            
-            background-image: url('fondo-hero.jpg');
-            background-size: cover;
-            background-position: top center;
-            background-attachment: fixed;
+        }
+
+        /* Apaga el fixed en móviles para recuperar los 60 FPS al scrollear */
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll; 
+            }
         }
 
         /* LUZ DEL TECHO (PASO 2) */
@@ -96,7 +98,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 32px 40px; 
+            padding: 2rem 7rem; 
             
             /* Asegúrate de que tenga estas líneas exactas */
             position: absolute; 
@@ -116,9 +118,9 @@
         .logo { 
             display: flex; /* Obligatorio para que la propiedad 'transform' funcione */
             align-items: center; 
-            gap: 1rem; 
+            gap: 0.5rem; 
             text-decoration: none;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--text-primary); 
             letter-spacing: -0.05em; 
             font-weight: 380;
@@ -133,7 +135,7 @@
             gap: 1rem;
             background: rgba(37, 37, 37, 0.692);
             border-radius: 10px; 
-            padding: 10px 24px;
+            padding: 6px 12px;
             color: #ffffff;
             font-size: 1.35rem;
             font-weight: 400; 
@@ -162,7 +164,7 @@
 
         h1.hero-title, h2 {
             font-family: "Roboto", sans-serif;
-            font-weight: 360;          /* Peso fuerte/Bold de Roboto */
+            font-weight: 400;          /* Peso fuerte/Bold de Roboto */
             letter-spacing: -0.05em;   /* Junta sutilmente las letras estilo premium */
             line-height: 1;
             color: var(--text-primary);
@@ -241,20 +243,21 @@
         }
 
         /* =======================================================
-        REDISEÑO TOTAL DEL HORIZONTE CURVO LUMINOSO
-        ======================================================= */
-        .seccion-capas {
-            position: relative;
-            /* Mantenemos tus rellenos pero damos un aire extra arriba para los títulos */
-            padding: 180px 24px 140px 24px; 
-            width: 100%;
-            background-color: var(--bg-pure-black);
-            /* Desplazamos la sección hacia arriba para que la curva abrace el botón del Hero */
-            margin-top: -120px; 
-            z-index: 1;
-        }
+REDISEÑO DEL HORIZONTE CURVO CON LUZ BLANCA ASCENDENTE
+======================================================= */
+.seccion-capas {
+    position: relative;
+    /* Mantenemos tus rellenos y posición original */
+    padding: 180px 24px 140px 24px; 
+    width: 100%;
+    background-color: var(--bg-pure-black);
+    margin-top: -120px; 
+    z-index: 1;
+}
 
-        /* ESTE PSEUDO-ELEMENTO GENERA LA GRAN CURVA CONTINUA */
+/* =======================================================
+        LA CURVA GIGANTE CON LUZ EXTENDIDA TIPO "AURA"
+        ======================================================= */
         .seccion-capas::before {
             content: "";
             position: absolute;
@@ -263,46 +266,51 @@
             width: 200%;
             height: 100%; 
             
-            /* Mantenemos tu degradado de fusión infinito hacia el negro */
-            background: linear-gradient(to bottom, rgb(31, 31, 31) 0%, var(--bg-pure-black) 10%); 
+            /* Un gradiente ligeramente más oscuro en la punta para que la luz blanca destaque más */
+            background: linear-gradient(to bottom, rgb(18, 18, 20) 0%, var(--bg-pure-black) 15%); 
             border-radius: 50% 50% 0 0;
             
-            /* 🌟 SOLUCIÓN: Eliminamos la sombra blanca de -25px que se metía en tus tarjetas */
-            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.9);
+            /* 🌟 LA MAGIA: Sombras apiladas que abrazan toda la línea matemática de la curva */
+            box-shadow: 
+                0px -1px 3px rgba(255, 255, 255, 0.10),   /* 1. Línea de luz fina (Rim Light) justo en el filo */
+                0px -30px 80px rgba(255, 255, 255, 0.12), /* 2. Resplandor principal difuso hacia arriba */
+                0px -80px 200px rgba(255, 255, 255, 0.06),/* 3. Aura ambiental gigante y súper desvanecida */
+                0px 20px 50px rgba(0, 0, 0, 0.9);         /* 4. Tu sombra negra original para la profundidad interior */
                         
-            z-index: -1; 
+            z-index: -2; 
+            will-change: transform; 
+            transform: translateZ(0); /* Forzamos la aceleración GPU */
         }
 
-
-        /* =======================================================
-        SEMICÍRCULO DE LUZ DIFUSA INVERTIDA (AMBIENT GLOW)
-        ======================================================= */
-        /* =======================================================
-        SEMICÍRCULO DE LUZ DIFUSA INVERTIDA (PANZA HACIA ABAJO)
-        ======================================================= */
-        .seccion-capas::after {
-            content: none !important;
-            position: absolute;
-            /* Lo pegamos exactamente al techo de la sección */
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            
-            /* Lo hacemos bien ancho para que acompañe el flujo de la pantalla */
-            width: 900px;
-            height: 450px;
-            
-            /* LA MAGIA DE LA ORIENTACIÓN: 
-            Creamos un degradado elíptico que nace blanco puro arriba al centro (at 50% 0%)
-            y abre su 'pancita' translúcida barriendo hacia abajo hasta desaparecer */
-            background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 0, 0, 0) 65%);
-            
-            /* Súper desenfoque para que se convierta en un aura ambiental suave */
-            filter: blur(60px);
-            
-            z-index: -1; 
-            pointer-events: none;
-        }
+/* 2. NUEVA LUZ BLANCA DIFUMINADA HACIA ARRIBA */
+.seccion-capas::after {
+    /* Nos aseguramos de que esté activo */
+    content: "" !important; 
+    position: absolute;
+    
+    /* Lo posicionamos justo en el borde superior (el horizonte) */
+    top: -50px; /* Sube un poco para iluminar la zona del botón/subtítulo */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* Tamaño del resplandor */
+    width: 800px;
+    height: 300px;
+    
+    /* LA MAGIA DEL DEGRADADO INVERTIDO: 
+       Comienza blanco translúcido abajo en el centro (at 50% 100%)
+       y se difumina hacia arriba/afuera hasta volverse transparente */
+    background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+    
+    /* Desenfoque fuerte para que sea un resplandor ambiental, no una forma definida */
+    filter: blur(40px);
+    
+    /* Z-index crucial: debe estar por encima de la curva negra (-2) pero por debajo de las tarjetas/texto (z-index positivos) */
+    z-index: -1; 
+    
+    /* Evita que bloquee los clics en los elementos de arriba */
+    pointer-events: none; 
+}
 
         /* =======================================================
         TARJETA DE PRIVACIDAD AMPLIADA (DEBAJO DE LA CURVA)
@@ -510,6 +518,9 @@
 
         /* 🔮 LA ESFERA GEOMÉTRICA CON AJUSTE DINÁMICO Y CAPA DE FONDO */
         .esfera-central-3d {
+            /* 🌟 OPTIMIZACIÓN: Aceleración GPU */
+            will-change: transform;
+            transform: translate(-65%, -20%) translateZ(0); /* Combinamos tu transform existente con translateZ */
             position: absolute;
             width: 10rem;
             height: 10rem;
@@ -1051,28 +1062,22 @@
 }
 
 /* NUEVA CLASE: Tarjetas de Cristal Líquido Puro (Idénticas a la sección Problemas) */
+/* Tarjeta de Cristal Optimizada */
 .glass-card-service {
-    /* Fondo esmerilado translúcido sutil que deja ver las figuras de atrás */
     background: rgba(255, 255, 255, 0.01) !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
+    /* Reducimos el blur si es necesario, pero mantenemos el efecto */
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
     
-    /* Relieve fino premium en los bordes */
     border: 1px solid rgba(255, 255, 255, 0.03) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
     border-radius: 20px !important;
-    
     padding: 36px !important;
-    text-align: left !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    box-sizing: border-box !important;
-    position: relative !important;
-    z-index: 2; /* Pasa por encima de los pentágonos */
     
-    transition: transform 0.4s var(--cubic-apple), border-color 0.4s ease, background 0.4s ease !important;
+    /* OPTIMIZACIÓN DE RENDIMIENTO */
+    will-change: transform;
+    backface-visibility: hidden;
+    contain: content; 
+    transition: transform 0.3s var(--cubic-apple) !important;
 }
 
 /* Efecto al pasar el cursor sobre las tarjetas flotantes */
@@ -1085,9 +1090,6 @@
 /* =======================================================
    🔮 TEXTURA BLANCA: GEOMETRÍA PENTÁGONO 3D FLOTANTE
    ======================================================= */
-/* =======================================================
-   🔮 TEXTURA BLANCA: GEOMETRÍA PENTÁGONO 3D CON PUNTAS SUAVES
-   ======================================================= */
 .geometria-pentagono-3d {
     position: absolute;
     width: 120px;
@@ -1095,21 +1097,25 @@
     z-index: 0; 
     pointer-events: none;
     
-    /* 🌟 TRUCO AVANZADO: Filtro dual para redondear las esquinas del clip-path */
-    filter: blur(4px) contrast(8) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7)) !important;
-    
     /* Mantenemos el corte del pentágono regular nativo */
     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
     -webkit-clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
     
-    /* Gradiente blanco denso mate estilo Ultra */
+    /* 🔥 EL MISMO GRADIENTE EXACTO QUE EL CUBO Y LA CÁPSULA */
     background: radial-gradient(circle at 35% 35%, 
-        rgba(255, 255, 255, 0.9) 0%, /* Subimos un poco el brillo central */
-        rgba(255, 255, 255, 0.55) 35%, 
-        rgba(255, 255, 255, 0.15) 65%,
-        rgba(0, 0, 0, 0.6) 100%) !important;
+        rgba(255, 255, 255, 0.822) 0%, 
+                rgba(255, 255, 255, 0.5) 35%, 
+                rgba(255, 255, 255, 0.15) 65%,
+                rgba(0, 0, 0, 0.4) 100%);
         
+    /* 🔥 QUITAMOS EL 'contrast(8)' Y EL 'blur' EXTERNO. Mantenemos solo la sombra proyectada. */
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7)) !important;
+    
     border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    
+    /* OPTIMIZACIÓN: Aceleración GPU para que se mueva fluido */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 
@@ -1323,99 +1329,912 @@
 
 
         /* =======================================================
-        CUADRÍCULAS DE SERVICIOS BLINDADAS (ANTI-APILAMIENTO)
+        NUEVO DISEÑO: LISTA VERTICAL DE TARJETAS APILADAS
         ======================================================= */
-        .panel-grid-options {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr) !important; /* Fuerza las 2 columnas */
-            gap: 20px !important;
+        .panel-vertical-stack {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 16px !important; /* Separación uniforme entre tarjetas */
             width: 100% !important;
         }
 
-        /* Modificadores para 3 columnas fijas */
-        .panel-grid-options.grid-3-cols {
-            grid-template-columns: repeat(3, 1fr) !important;
-        }
-
-        /* Modificadores para las 5 tarjetas de Pilares */
-        .panel-grid-options.grid-5-layout {
-            grid-template-columns: repeat(4, 1fr) !important;
-        }
-        .panel-grid-options.grid-5-layout .long-card {
-            grid-column: span 4 !important; /* La última tarjeta ocupa todo el ancho abajo */
-        }
-
-        /* Tarjetas individuales de servicios (Nivel de diseño Ultra) */
-        .option-card {
+        /* Tarjeta de Cristal Líquido en Fila de Ancho Completo */
+        .option-card-row {
             background: rgba(255, 255, 255, 0.01) !important;
+            backdrop-filter: blur(5px) !important;
+            -webkit-backdrop-filter: blur(24px) !important;
+            
+            /* Bordes ultra finos con relieve cenital */
             border: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
             border-radius: 16px !important;
-            padding: 30px !important;
-            text-align: left !important;
+            
+            padding: 24px 32px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 32px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            position: relative !important;
+            
+            /* Aceleración por hardware integrada */
+            will-change: transform, border-color, background-color;
+            transform: translateZ(0);
+            transition: transform 0.4s var(--cubic-apple), border-color 0.4s ease, background-color 0.4s ease !important;
+        }
+
+        /* Efecto Hover interactivo de alta gama */
+        .option-card-row:hover {
+            transform: translateY(-2px) scale(1.005) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        /* Indicador Numérico Indexado (Estilo de la foto) */
+        .card-row-index {
+            font-family: "Roboto", sans-serif !important;
+            font-size: 0.95rem !important;
+            font-weight: 600 !important;
+            color: var(--text-secondary) !important;
+            opacity: 0.4;
+            min-width: 24px;
+        }
+
+        /* Contenedor interno del contenido para alineación perfecta */
+        .card-row-content {
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-start !important;
-            align-items: flex-start !important;
-            box-sizing: border-box !important;
+            text-align: left !important;
+            flex-grow: 1;
         }
 
-        /* Títulos internos específicos (Evitan heredar tamaños gigantes del H1/H2) */
-        .option-card-title {
+        .option-card-title-row {
             font-family: "Roboto", sans-serif !important;
-            font-size: 1.4rem !important;
+            font-size: 1.35rem !important;
             font-weight: 500 !important;
             color: #ffffff !important;
-            margin: 0 0 12px 0 !important;
-            text-align: left !important;
+            margin: 0 0 4px 0 !important;
             letter-spacing: -0.01em !important;
-            line-height: 1.3 !important;
         }
 
-        /* Texto de descripción interno específico */
-        .option-card-text {
+        .option-card-text-row {
             font-family: "Roboto", sans-serif !important;
             font-size: 0.95rem !important;
             color: #8E8E93 !important;
             line-height: 1.5 !important;
-            text-align: left !important;
-            max-width: 100% !important;
             margin: 0 !important;
         }
 
+        /* Flecha indicadora minimalista en el extremo derecho */
+        .card-row-arrow {
+            color: #ffffff;
+            opacity: 0.15;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            flex-shrink: 0;
+        }
 
+        .option-card-row:hover .card-row-arrow {
+            opacity: 0.6;
+            transform: translateX(4px);
+        }
 
-        /* Control Responsivo Inteligente para Móviles */
-        @media (max-width: 968px) {
-            .panel-grid-options, 
-            .panel-grid-options.grid-3-cols, 
-            .panel-grid-options.grid-5-layout {
-                grid-template-columns: 1fr !important; /* En celulares se vuelven una sola columna limpia */
+        /* Adaptabilidad para Teléfonos Celulares */
+        @media (max-width: 768px) {
+            .option-card-row {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+                padding: 24px !important;
             }
-            .panel-grid-options.grid-5-layout .long-card {
-                grid-column: span 1 !important;
+            .card-row-arrow {
+                display: none !important; /* Ocultamos la flecha en móviles */
             }
         }
 
+    /* =======================================================
+   TARJETAS ANCHAS: ESTÉTICA "DASHBOARD PREMIUM"
+   ======================================================= */
+/* =======================================================
+   ESTILO DE TARJETAS XONDA (BLINDADO Y ANIMADO)
+   ======================================================= */
+.card-servicio-ancha {
+    /* Estética y Estructura Protegidas */
+    background: rgba(0, 0, 0, 0.726) !important; 
+    backdrop-filter: blur(3px) !important;
+    -webkit-backdrop-filter: blur(3px) !important;
+    border: 1px solid rgba(29, 29, 29, 0.404) !important;
+    border-radius: 24px !important;
+    padding: 40px !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 32px !important;
+    margin-bottom: 24px !important;
+    position: relative !important;
+    
+    /* Cursor bloqueado en todo el elemento */
+    cursor: default !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
 
-        /* Animación del movimiento del texto de derecha a izquierda */
-        @keyframes marqueeSpeed {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
+    /* Nos aseguramos de que no tenga animaciones */
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
 
-        /* Ajuste Responsivo para que las tarjetas de cristal no se rompan */
-        @media (max-width: 968px) {
-            .servicios-tabs {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .badge-running-container {
-                top: 20px;
-                right: -10px;
-            }
-        }
+/* 🌟 CUANDO LA TARJETA ENTRA EN PANTALLA (Enderezada y visible) */
+.card-servicio-ancha.revealed {
+    opacity: 1 !important;
+    transform: perspective(1000px) rotateX(0deg) translateY(0) !important;
+}
 
+/* Aseguramos que los textos de adentro tampoco cambien el cursor */
+.card-servicio-ancha * {
+    cursor: default !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
 
+/* Estado revelado (aplicado por JS) */
+.service-panel .card-servicio-ancha.revealed {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0deg) translateY(0);
+}
+
+/* 🌟 LA MAGIA: Iluminación difuminada en el borde superior (centro a costados) */
+.card-servicio-ancha::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%; /* Nace un poco después de la esquina */
+    width: 70%; /* Ocupa el centro */
+    height: 1px;
+    /* Degradado: Transparente -> Color -> Transparente */
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    
+    /* Sombra difusa hacia abajo simulando que la luz "baña" el cristal */
+    box-shadow: 0 2px 20px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* =======================================================
+   SUBTÍTULOS DE COLUMNAS (Estilo "Lo que ves / Lo que procesa")
+   ======================================================= */
+.column-label {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.15em !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    opacity: 0.8 !important;
+}
+
+.label-left {
+    color: var(--text-secondary) !important;
+}
+
+.label-right {
+    /* Usamos tu variable de neón púrpura para destacar la tecnología */
+    color: var(--neon-purple) !important; 
+}
+
+/* Pequeña línea decorativa al lado del subtítulo */
+.column-label::after {
+    content: "";
+    height: 1px;
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.05);
+}
+/* 🌟 TÍTULO CENTRADO EN LA PARTE SUPERIOR */
+.card-header-servicio {
+    text-align: center !important;
+    width: 100%;
+}
+
+/* =======================================================
+   RESTAURAMOS LOS TEXTOS GIGANTES Y TÍTULOS BLINDADOS
+   ======================================================= */
+.card-header-servicio h3 {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 2.5rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    background: linear-gradient(90deg, #ffffff 0%, #9CA3AF 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    margin: 0 !important;
+    display: inline-block !important; /* Vital para el degradado */
+}
+
+/* 🌟 CONTENEDOR DIVIDIDO EN DOS COLUMNAS (TEXTO / MOCKUP) */
+.card-body-split {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 48px !important; /* Espacio elegante entre columnas */
+    width: 100%;
+}
+
+/* Columna Izquierda: El Texto Descriptivo */
+.card-split-text {
+    flex: 1 !important;
+    text-align: left !important;
+}
+
+.card-split-text p {
+    font-family: "Roboto", sans-serif !important;
+    font-size: 1.7rem !important;
+    font-weight: 300 !important;
+    color: #E5E7EB !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+}
+
+/* Ajuste móvil para que el texto gigante no desborde en pantallas chicas */
+@media (max-width: 768px) {
+    .card-split-text p {
+        font-size: 1.3rem !important; /* En celulares lo bajamos un poco por espacio */
+        text-align: center !important;
+    }
+    .card-header-servicio h3 {
+        font-size: 2rem !important;
+    }
+}
+
+/* =======================================================
+   ANIMACIÓN EXCLUSIVA PARA LAS TARJETAS DE MOCKUP
+   ======================================================= */
+/* Apuntamos al contenedor del mockup directamente */
+.card-split-mockup > div:not(.column-label) {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(15deg) translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+}
+
+/* El estado cuando hacemos scroll y aparecen */
+.card-split-mockup > div:not(.column-label).revealed {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0deg) translateY(0);
+}
+
+/* Columna Derecha: El Mockup (Hereda los contenedores visuales que ya hicimos) */
+.card-split-mockup {
+    flex: 1 !important;
+    width: 100%;
+}
+
+/* Forzamos que los contenedores dentro del split no tengan margen superior extra */
+.chat-mockup-container, .web-mockup-container, .integration-mockup-container, .db-mockup-container {
+    margin-top: 0 !important; 
+    width: 100% !important;
+}
+
+/* Adaptabilidad para teléfonos: el diseño vuelve a ser una sola torre vertical */
+@media (max-width: 968px) {
+    .card-body-split {
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+    .card-split-text {
+        text-align: center !important; /* Centrado en móviles para mejor lectura */
+    }
+    .card-servicio-ancha {
+        padding: 24px !important;
+    }
+}
+
+/* =======================================================
+   MOCKUP ESTÁTICO: SOFTWARE A MEDIDA (ARQUITECTURA)
+   ======================================================= */
+.software-static-container {
+    background: #050505;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 240px; 
+    overflow: hidden;
+    width: 100%;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
+}
+
+/* Barra superior de la ventana */
+.static-header {
+    height: 36px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+}
+
+.static-dot {
+    width: 10px; 
+    height: 10px; 
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Cuerpo del software */
+.static-body {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Menú lateral esquemático */
+.static-sidebar {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.static-menu-item {
+    height: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    width: 100%;
+}
+
+.static-menu-item.short { 
+    width: 60%; 
+}
+
+/* Item de menú seleccionado */
+.static-menu-item.active { 
+    background: rgba(6, 182, 212, 0.15); 
+    border: 1px solid rgba(6, 182, 212, 0.4); 
+}
+
+/* Área de módulos (Lo que construyes a medida) */
+.static-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Módulos de estructura */
+.static-module {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B7280;
+    font-family: "Roboto", sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Módulo principal destacado */
+.static-module.core {
+    flex: 2; /* Ocupa el doble de espacio */
+    border-style: solid;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border-color: rgba(139, 92, 246, 0.3);
+    color: var(--neon-purple);
+}
+
+/* =======================================================
+   MOCKUP: INTERFAZ WEB (DENTRO DE LA TARJETA)
+   ======================================================= */
+.web-mockup-container {
+    background: #050505;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
+    overflow: hidden;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Barra superior del navegador */
+.browser-bar {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    display: flex;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.browser-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Contenido de la web esquemática */
+.mockup-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mockup-nav { width: 100%; height: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+.mockup-hero { width: 60%; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+.mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mockup-box { height: 30px; background: rgba(255, 255, 255, 0.03); border-radius: 4px; }
+
+/* =======================================================
+   MOCKUP ESTÁTICO: INTEGRACIÓN DE SISTEMAS (SIN ANIMACIÓN)
+   ======================================================= */
+.integration-mockup-container {
+    background: #050505 !important;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9) !important;
+    cursor: default;
+    user-select: none;
+}
+
+/* Las aplicaciones separadas del cliente */
+.api-nodes {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 450px;
+}
+
+.api-node {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: "Roboto", sans-serif;
+    font-size: 0.85rem;
+    color: #9CA3AF;
+    text-align: center;
+    width: 30%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* 🌟 LÍNEAS DE CONEXIÓN ESTÁTICAS (Sin lag) */
+.api-flow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 350px;
+    height: 40px;
+}
+
+/* En lugar de animar, usamos un gradiente que brilla más fuerte al llegar al centro */
+.flow-line {
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, rgba(6, 182, 212, 0.8) 100%);
+    position: relative;
+    box-shadow: 0 10px 15px rgba(6, 182, 212, 0.2);
+}
+
+/* Eliminamos completamente el ::after y los @keyframes dataFlow que causaban lag */
+
+/* El sistema unificado final */
+.api-core {
+    background: rgba(6, 182, 212, 0.08); 
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    width: 100%;
+    max-width: 450px;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.1);
+}
+
+.core-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* =======================================================
+   MOCKUP ESTÁTICO: BASES DE DATOS (BLINDADO Y SIN MOVIMIENTO)
+   ======================================================= */
+.db-mockup-container {
+    background: #050505 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9) !important;
+    border-radius: 12px;
+    padding: 32px 24px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    user-select: none;
+    cursor: default;
+}
+
+/* Panel Izquierdo: Excel (Estático) */
+.legacy-excel {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 16px;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Eliminamos la animación de la flecha central */
+.db-transition {
+    color: var(--neon-cyan);
+    font-size: 1.5rem;
+    animation: none !important; /* Estático */
+    opacity: 0.5;
+}
+
+/* Panel Derecho: El Servidor Xonda (ESTÁTICO) */
+.xonda-db-stack {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.db-server-layer {
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.05) 0%, rgba(139, 92, 246, 0.1) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 6px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.db-light {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon-cyan);
+    box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* 🌟 AQUÍ ESTÁ EL CAMBIO: ELIMINAMOS EL EFECTO DE ESCANEO */
+.db-server-layer::after {
+    display: none !important; /* Eliminamos la línea de escaneo que causaba lag */
+}
+
+/* =======================================================
+   MOCKUP ESTÁTICO/LIGERO: ASISTENTE VIRTUAL (TERMINAL IA)
+   ======================================================= */
+.ai-terminal-container {
+    background: #050505;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    height: 240px; 
+    overflow: hidden;
+    width: 100%;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
+    
+    /* Fuente típica de programación para la terminal */
+    font-family: 'Courier New', Courier, monospace !important; 
+}
+
+/* Cabecera de la terminal */
+.terminal-header {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Cuerpo del log de la IA */
+.terminal-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #D1D5DB;
+    line-height: 1.4;
+}
+
+/* Colores para cada tipo de mensaje en la consola */
+.log-time { color: #4B5563; margin-right: 8px; }
+.log-user { color: #E5E7EB; font-weight: bold; }
+.log-sys { color: var(--neon-purple); font-weight: bold; }
+.log-success { color: var(--neon-cyan); font-weight: bold; }
+
+/* El cursor titilando (Animación súper ligera de opacidad) */
+.blinking-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background-color: var(--neon-cyan);
+    vertical-align: middle;
+    margin-left: 4px;
+    box-shadow: 0 0 5px rgba(6, 182, 212, 0.5); /* Le damos un leve brillo para que se vea premium */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* =======================================================
+   MOCKUP ESTÁTICO: AUTOMATIZACIÓN DE TAREAS (PIPELINE)
+   ======================================================= */
+.ai-automation-container {
+    background: #050505;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 240px; 
+    padding: 0 24px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
+    width: 100%;
+}
+
+/* Columna de Tareas Manuales (Inputs) */
+.auto-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 25%;
+}
+
+.auto-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    color: #9CA3AF;
+    text-align: center;
+}
+
+/* Líneas de conexión */
+.auto-path {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(139,92,246,0.3) 100%);
+    position: relative;
+    margin: 0 12px;
+}
+
+.auto-path.out {
+    background: linear-gradient(90deg, rgba(139,92,246,0.3) 0%, rgba(6,182,212,0.3) 100%);
+}
+
+/* Motor de IA Central */
+.auto-core {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    padding: 16px 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+}
+
+.core-ring {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--neon-purple);
+    border-top-color: transparent;
+    transform: rotate(45deg);
+}
+
+.core-text {
+    font-family: "Roboto", sans-serif;
+    font-size: 0.75rem;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* Columna de Procesos Automatizados (Outputs) */
+.auto-outputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 25%;
+}
+
+.auto-box-done {
+    background: rgba(6, 182, 212, 0.05);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    padding: 10px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    color: var(--neon-cyan);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* =======================================================
+   MOCKUP: ANÁLISIS INTELIGENTE (EXCEL -> DATOS CLASIFICADOS)
+   ======================================================= */
+.ai-analytics-container {
+    background: #050505 !important;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    height: 240px; 
+    padding: 20px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
+    width: 100%;
+}
+
+.analytics-body {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    align-items: center;
+}
+
+/* =======================================================
+   MOCKUP: EXCEL TABULAR (MATRIZ DE DATOS)
+   ======================================================= */
+.raw-excel-panel {
+    width: 40%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative; /* Para posicionar la etiqueta .xlsx */
+}
+
+/* Etiqueta de archivo en esquina superior derecha */
+.excel-file-label {
+    position: absolute;
+    top: -10px;
+    right: 8px;
+    background: #000;
+    color: #F87171; /* Rojo suave para Excel */
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    border-radius: 4px;
+}
+
+/* La matriz (filas y columnas) */
+.excel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+}
+
+.excel-cell { 
+    height: 12px; 
+    background: rgba(255, 255, 255, 0.05); 
+    border-radius: 1px; 
+}
+.excel-cell.header { background: rgba(255, 255, 255, 0.15); }
+
+/* Panel Derecho: Datos Clasificados */
+.classified-data-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.class-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Roboto", sans-serif;
+    font-size: 0.75rem;
+    color: #fff;
+}
+
+.class-tag {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+}
+
+.tag-a { background: rgba(6, 182, 212, 0.2); color: var(--neon-cyan); border: 1px solid rgba(6, 182, 212, 0.3); }
+.tag-b { background: rgba(139, 92, 246, 0.2); color: var(--neon-purple); border: 1px solid rgba(139, 92, 246, 0.3); }
+.tag-c { background: rgba(255, 255, 255, 0.1); color: #9CA3AF; border: 1px solid rgba(255, 255, 255, 0.2); }
+
+.bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; }
+
+/* =======================================================
+   MOCKUPS CONCEPTUALES: PILARES FUNDAMENTALES (ESTÁTICOS)
+   ======================================================= */
+.mockup-pilar-container {
+    background: #050505 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9) !important;
+    border-radius: 12px;
+    height: 220px; /* Un poco más bajos que los de software para dar ritmo de "pilar" */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+    /* --- 1. Consultoría (Hoja de Ruta / Nodos) --- */
+    .audit-roadmap { display: flex; align-items: center; justify-content: center; width: 100%; gap: 8px;}
+    .audit-node { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(6, 182, 212, 0.5); background: rgba(6, 182, 212, 0.05); display: flex; align-items: center; justify-content: center; color: var(--neon-cyan); font-family: monospace; font-size: 0.8rem; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);}
+    .audit-line { flex: 1; max-width: 60px; height: 2px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.2) 50%, transparent 50%, transparent 100%); background-size: 10px 2px; }
+
+    /* --- 2. Diseño UX/UI (Esqueleto de Interfaz) --- */
+    .ux-skeleton { width: 70%; display: flex; flex-direction: column; gap: 16px; }
+    .ux-header { height: 12px; width: 40%; background: rgba(255, 255, 255, 0.1); border-radius: 6px; }
+    .ux-ui-elements { display: flex; gap: 12px; align-items: center; }
+    .ux-toggle { width: 40px; height: 20px; border-radius: 12px; background: var(--neon-purple); position: relative; box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);}
+    .ux-toggle::after { content: ''; position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; background: #fff; border-radius: 50%; }
+    .ux-button { flex: 1; height: 36px; border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--neon-purple); font-size: 0.7rem; font-family: "Roboto", sans-serif; letter-spacing: 1px;}
+
+    /* --- 3. Soporte (Monitor de Uptime) --- */
+    .support-monitor { width: 80%; display: flex; flex-direction: column; gap: 12px; }
+    .support-status { color: var(--neon-cyan); font-family: 'Courier New', monospace; font-size: 0.8rem; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;}
+    .support-bars { display: flex; gap: 4px; align-items: flex-end; height: 60px; }
+    .sup-bar { flex: 1; background: rgba(6, 182, 212, 0.15); border-radius: 2px 2px 0 0; }
+    .sup-bar.active { background: var(--neon-cyan); box-shadow: 0 0 10px rgba(6, 182, 212, 0.3); }
+
+    /* --- 4. Escalabilidad (Bloques Modulares) --- */
+    .scale-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .scale-cube { width: 56px; height: 56px; border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; color: var(--neon-purple); font-size: 1.2rem; box-shadow: inset 0 0 15px rgba(139, 92, 246, 0.2);}
+    .scale-cube.future { border: 1px dashed rgba(255, 255, 255, 0.2); background: transparent; color: rgba(255, 255, 255, 0.2); box-shadow: none; }
 
 
         section { padding: 140px 24px; display: flex; justify-content: center; align-items: center; width: 100%; }
@@ -1450,7 +2269,12 @@
             .bento-card.full-width { flex-direction: column; text-align: center; justify-content: center; gap: 40px; }
             .bento-card.full-width p { margin: 0 auto; }
         }
+
+
     </style>
+
+    
+
 </head>
 <body>
 
@@ -1722,70 +2546,385 @@
                     <!-- CONTENEDOR GENERAL DE SERVICIOS (Sigue justo debajo de las pestañas de cristal) -->
                     <div style="position: relative; width: 100%;">
 
-                        <!-- PANEL 1: SOFTWARE A MEDIDA (Sin la clase glass-surface para que flote libre) -->
                         <div id="software" class="service-panel active">
-                            <div class="panel-grid-options">
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Software a Medida</h5>
-                                    <p class="option-card-text">Sistemas escalables diseñados exclusivamente para resolver las necesidades operativas de tu negocio.</p>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Software a Medida</h3>
                                 </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Sitios Web</h5>
-                                    <p class="option-card-text">Plataformas web de alta gama, optimizadas para ofrecer una velocidad ultra rápida y conversión avanzada.</p>
+                                
+                                <div class="card-body-split">
+                                    
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Servicio</div>
+                                        <p>Sistemas escalables diseñados exclusivamente para resolver las necesidades operativas de tu negocio. Desarrollamos herramientas robustas que se adaptan a tus flujos actuales y crecen con tu empresa.</p>
+                                    </div>
+                                    
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Lo que Xonda procesa</div>
+                                        
+                                        <div class="software-static-container">
+                                            
+                                            <div class="static-header">
+                                                <div class="static-dot"></div>
+                                                <div class="static-dot"></div>
+                                                <div class="static-dot"></div>
+                                            </div>
+                                            
+                                            <div class="static-body">
+                                                <div class="static-sidebar">
+                                                    <div class="static-menu-item active"></div>
+                                                    <div class="static-menu-item"></div>
+                                                    <div class="static-menu-item short"></div>
+                                                    <div class="static-menu-item"></div>
+                                                </div>
+                                                
+                                                <div class="static-content">
+                                                    <div class="static-module core">Módulo Central</div>
+                                                    <div style="display: flex; gap: 12px; flex: 1;">
+                                                        <div class="static-module">Módulo A</div>
+                                                        <div class="static-module">Módulo B</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Integración de Sistemas</h5>
-                                    <p class="option-card-text">Conectamos tus herramientas de software existentes para que la información fluya sin barreras.</p>
+                            </div>
+
+                            <div class="card-servicio-ancha">
+
+                                <div class="card-header-servicio">
+                                    <h3>Sitios Web</h3>
                                 </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Bases de Datos a Medida</h5>
-                                    <p class="option-card-text">Arquitectura de almacenamiento blindada y estructurada para un acceso masivo y análisis fluido.</p>
+
+                                <div class="card-body-split">
+
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Servicio</div>
+                                        <p>Plataformas web de alta gama, optimizadas para ofrecer una velocidad ultra rápida y conversión avanzada. Construimos experiencias visuales memorables alineadas a los objetivos comerciales de tu marca.</p>
+                                    </div>
+
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Lo que Xonda procesa</div>
+                                            <div class="web-mockup-container">
+                                                <div class="browser-bar">
+                                                    <div class="browser-dot"></div>
+                                                    <div class="browser-dot"></div>
+                                                    <div class="browser-dot"></div>
+                                                </div>
+                                                <div class="mockup-content">
+                                                    <div class="mockup-nav"></div>
+                                                    <div class="mockup-hero"></div>
+                                                    <div class="mockup-grid">
+                                                        <div class="mockup-box"></div>
+                                                        <div class="mockup-box"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Integración de Sistemas</h3>
+                                </div>
+                                <div class="card-body-split">
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Servicio</div>
+                                        <p>Unificamos tu gestión operativa en un solo ecosistema conectado. Hacemos que todas tus plataformas de software dialoguen de forma ágil entre sí para multiplicar radicalmente la productividad de tu equipo.</p>
+                                    </div>
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Lo que Xonda procesa</div>
+                                        <div class="integration-mockup-container">
+                                            <div class="api-nodes">
+                                                <div class="api-node">CRM / Ventas</div>
+                                                <div class="api-node">Inventario</div>
+                                                <div class="api-node">Facturación</div>
+                                            </div>
+                                            <div class="api-flow">
+                                                <div class="flow-line"></div>
+                                                <div class="flow-line"></div>
+                                                <div class="flow-line"></div>
+                                            </div>
+                                            <div class="api-core">
+                                                <div class="core-dot"></div> Ecosistema Centralizado Xonda
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="card-servicio-ancha">
+                            <div class="card-header-servicio">
+                                <h3>Bases de Datos a Medida</h3>
+                            </div>
+                            <div class="card-body-split">
+                                <div class="card-split-text">
+                                    <div class="column-label label-left">Nuestro Servicio</div>
+                                    <p>Digitalizamos tu gestión de datos, eliminando la dependencia de procesos manuales y planillas de cálculo estáticas que ralentizan el negocio. Estructuramos infraestructuras blindadas de alto rendimiento.</p>
+                                </div>
+                                <div class="card-split-mockup">
+                                    <div class="column-label label-right">Lo que Xonda procesa</div>
+                                    <div class="db-mockup-container">
+                                        <div class="legacy-excel">
+                                            <div class="excel-header"><span style="color: #F87171;">⊗</span> inventario_final_v3.xlsx</div>
+                                            <div class="excel-row"><div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div></div>
+                                            <div class="excel-row"><div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div></div>
+                                        </div>
+                                        <div class="db-transition">➔</div>
+                                        <div class="xonda-db-stack">
+                                            <div class="excel-header" style="color: var(--neon-cyan);"><span>●</span> Xonda Relational DB</div>
+                                            <div class="db-server-layer"><div class="db-light"></div></div>
+                                            <div class="db-server-layer"><div class="db-light"></div></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- PANEL 2: INTELIGENCIA ARTIFICIAL (Libre de contenedor base) -->
+                    </div>
                         <div id="ia" class="service-panel">
-                            <div class="panel-grid-options grid-3-cols">
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Asistente Virtual</h5>
-                                    <p class="option-card-text">Agentes autónomos personalizados con el conocimiento de tu empresa para atención fluida 24/7.</p>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Asistente Virtual</h3>
                                 </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Automatización de Tareas</h5>
-                                    <p class="option-card-text">Flujos cognitivos que eliminan los clics manuales repetitivos, procesando datos de forma inteligente.</p>
+                                
+                                <div class="card-body-split">
+                                    
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Servicio</div>
+                                        <p>Agentes autónomos personalizados con el conocimiento profundo de tu empresa. Brindan atención fluida 24/7, resuelven problemas en tiempo real y guían a tus clientes sin requerir intervención humana.</p>
+                                    </div>
+                                    
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Lo que Xonda procesa</div>
+                                        
+                                        <div class="ai-terminal-container">
+                                            <div class="terminal-header">
+                                                <span>xonda_ai_core.exe</span>
+                                                <span>Status: Online</span>
+                                            </div>
+                                            <div class="terminal-body">
+                                                <div><span class="log-time">[03:14:02 AM]</span> <span class="log-user">USER:</span> "No puedo acceder a mi cuenta, necesito ayuda urgente."</div>
+                                                <div><span class="log-time">[03:14:03 AM]</span> <span class="log-sys">SYS_AI:</span> Analizando intención... [Urgencia: ALTA]</div>
+                                                <div><span class="log-time">[03:14:03 AM]</span> <span class="log-sys">SYS_AI:</span> Consultando base de datos y ejecutando protocolo de recuperación...</div>
+                                                <div><span class="log-time">[03:14:05 AM]</span> <span class="log-success">SUCCESS:</span> Enlace de seguridad generado y enviado al cliente. Ticket cerrado.</div>
+                                                <div style="margin-top: 8px;"><span class="log-sys">SYS_AI:</span> Escuchando nuevas consultas <span class="blinking-cursor"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Análisis Inteligente</h5>
-                                    <p class="option-card-text">Modelos predictivos que transforman datos crudos en métricas de estrategia en tiempo real.</p>
+
+                            </div>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Automatización de Tareas</h3>
+                                </div>
+                                
+                                <div class="card-body-split">
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Servicio</div>
+                                        <p>Delegamos el trabajo repetitivo a sistemas inteligentes, acelerando procesos operativos y eliminando por completo el margen de error humano.</p>
+                                    </div>
+                                    
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Lo que Xonda procesa</div>
+                                        
+                                        <div class="ai-automation-container">
+                                            <div class="auto-inputs">
+                                                <div class="auto-box">Factura.pdf</div>
+                                                <div class="auto-box">Email_Lead</div>
+                                                <div class="auto-box">Data_Entry</div>
+                                            </div>
+                                            
+                                            <div class="auto-path"></div>
+                                            
+                                            <div class="auto-core">
+                                                <div class="core-ring"></div>
+                                                <div class="core-text">XONDA_AI</div>
+                                            </div>
+                                            
+                                            <div class="auto-path out"></div>
+                                            
+                                            <div class="auto-outputs">
+                                                <div class="auto-box-done">● Contabilidad</div>
+                                                <div class="auto-box-done">● CRM_Updated</div>
+                                                <div class="auto-box-done">● Database</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Análisis Inteligente</h3>
+                                </div>
+                                
+                                <div class="card-body-split">
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Servicio</div>
+                                        <p>Procesamos volúmenes de datos dispersos para que la toma de decisiones directiva sea rápida, visual y certera. Transformamos el caos de tus planillas en inteligencia estratégica accionable.</p>
+                                    </div>
+                                    
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Lo que Xonda procesa</div>
+                                        
+                                        <div class="ai-analytics-container">
+                                            <div class="analytics-body">
+                                                
+                                                <div class="raw-excel-panel">
+                                                    <div class="excel-file-label">planilla.xlsx</div>
+                                                    <div class="excel-grid">
+                                                        <div class="excel-cell header"></div><div class="excel-cell header"></div>
+                                                        <div class="excel-cell header"></div><div class="excel-cell header"></div>
+                                                        <div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div>
+                                                        <div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div>
+                                                        <div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="color: rgba(255,255,255,0.2); font-size: 1.2rem;">➔</div>
+                                                
+                                                <div class="classified-data-panel">
+                                                    <div class="class-row">
+                                                        <span class="class-tag tag-a">CLASE A</span>
+                                                        <div class="bar-bg"></div>
+                                                    </div>
+                                                    <div class="class-row">
+                                                        <span class="class-tag tag-b">CLASE B</span>
+                                                        <div class="bar-bg"></div>
+                                                    </div>
+                                                    <div class="class-row">
+                                                        <span class="class-tag tag-c">CLASE C</span>
+                                                        <div class="bar-bg"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- PANEL 3: PILARES FUNDAMENTALES (Libre de contenedor base) -->
                         <div id="pilares" class="service-panel">
-                            <div class="panel-grid-options grid-5-layout">
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Consultoría</h5>
-                                    <p class="option-card-text">Diagnóstico de tus sistemas para trazar una hoja de ruta tecnológica limpia y eficiente.</p>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Consultoría</h3>
                                 </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Diseño UX/UI</h5>
-                                    <p class="option-card-text">Interfaces premium que combinan minimalismo estético con una fricción de usuario cero.</p>
-                                </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">SEO</h5>
-                                    <p class="option-card-text">Optimización técnica profunda para posicionar tus infraestructuras en el radar de tus clientes.</p>
-                                </div>
-                                <div class="option-card glass-card-service">
-                                    <h5 class="option-card-title">Soporte</h5>
-                                    <p class="option-card-text">Monitoreo proactivo constante en las sombras para garantizar estabilidad total.</p>
-                                </div>
-                                <div class="option-card glass-card-service long-card">
-                                    <h5 class="option-card-title">Escalabilidad Absoluta</h5>
-                                    <p class="option-card-text">Código preparado estructuralmente para soportar incrementos masivos de volumen transaccional sin perder rendimiento.</p>
+                                <div class="card-body-split">
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Enfoque</div>
+                                        <p>Auditamos tu operativa y trazamos una hoja de ruta estratégica y clara antes de escribir una sola línea de código.</p>
+                                    </div>
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Implementación</div>
+                                        <div class="mockup-pilar-container">
+                                            <div class="audit-roadmap">
+                                                <div class="audit-node">01</div>
+                                                <div class="audit-line"></div>
+                                                <div class="audit-node">02</div>
+                                                <div class="audit-line"></div>
+                                                <div class="audit-node" style="border-color: #fff; color: #fff;">03</div>
+                                            </div>
+                                            <div style="color: #6B7280; font-family: monospace; font-size: 0.7rem; margin-top: 24px; text-transform: uppercase;">Mapeo de Procesos Completado</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Diseño UX/UI</h3>
+                                </div>
+                                <div class="card-body-split">
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Enfoque</div>
+                                        <p>Construimos interfaces modernas, limpias e intuitivas, diseñadas para maximizar la adopción tecnológica de tu equipo sin fricción.</p>
+                                    </div>
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Implementación</div>
+                                        <div class="mockup-pilar-container">
+                                            <div class="ux-skeleton">
+                                                <div class="ux-header"></div>
+                                                <div class="ux-ui-elements">
+                                                    <div class="ux-toggle"></div>
+                                                    <div class="ux-button">ACTION</div>
+                                                </div>
+                                                <div style="height: 40px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; width: 100%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Soporte</h3>
+                                </div>
+                                <div class="card-body-split">
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Enfoque</div>
+                                        <p>Planes de mantenimiento activo y monitoreo continuo en la sombra para garantizar que la operativa de tu negocio nunca se detenga.</p>
+                                    </div>
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Implementación</div>
+                                        <div class="mockup-pilar-container">
+                                            <div class="support-monitor">
+                                                <div class="support-status">
+                                                    <span>SYS_UPTIME</span>
+                                                    <span>99.99% ONLINE</span>
+                                                </div>
+                                                <div class="support-bars">
+                                                    <div class="sup-bar active" style="height: 100%;"></div>
+                                                    <div class="sup-bar active" style="height: 90%;"></div>
+                                                    <div class="sup-bar active" style="height: 95%;"></div>
+                                                    <div class="sup-bar active" style="height: 100%;"></div>
+                                                    <div class="sup-bar active" style="height: 85%;"></div>
+                                                    <div class="sup-bar active" style="height: 100%;"></div>
+                                                    <div class="sup-bar active" style="height: 95%;"></div>
+                                                    <div class="sup-bar active" style="height: 100%;"></div>
+                                                    <div class="sup-bar active" style="height: 100%;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-servicio-ancha">
+                                <div class="card-header-servicio">
+                                    <h3>Escalabilidad</h3>
+                                </div>
+                                <div class="card-body-split">
+                                    <div class="card-split-text">
+                                        <div class="column-label label-left">Nuestro Enfoque</div>
+                                        <p>Diseñamos plataformas con arquitectura modular, preparadas estructuralmente para sumar nuevas funcionalidades a futuro sin reescribir el núcleo.</p>
+                                    </div>
+                                    <div class="card-split-mockup">
+                                        <div class="column-label label-right">Implementación</div>
+                                        <div class="mockup-pilar-container">
+                                            <div class="scale-grid">
+                                                <div class="scale-cube">A</div>
+                                                <div class="scale-cube">B</div>
+                                                <div class="scale-cube future">+</div>
+                                                <div class="scale-cube future">+</div>
+                                                <div class="scale-cube future">+</div>
+                                                <div class="scale-cube future">+</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -1827,19 +2966,106 @@
         });
 
         function switchService(event, serviceId) {
-    // 1. Quita la clase activa de los nuevos botones de cristal (.tab-btn-crystal)
-    document.querySelectorAll('.tab-btn-crystal').forEach(btn => btn.classList.remove('active'));
-    
-    // 2. Quita la clase activa de todos los paneles de contenido (.service-panel)
-    document.querySelectorAll('.service-panel').forEach(panel => panel.classList.remove('active'));
-    
-    // 3. Aplica la clase activa al botón de cristal que presionó el usuario
-    event.currentTarget.classList.add('active');
-    
-    // 4. Muestra el panel correspondiente con una transición suave
-    document.getElementById(serviceId).classList.add('active');
-}
+        // 1. Quita la clase activa de los nuevos botones de cristal (.tab-btn-crystal)
+        document.querySelectorAll('.tab-btn-crystal').forEach(btn => btn.classList.remove('active'));
+        
+        // 2. Quita la clase activa de todos los paneles de contenido (.service-panel)
+        document.querySelectorAll('.service-panel').forEach(panel => panel.classList.remove('active'));
+        
+        // 3. Aplica la clase activa al botón de cristal que presionó el usuario
+        event.currentTarget.classList.add('active');
+        
+        // 4. Muestra el panel correspondiente con una transición suave
+        document.getElementById(serviceId).classList.add('active');
+        }
 
+        // Pausar animaciones cuando no están en pantalla
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Si el elemento se ve en pantalla, activa la animación. Si no, la pausa.
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    } else {
+                        entry.target.style.animationPlayState = 'paused';
+                    }
+                });
+            });
+
+            // Apunta a los elementos que tienen animaciones infinitas
+            document.querySelectorAll('.tab-btn-crystal.active, .badge-track').forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Opciones del observador
+            const observerOptions = {
+                threshold: 0.15 // Se activa cuando el mockup asoma un 15%
+            };
+
+            // Variable global para almacenar el observador activo
+            let currentObserver = null;
+
+            // 2. Función para inicializar el observador
+            function initObserver() {
+                if (currentObserver) {
+                    currentObserver.disconnect();
+                }
+
+                currentObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        
+                        if (entry.isIntersecting) {
+                            // CUANDO ENTRA A LA PANTALLA: Se endereza y aparece
+                            entry.target.classList.add('revealed');
+                        } else {
+                            // 🌟 EL CAMBIO CLAVE: CUANDO SALE DE LA PANTALLA
+                            // Le quitamos la clase para que se vuelva a inclinar y ocultar.
+                            // Así estará lista para volver a animarse al scrollear de nuevo.
+                            entry.target.classList.remove('revealed');
+                        }
+                        
+                    });
+                }, observerOptions);
+
+                // Seleccionamos SOLO los mockups DEL PANEL ACTIVO
+                const mockups = document.querySelectorAll('.service-panel.active .card-split-mockup > div:not(.column-label)');
+                mockups.forEach(mockup => {
+                    currentObserver.observe(mockup);
+                });
+            }
+
+            // Inicializamos al cargar la página
+            initObserver();
+
+            // 3. PARCHE PESTAÑAS: Reiniciamos el observador al cambiar de panel
+            const tabButtons = document.querySelectorAll('.tab-btn-crystal'); 
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setTimeout(() => {
+                        // Removemos la clase de los mockups del nuevo panel
+                        const newPanelMockups = document.querySelectorAll('.service-panel.active .card-split-mockup > div:not(.column-label)');
+                        newPanelMockups.forEach(m => m.classList.remove('revealed'));
+
+                        // Volvemos a iniciar el observador
+                        initObserver();
+                        
+                        // Forzamos la animación solo del primer mockup visible
+                        setTimeout(() => {
+                            const firstMockup = document.querySelector('.service-panel.active .card-split-mockup > div:not(.column-label)');
+                            if (firstMockup) {
+                                const rect = firstMockup.getBoundingClientRect();
+                                if(rect.top >= 0 && rect.bottom <= window.innerHeight) {
+                                    firstMockup.classList.add('revealed');
+                                }
+                            }
+                        }, 100);
+
+                    }, 50); 
+                });
+            });
+        });
 
     </script>
 </body>
