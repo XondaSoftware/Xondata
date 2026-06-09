@@ -251,8 +251,6 @@
         /* =======================================================
            6. SECCIÓN DE SERVICIOS (TABS Y BENTO GRID)
            ======================================================= */
-        .servicios-interactive-wrapper { max-width: 980px; /* Limita el ancho para que no toque los bordes */ margin: 0 auto;   /* Lo centra perfectamente en la pantalla */ width: 100%;}
-
         .section-header { text-align: center; margin: 50px auto 90px; display: flex; flex-direction: column; align-items: center; }
         .section-title-premium { font-size: 4.2rem; font-weight: 450; line-height: 1.1; color: #fff; margin-bottom: 24px; }
         .section-title-premium span { color: #8E8E93; font-weight: 400; }
@@ -295,16 +293,10 @@
 
         /* PANELES DE SERVICIO (BENTO GRID 2x2) */
         .service-panel { display: none; visibility: hidden; opacity: 0; width: 100%; transition: opacity 0.4s var(--cubic-apple); }
-                /* =======================================================
+        
+        /* =======================================================
            NUEVA DINÁMICA: CARRUSEL FLUIDO ESTILO APPLE
            ======================================================= */
-        /* Contenedor relativo para alojar los paneles y las flechas */
-        .servicios-interactive-wrapper {
-            position: relative;
-            max-width: 1040px;
-            margin: 0 auto;
-            width: 100%;
-        }
 
         /* Cada panel de servicios ahora es una tira horizontal oculta por defecto */
         .service-panel { 
@@ -316,93 +308,99 @@
         }
         
         /* =======================================================
-           DINÁMICA ULTRA-PREMIUM: CARRUSEL COVERFLOW 3D NATIVO
+           SOLUCIÓN MATRIZ DE ALTURAS CALIBRADA PREMIUM (COVERFLOW)
            ======================================================= */
-        /* Contenedor del Carrusel con perspectiva espacial */
+        /* Aseguramos que el envoltorio interactivo sea el contenedor seguro */
+        .servicios-interactive-wrapper {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Recuperamos tu flujo flexible original para que las pestañas no se pisen */
+        .contenedor-servicios-fijo { 
+            position: relative; 
+            width: 100%; 
+            min-height: 600px; 
+            margin-bottom: 50px; 
+        }
+
+        /* 🔥 Fijamos los 490px estrictos de escenario aquí para blindar el tamaño del carrusel */
         .service-panel.active { 
-            display: flex !important;
+            display: block !important;
             visibility: visible; 
             opacity: 1; 
-            gap: 0; /* Controlamos el espacio tridimensional mediante márgenes */
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scrollbar-width: none; 
-            padding: 40px 10px 60px 10px;
-            scroll-snap-type: x mandatory; 
-            -webkit-overflow-scrolling: touch;
-            perspective: 1200px; /* Activa la profundidad de campo 3D */
+            padding: 0;
+            width: 100%;
+            height: 490px; /* Tamaño estricto perfecto para que entren texto + mockup */
+            position: relative;
+            margin-top: 20px;
+            perspective: 1400px; /* Profundidad controlada en el eje exacto */
             perspective-origin: center;
+            transform-style: preserve-3d;
         }
-        .service-panel.active::-webkit-scrollbar { display: none; }
 
-        /* Cada tarjeta ahora es una pieza del entorno 3D */
+        /* Tarjetas con dimensiones controladas y distribución vertical armónica */
         .card-servicio-ancha {
-            flex: 0 0 540px; /* Ancho fijo premium para que resalte la tarjeta central */
-            margin: 0 -40px; /* Solapamiento controlado para ver las tarjetas contiguas */
-            scroll-snap-align: center; /* Imanta perfectamente en el centro de la pantalla */
-            background: rgba(10, 10, 12, 0.85); 
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05); 
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -290px; /* Centrado perfecto para el ancho de 580px */
+            width: 580px;        
+            height: 100%;        /* Adopta los 490px del panel activo exactamente */
+            background: rgba(10, 10, 12, 0.95); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.04); 
             border-radius: 24px; 
-            padding: 36px;
+            padding: 32px 40px;  /* Ajuste de respiro interno */     
             display: flex; 
             flex-direction: column; 
-            gap: 12px; 
-            position: relative;
-            user-select: none; 
-            -webkit-user-select: none;
+            justify-content: space-between; /* Distribuye el texto arriba y el mockup abajo */
+            box-sizing: border-box;
             
-            /* Transformaciones base para suavizar el giro */
             transform-style: preserve-3d;
-            transition: transform 0.6s var(--cubic-apple), opacity 0.6s ease, border-color 0.3s ease;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             
-            /* Estado por defecto (Laterales desvanecidas) */
-            opacity: 0.35;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, border-color 0.4s ease;
             will-change: transform, opacity;
+            
+            opacity: 0;
+            transform: translateX(0) scale(0.5) translateZ(-500px) rotateY(0);
+            pointer-events: none;
+            z-index: 1;
         }
-        .card-servicio-ancha::before {
-            content: ""; position: absolute; top: 0; left: 15%; width: 70%; height: 1px;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+
+        /* Agrupador para mantener juntos el título y el texto descriptivo */
+        .card-info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Espaciado compacto y elegante entre título y párrafo */
+            width: 100%;
+            text-align: left;
         }
+
         
-        /* 🔥 CLASES CINÉTICAS 3D (Se inyectan dinámicamente mediante JS) */
-        /* Tarjeta Central Enfocada */
+        /* Modificadores de enfoque para la tarjeta del medio */
         .card-servicio-ancha.is-center {
-            opacity: 1;
-            transform: translateZ(60px) rotateY(0deg); /* Se adelanta hacia el usuario */
-            border-color: rgba(6, 182, 212, 0.25);
-            z-index: 10;
+            border-color: rgba(6, 182, 212, 0.35);
         }
 
-        /* Tarjeta de la Izquierda (Rotada hacia adentro) */
-        .card-servicio-ancha.is-left {
-            opacity: 0.4;
-            transform: translateZ(-100px) rotateY(32deg) translateX(20px);
-            z-index: 5;
-        }
-
-        /* Tarjeta de la Derecha (Rotada hacia adentro simétricamente) */
-        .card-servicio-ancha.is-right {
-            opacity: 0.4;
-            transform: translateZ(-100px) rotateY(-32deg) translateX(-20px);
-            z-index: 5;
-        }
-
-        /* Forzamos que en IA la tercera tarjeta mantenga la misma estructura */
         #ia .card-servicio-ancha[style*="grid-column"] {
             grid-column: auto !important; 
-            flex: 0 0 540px !important;
+            width: 580px !important;
         }
 
-        /* Flechas Minimalistas de Control (Ajustadas para no pisar el renderizado 3D) */
+        /* BOTONES DE NAVEGACIÓN TOTALMENTE INDEPENDIENTES */
         .carousel-arrow {
             position: absolute;
-            top: calc(50% + 40px); 
+            top: calc(50% + 40px); /* Ajustado considerando la altura de los botones de pestañas */
             transform: translateY(-50%);
             width: 48px;
             height: 48px;
-            background: rgba(18, 18, 20, 0.9);
+            background: rgba(15, 15, 18, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -411,28 +409,28 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease, background 0.2s ease, border-color 0.2s ease;
+            z-index: 999999 !important; 
             color: #fff;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
         }
-        .carousel-arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-        .servicios-interactive-wrapper:hover .carousel-arrow { opacity: 1; pointer-events: auto; }
-        .carousel-arrow.prev { left: -70px; }
-        .carousel-arrow.next { right: -70px; }
+        .carousel-arrow svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+        .carousel-arrow:hover { background: #06b6d4; border-color: #06b6d4; transform: translateY(-50%) scale(1.1); }
+        
+        .carousel-arrow.prev { left: -24px; }
+        .carousel-arrow.next { right: -24px; }
 
-        /* Comportamiento Móvil (Se aplana el 3D para evitar cortes en pantallas chicas) */
+        /* Adaptación Responsiva Móvil (Se aplana el 3D de forma segura) */
         @media (max-width: 968px) {
-            .service-panel.active { padding: 20px 24px; gap: 16px; perspective: none; }
-            .card-servicio-ancha { flex: 0 0 100% !important; margin: 0 !important; opacity: 1 !important; transform: none !important; }
+            .servicios-interactive-wrapper { height: auto; overflow-x: auto; padding: 0 16px; }
+            .service-panel.active { display: flex !important; flex-direction: row; gap: 16px; perspective: none; height: auto; margin-top: 10px; }
+            .card-servicio-ancha { position: relative; left: auto; margin-left: 0; flex: 0 0 100% !important; width: 100% !important; opacity: 1 !important; transform: none !important; padding: 24px; pointer-events: auto; }
             .carousel-arrow { display: none !important; }
         }
 
         /* MOCKUPS INTERNOS DE BENTO (ESTRUCTURAS MINIMIZADAS) */
         .software-static-container, .web-mockup-container, .integration-mockup-container, .db-mockup-container, .ai-terminal-container, .ai-automation-container, .ai-analytics-container, .mockup-pilar-container { padding: 20px; height: 220px; display: flex; flex-direction: column; }
         
-                /* =======================================================
+        /* =======================================================
            MOCKUPS DETALLADOS (SOFTWARE Y WEB) - SIN ANIMACIONES
            ======================================================= */
         .software-static-container, .web-mockup-container { 
@@ -1174,397 +1172,392 @@
                         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
 
-                    <div style="position: relative; width: 100%;">
-
-                        <div id="software" class="service-panel active">
-                            
-                            <!-- 1. SOFTWARE DE GESTIÓN -->
-                            <div class="card-servicio-ancha">
+                    <!-------------- SECCION DE SOFTWARE A MEDIDA -------------->
+                    <div id="software" class="service-panel active">
+                        
+                        <!-- 1. SOFTWARE DE GESTIÓN -->
+                        <div class="card-servicio-ancha">
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Software de Gestión</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Transformamos tus desafíos en ecosistemas digitales. Creamos plataformas robustas y escalables para darte control total.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="software-static-container">
-                                            <div class="window-header">
-                                                <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                                <div class="window-title">v1.4.2 // xonda-erp-cloud</div>
-                                                <div style="width: 30px;"></div>
+                                <div class="card-split-text"><p>Transformamos tus desafíos en ecosistemas digitales. Creamos plataformas robustas y escalables para darte control total.</p></div>
+                            </div>
+                            <div class="card-split-mockup">
+                                <div class="software-static-container">
+                                    <div class="window-header">
+                                        <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
+                                        <div class="window-title">v1.4.2 // xonda-erp-cloud</div>
+                                        <div style="width: 30px;"></div>
+                                    </div>
+                                    <div class="dashboard-layout">
+                                        <div class="dashboard-sidebar">
+                                            <div class="sidebar-icon active"></div>
+                                            <div class="sidebar-icon"></div>
+                                            <div class="sidebar-icon"></div>
+                                            <div class="sidebar-icon"></div>
+                                        </div>
+                                        <div class="dashboard-main">
+                                            <div class="dashboard-metrics">
+                                                <div class="metric-card"><div class="metric-label"></div><div class="metric-value"></div></div>
+                                                <div class="metric-card"><div class="metric-label"></div><div class="metric-value purple"></div></div>
+                                                <div class="metric-card"><div class="metric-label"></div><div class="metric-value"></div></div>
                                             </div>
-                                            <div class="dashboard-layout">
-                                                <div class="dashboard-sidebar">
-                                                    <div class="sidebar-icon active"></div>
-                                                    <div class="sidebar-icon"></div>
-                                                    <div class="sidebar-icon"></div>
-                                                    <div class="sidebar-icon"></div>
-                                                </div>
-                                                <div class="dashboard-main">
-                                                    <div class="dashboard-metrics">
-                                                        <div class="metric-card"><div class="metric-label"></div><div class="metric-value"></div></div>
-                                                        <div class="metric-card"><div class="metric-label"></div><div class="metric-value purple"></div></div>
-                                                        <div class="metric-card"><div class="metric-label"></div><div class="metric-value"></div></div>
-                                                    </div>
-                                                    <div class="dashboard-chart-section">
-                                                        <div class="chart-row"><div class="chart-row-label"></div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 85%;"></div></div></div>
-                                                        <div class="chart-row"><div class="chart-row-label"></div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 60%;"></div></div></div>
-                                                        <div class="chart-row"><div class="chart-row-label"></div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 45%;"></div></div></div>
-                                                    </div>
-                                                </div>
+                                            <div class="dashboard-chart-section">
+                                                <div class="chart-row"><div class="chart-row-label"></div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 85%;"></div></div></div>
+                                                <div class="chart-row"><div class="chart-row-label"></div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 60%;"></div></div></div>
+                                                <div class="chart-row"><div class="chart-row-label"></div><div class="chart-bar-bg"><div class="chart-bar-fill" style="width: 45%;"></div></div></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- 2. SITIOS WEB -->
-                            <div class="card-servicio-ancha">
+                        <!-- 2. SITIOS WEB -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Sitios Web</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Creamos experiencias digitales premium que proyectan autoridad. Diseño de vanguardia para convertir visitas en clientes.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="web-mockup-container">
-                                            <div class="window-header">
-                                                <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                                <div class="window-title">https://experiencia-premium.xonda</div>
-                                                <div style="width: 30px;"></div>
-                                            </div>
-                                            <div class="web-content">
-                                                <div class="web-navbar">
-                                                    <div class="web-logo"></div>
-                                                    <div class="web-nav-links"><div class="web-link"></div><div class="web-link"></div><div class="web-link"></div></div>
-                                                    <div class="web-nav-btn"></div>
-                                                </div>
-                                                <div class="web-hero-section">
-                                                    <div class="web-hero-tag"></div>
-                                                    <div class="web-hero-title"></div>
-                                                    <div class="web-hero-subtitle"></div>
-                                                    <div class="web-hero-btns"><div class="web-btn-main"></div><div class="web-btn-sec"></div></div>
-                                                </div>
-                                                <div class="web-grid-section">
-                                                    <div class="web-grid-card"><div class="web-card-img"></div><div class="web-card-line"></div></div>
-                                                    <div class="web-grid-card"><div class="web-card-img"></div><div class="web-card-line"></div></div>
-                                                    <div class="web-grid-card"><div class="web-card-img"></div><div class="web-card-line"></div></div>
-                                                </div>
-                                            </div>
+                                <div class="card-split-text"><p>Creamos experiencias digitales premium que proyectan autoridad. Diseño de vanguardia para convertir visitas en clientes.</p></div>
+                            </div>
+                            
+                            <!-- El mockup del Sitio Web Premium se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="web-mockup-container">
+                                    <div class="window-header">
+                                        <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
+                                        <div class="window-title">https://experiencia-premium.xonda</div>
+                                        <div style="width: 30px;"></div>
+                                    </div>
+                                    <div class="web-content">
+                                        <div class="web-navbar">
+                                            <div class="web-logo"></div>
+                                            <div class="web-nav-links"><div class="web-link"></div><div class="web-link"></div><div class="web-link"></div></div>
+                                            <div class="web-nav-btn"></div>
+                                        </div>
+                                        <div class="web-hero-section">
+                                            <div class="web-hero-tag"></div>
+                                            <div class="web-hero-title"></div>
+                                            <div class="web-hero-subtitle"></div>
+                                            <div class="web-hero-btns"><div class="web-btn-main"></div><div class="web-btn-sec"></div></div>
+                                        </div>
+                                        <div class="web-grid-section">
+                                            <div class="web-grid-card"><div class="web-card-img"></div><div class="web-card-line"></div></div>
+                                            <div class="web-grid-card"><div class="web-card-img"></div><div class="web-card-line"></div></div>
+                                            <div class="web-grid-card"><div class="web-card-img"></div><div class="web-card-line"></div></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- 3. INTEGRACIÓN DE SISTEMAS -->
-                            <div class="card-servicio-ancha">
+                        <!-- 3. INTEGRACIÓN DE SISTEMAS -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Integración de Sistemas</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Conectamos todas tus herramientas para que dialoguen. Centralizamos tus datos y eliminamos los procesos manuales.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="integration-mockup-container">
-                                            <div class="window-header">
-                                                <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                                <div class="window-title">data-mesh // routing-gateway</div>
-                                                <div style="width: 30px;"></div>
+                                <div class="card-split-text"><p>Conectamos todas tus herramientas para que dialoguen. Centralizamos tus datos y eliminamos los procesos manuales.</p></div>
+                            </div>
+                            
+                            <!-- El mockup del ruteo de datos se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="integration-mockup-container">
+                                    <div class="integration-layout" style="padding: 10px 0;">
+                                        <!-- Flujos de entrada de la izquierda -->
+                                        <div class="integration-column">
+                                            <div class="integration-node">
+                                                <div class="node-dot cyan"></div>
+                                                <span class="node-label">Ventas</span>
                                             </div>
-                                                                                        <div class="integration-layout">
-                                                <!-- Flujos de entrada de la izquierda -->
-                                                <div class="integration-column">
-                                                    <div class="integration-node">
-                                                        <div class="node-dot cyan"></div>
-                                                        <span class="node-label">Ventas</span>
-                                                    </div>
-                                                    <div class="integration-node">
-                                                        <div class="node-dot purple"></div>
-                                                        <span class="node-label">Stock</span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Núcleo central unificador -->
-                                                <div class="integration-center">
-                                                    <div class="core-hub">
-                                                        <div class="hub-title">Ecosistema</div>
-                                                        <div class="hub-status"><div class="node-dot cyan" style="width:4px; height:4px;"></div> Xonda Core</div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Flujos de entrada de la derecha -->
-                                                <div class="integration-column">
-                                                    <div class="integration-node">
-                                                        <div class="node-dot purple"></div>
-                                                        <span class="node-label">Facturación</span>
-                                                    </div>
-                                                    <div class="integration-node">
-                                                        <div class="node-dot cyan"></div>
-                                                        <span class="node-label">CRM</span>
-                                                    </div>
-                                                </div>
+                                            <div class="integration-node">
+                                                <div class="node-dot purple"></div>
+                                                <span class="node-label">Stock</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Núcleo central unificador -->
+                                        <div class="integration-center">
+                                            <div class="core-hub">
+                                                <div class="hub-title">Ecosistema</div>
+                                                <div class="hub-status"><div class="node-dot cyan" style="width:4px; height:4px;"></div> Xonda Core</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Flujos de entrada de la derecha -->
+                                        <div class="integration-column">
+                                            <div class="integration-node">
+                                                <div class="node-dot purple"></div>
+                                                <span class="node-label">Facturación</span>
+                                            </div>
+                                            <div class="integration-node">
+                                                <div class="node-dot cyan"></div>
+                                                <span class="node-label">CRM</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                                                        <!-- 4. BASES DE DATOS -->
-                            <div class="card-servicio-ancha">
+                        </div>
+                        <!-- 4. BASES DE DATOS -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Bases de Datos</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Arquitecturas seguras para grandes volúmenes de información. Datos blindados y accesibles sin latencia operativa.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="db-mockup-container" style="height: 100%; min-height: 180px;">
-                                            <div class="db-layout" style="padding: 10px 0;">
-                                                <!-- Planilla Excel Antigua -->
-                                                <div class="excel-sheet">
-                                                    <div class="excel-top-bar">
-                                                        <div class="excel-badge">Desorganizado.xlsx</div>
-                                                    </div>
-                                                    <div class="excel-grid-table">
-                                                        <div class="excel-row header">
-                                                            <div class="excel-cell-idx"></div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                        </div>
-                                                        <div class="excel-row">
-                                                            <div class="excel-cell-idx">1</div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                        </div>
-                                                        <div class="excel-row">
-                                                            <div class="excel-cell-idx">2</div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                        </div>
-                                                        <div class="excel-row">
-                                                            <div class="excel-cell-idx">3</div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                            <div class="excel-cell-data"><div class="excel-line-fill"></div></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="db-flow-arrow">➔</div>
-                                                
-                                                <!-- Infraestructura Xonda Estructurada -->
-                                                <div class="xonda-secure-db">
-                                                    <div class="server-rack">
-                                                        <div class="rack-info"><div class="rack-title"></div><div class="rack-sub"></div></div>
-                                                        <div class="rack-leds"><div class="rack-led pulse"></div><div class="rack-led"></div></div>
-                                                    </div>
-                                                    <div class="server-rack">
-                                                        <div class="rack-info"><div class="rack-title"></div><div class="rack-sub"></div></div>
-                                                        <div class="rack-leds"><div class="rack-led"></div><div class="rack-led pulse"></div></div>
-                                                    </div>
-                                                    <div class="server-rack">
-                                                        <div class="rack-info"><div class="rack-title"></div><div class="rack-sub"></div></div>
-                                                        <div class="rack-leds"><div class="rack-led pulse"></div><div class="rack-led pulse"></div></div>
-                                                    </div>
-                                                </div>
+                                <div class="card-split-text"><p>Arquitecturas seguras para grandes volúmenes de información. Datos blindados y accesibles sin latencia operativa.</p></div>
+                            </div>
+                            
+                            <!-- El mockup de la migración limpia se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="db-mockup-container" style="height: 100%; min-height: 180px;">
+                                    <div class="db-layout" style="padding: 10px 0;">
+                                        <!-- Planilla Excel Antigua -->
+                                        <div class="excel-sheet">
+                                            <div class="excel-top-bar"><div class="excel-badge">Desorganizado.xlsx</div></div>
+                                            <div class="excel-grid-table">
+                                                <div class="excel-row header"><div class="excel-cell-idx"></div><div class="excel-cell-data"><div class="excel-line-fill"></div></div><div class="excel-cell-data"><div class="excel-line-fill"></div></div></div>
+                                                <div class="excel-row"><div class="excel-cell-idx">1</div><div class="excel-cell-data"><div class="excel-line-fill"></div></div><div class="excel-cell-data"><div class="excel-line-fill"></div></div></div>
+                                                <div class="excel-row"><div class="excel-cell-idx">2</div><div class="excel-cell-data"><div class="excel-line-fill"></div></div><div class="excel-cell-data"><div class="excel-line-fill"></div></div></div>
+                                                <div class="excel-row"><div class="excel-cell-idx">3</div><div class="excel-cell-data"><div class="excel-line-fill"></div></div><div class="excel-cell-data"><div class="excel-line-fill"></div></div></div>
                                             </div>
+                                        </div>
+                                        
+                                        <div class="db-flow-arrow">➔</div>
+                                        
+                                        <!-- Infraestructura Xonda Estructurada -->
+                                        <div class="xonda-secure-db">
+                                            <div class="server-rack"><div class="rack-info"><div class="rack-title"></div><div class="rack-sub"></div></div><div class="rack-leds"><div class="rack-led pulse"></div><div class="rack-led"></div></div></div>
+                                            <div class="server-rack"><div class="rack-info"><div class="rack-title"></div><div class="rack-sub"></div></div><div class="rack-leds"><div class="rack-led"></div><div class="rack-led pulse"></div></div></div>
+                                            <div class="server-rack"><div class="rack-info"><div class="rack-title"></div><div class="rack-sub"></div></div><div class="rack-leds"><div class="rack-led pulse"></div><div class="rack-led pulse"></div></div></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+                    </div>
 
-                        <div id="ia" class="service-panel">
-                            <!-- 1. ASISTENTE VIRTUAL -->
-                            <div class="card-servicio-ancha">
+                    <div id="ia" class="service-panel">
+                        <!-- 1. ASISTENTE VIRTUAL -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Asistente Virtual</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Agentes autónomos con conocimiento profundo de tu empresa. Atención fluida 24/7 sin requerir intervención humana.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="ai-terminal-container" style="height: 100%; min-height: 180px;">
-                                            <div class="terminal-body" style="padding: 18px 14px;">
-                                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 6px;"><span style="font-size: 0.65rem; color: #6B7280; font-family: monospace;">xonda_agent_core.sh</span><span class="status-online">● STATUS: ONLINE</span></div>
-                                                <div><span class="log-time">[10:14:02]</span><span class="log-user">USER:</span> "No puedo acceder a mi cuenta, necesito ayuda urgente."</div>
-                                                <div><span class="log-time">[10:14:02]</span><span class="log-sys">SYS_AI:</span> Analizando intención... [Urgencia: ALTA]</div>
-                                                <div><span class="log-time">[10:14:03]</span><span class="log-sys">SYS_AI:</span> Consultando base de datos y ejecutando protocolo de recuperación...</div>
-                                                <div><span class="log-time">[10:14:05]</span><span class="log-success">SUCCESS:</span> Enlace de seguridad generado y enviado al cliente. Ticket cerrado.</div>
-                                                <div style="margin-top: 8px;"><span class="log-sys">SYS_AI:</span> Escuchando nuevos comandos <span class="static-cursor"></span></div>
-                                            </div>
-                                        </div>
+                                <div class="card-split-text"><p>Agentes autónomos con conocimiento profundo de tu empresa. Atención fluida 24/7 sin requerir intervención humana.</p></div>
+                            </div>
+                            
+                            <!-- El mockup de la terminal se queda en la base -->
+                            <div class="card-split-mockup">
+                                <div class="ai-terminal-container" style="height: 100%; min-height: 180px;">
+                                    <div class="terminal-body" style="padding: 18px 14px;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 6px;"><span style="font-size: 0.65rem; color: #6B7280; font-family: monospace;">xonda_agent_core.sh</span><span class="status-online">● STATUS: ONLINE</span></div>
+                                        <div><span class="log-time">[10:14:02]</span><span class="log-user">USER:</span> "No puedo acceder a mi cuenta, necesito ayuda urgente."</div>
+                                        <div><span class="log-time">[10:14:02]</span><span class="log-sys">SYS_AI:</span> Analizando intención... [Urgencia: ALTA]</div>
+                                        <div><span class="log-time">[10:14:03]</span><span class="log-sys">SYS_AI:</span> Consultando base de datos y ejecutando protocolo de recuperación...</div>
+                                        <div><span class="log-time">[10:14:05]</span><span class="log-success">SUCCESS:</span> Enlace de seguridad generado y enviado al cliente. Ticket cerrado.</div>
+                                        <div style="margin-top: 8px;"><span class="log-sys">SYS_AI:</span> Escuchando nuevos comandos <span class="static-cursor"></span></div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- 2. AUTOMATIZACIÓN DE TAREAS -->
-                            <div class="card-servicio-ancha">
+
+                                                <!-- 2. AUTOMATIZACIÓN DE TAREAS -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Automatización</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Delegamos el trabajo repetitivo a sistemas inteligentes. Aceleramos procesos operativos eliminando el margen de error.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="ai-automation-container" style="height: 100%; min-height: 180px; background: transparent;">
-                                            <div class="automation-layout" style="padding: 10px 0;">
-                                                <!-- Inputs manuales -->
-                                                <div class="auto-column">
-                                                    <div class="auto-node-pill">Facturas.pdf</div>
-                                                    <div class="auto-node-pill">Emails</div>
-                                                </div>
-                                                
-                                                <!-- Flecha Conectora Optimizada -->
-                                                <div class="auto-flow-arrow"></div>
-                                                
-                                                <!-- Procesador Central con Spinner Fijo -->
-                                                <div class="auto-center-processor">
-                                                    <div class="processor-spinner"></div>
-                                                    <div class="processor-title">XONDA_AI</div>
-                                                </div>
-                                                
-                                                <!-- Flecha Conectora Optimizada -->
-                                                <div class="auto-flow-arrow"></div>
-                                                
-                                                <!-- Outputs automatizados -->
-                                                <div class="auto-column">
-                                                    <div class="auto-node-pill success">CRM Core</div>
-                                                    <div class="auto-node-pill success">Notificaciones</div>
-                                                </div>
-                                            </div>
+                                <div class="card-split-text"><p>Delegamos el trabajo repetitivo a sistemas inteligentes. Aceleramos procesos operativos eliminando el margen de error.</p></div>
+                            </div>
+                            
+                            <!-- El mockup del procesador central con flechas se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="ai-automation-container" style="height: 100%; min-height: 180px; background: transparent;">
+                                    <div class="automation-layout" style="padding: 10px 0;">
+                                        <!-- Inputs manuales -->
+                                        <div class="auto-column">
+                                            <div class="auto-node-pill">Facturas.pdf</div>
+                                            <div class="auto-node-pill">Emails</div>
+                                        </div>
+                                        
+                                        <!-- Flecha Conectora Optimizada -->
+                                        <div class="auto-flow-arrow"></div>
+                                        
+                                        <!-- Procesador Central con Spinner Fijo -->
+                                        <div class="auto-center-processor">
+                                            <div class="processor-spinner"></div>
+                                            <div class="processor-title">XONDA_AI</div>
+                                        </div>
+                                        
+                                        <!-- Flecha Conectora Optimizada -->
+                                        <div class="auto-flow-arrow"></div>
+                                        
+                                        <!-- Outputs automatizados -->
+                                        <div class="auto-column">
+                                            <div class="auto-node-pill success">CRM Core</div>
+                                            <div class="auto-node-pill success">Notificaciones</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- 3. ANÁLISIS INTELIGENTE -->
-                            <div class="card-servicio-ancha" style="grid-column: 1 / -1;">
+                        <!-- 3. ANÁLISIS INTELIGENTE -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Análisis Inteligente</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Procesamos datos dispersos para decisiones directivas certeras. Transformamos el caos en inteligencia estratégica accionable.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="ai-analytics-container" style="height: 100%; min-height: 180px; background: transparent;">
-                                            <div class="analytics-layout" style="padding: 10px 0;">
-                                                <!-- Planilla Excel de la Foto (Izquierda) -->
-                                                <div class="source-file-box">
-                                                    <div class="excel-red-badge">planilla.xlsx</div>
-                                                    <div class="excel-photo-grid">
-                                                        <div class="excel-photo-row top-row">
-                                                            <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
-                                                        </div>
-                                                        <div class="excel-photo-row">
-                                                            <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
-                                                        </div>
-                                                        <div class="excel-photo-row">
-                                                            <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
-                                                        </div>
-                                                        <div class="excel-photo-row">
-                                                            <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
-                                                        </div>
-                                                    </div>
+                                <div class="card-split-text"><p>Procesamos datos dispersos para decisiones directivas certeras. Transformamos el caos en inteligencia estratégica accionable.</p></div>
+                            </div>
+                            
+                            <!-- El mockup réplica exacta de la foto se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="ai-analytics-container" style="height: 100%; min-height: 180px; background: transparent;">
+                                    <div class="analytics-layout" style="padding: 10px 0;">
+                                        <!-- Planilla Excel de la Foto (Izquierda) -->
+                                        <div class="source-file-box">
+                                            <div class="excel-red-badge">planilla.xlsx</div>
+                                            <div class="excel-photo-grid">
+                                                <div class="excel-photo-row top-row">
+                                                    <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
                                                 </div>
-                                                
-                                                <!-- Flecha sutil de la foto -->
-                                                <div class="photo-arrow">→</div>
-                                                
-                                                <!-- Bloque Clasificado de la Foto (Derecha) -->
-                                                <div class="classified-output-panel">
-                                                    <div class="photo-dest-row">
-                                                        <span class="class-label-tag cyan">CLASE A</span>
-                                                        <div class="photo-dest-line"></div>
-                                                    </div>
-                                                    <div class="photo-dest-row">
-                                                        <span class="class-label-tag purple">CLASE B</span>
-                                                        <div class="photo-dest-line"></div>
-                                                    </div>
-                                                    <div class="photo-dest-row">
-                                                        <span class="class-label-tag gray">CLASE C</span>
-                                                        <div class="photo-dest-line"></div>
-                                                    </div>
+                                                <div class="excel-photo-row">
+                                                    <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
                                                 </div>
+                                                <div class="excel-photo-row">
+                                                    <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
+                                                </div>
+                                                <div class="excel-photo-row">
+                                                    <div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div><div class="excel-photo-cell"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Flecha sutil de la foto -->
+                                        <div class="photo-arrow">→</div>
+                                        
+                                        <!-- Bloque Clasificado de la Foto (Derecha) -->
+                                        <div class="classified-output-panel">
+                                            <div class="photo-dest-row">
+                                                <span class="class-label-tag cyan">CLASE A</span>
+                                                <div class="photo-dest-line"></div>
+                                            </div>
+                                            <div class="photo-dest-row">
+                                                <span class="class-label-tag purple">CLASE B</span>
+                                                <div class="photo-dest-line"></div>
+                                            </div>
+                                            <div class="photo-dest-row">
+                                                <span class="class-label-tag gray">CLASE C</span>
+                                                <div class="photo-dest-line"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div id="pilares" class="service-panel">
-                                                        <!-- 1. CONSULTORÍA -->
-                            <div class="card-servicio-ancha">
+                    <div id="pilares" class="service-panel">
+                        
+                        <!-- 1. CONSULTORÍA -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Consultoría</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Auditamos tu operativa al detalle. Trazamos una hoja de ruta estratégica antes de escribir código.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="mockup-pilar-container">
-                                            <div class="audit-roadmap">
-                                                <div class="audit-node">01</div>
-                                                <div class="audit-line"></div>
-                                                <div class="audit-node">02</div>
-                                                <div class="audit-line"></div>
-                                                <div class="audit-node active">03</div>
-                                            </div>
-                                            <div class="audit-subtitle">Mapa de Proceso Completado</div>
-                                        </div>
+                                <div class="card-split-text"><p>Auditamos tu operativa al detalle. Trazamos una hoja de ruta estratégica antes de escribir código.</p></div>
+                            </div>
+                            
+                            <!-- El mockup de la línea de tiempo se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="mockup-pilar-container">
+                                    <div class="audit-roadmap">
+                                        <div class="audit-node">01</div>
+                                        <div class="audit-line"></div>
+                                        <div class="audit-node">02</div>
+                                        <div class="audit-line"></div>
+                                        <div class="audit-node active">03</div>
                                     </div>
+                                    <div class="audit-subtitle">Mapa de Proceso Completado</div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- 2. DISEÑO UX/UI -->
-                            <div class="card-servicio-ancha">
+                        <!-- 2. DISEÑO UX/UI -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Diseño UX/UI</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Construimos interfaces modernas e intuitivas. Maximizamos la adopción tecnológica de tu equipo sin generar fricción.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="mockup-pilar-container">
-                                            <div class="ux-skeleton-interface">
-                                                <div class="ux-ui-row">
-                                                    <div class="ux-toggle-switch"></div>
-                                                    <div class="ux-progress-bar"><div class="ux-progress-fill"></div></div>
-                                                </div>
-                                                <div class="ux-action-button">ACTION</div>
-                                            </div>
+                                <div class="card-split-text"><p>Construimos interfaces modernas e intuitivas. Maximizamos la adopción tecnológica de tu equipo sin generar fricción.</p></div>
+                            </div>
+                            
+                            <!-- El mockup de componentes de interfaz se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="mockup-pilar-container">
+                                    <div class="ux-skeleton-interface">
+                                        <div class="ux-ui-row">
+                                            <div class="ux-toggle-switch"></div>
+                                            <div class="ux-progress-bar"><div class="ux-progress-fill"></div></div>
                                         </div>
+                                        <div class="ux-action-button">ACTION</div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- 3. SOPORTE -->
-                            <div class="card-servicio-ancha">
+                                                <!-- 3. SOPORTE -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
                                 <div class="card-header-servicio"><h3>Soporte</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Planes de mantenimiento activo y monitoreo continuo. Garantizamos que la operativa de tu negocio fluya.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="mockup-pilar-container">
-                                            <div class="support-monitor-box">
-                                                <div class="support-header-row">
-                                                    <span class="support-lbl">Uptime Óptimo</span>
-                                                    <span class="support-val">99.99% (ONLINE)</span>
-                                                </div>
-                                                <div class="support-bars-grid">
-                                                    <div class="support-bar-pillar"></div>
-                                                    <div class="support-bar-pillar variant"></div>
-                                                    <div class="support-bar-pillar variant-2"></div>
-                                                    <div class="support-bar-pillar"></div>
-                                                    <div class="support-bar-pillar variant"></div>
-                                                    <div class="support-bar-pillar variant-2"></div>
-                                                    <div class="support-bar-pillar"></div>
-                                                    <div class="support-bar-pillar"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="card-split-text"><p>Planes de mantenimiento activo y monitoreo continuo. Garantizamos que la operativa de tu negocio fluya.</p></div>
                             </div>
-
-                            <!-- 4. ESCALABILIDAD -->
-                            <div class="card-servicio-ancha">
-                                <div class="card-header-servicio"><h3>Escalabilidad</h3></div>
-                                <div class="card-body-split">
-                                    <div class="card-split-text"><p>Diseñamos plataformas con arquitectura modular. Podrás sumar nuevas funcionalidades sin reescribir el núcleo del sistema.</p></div>
-                                    <div class="card-split-mockup">
-                                        <div class="mockup-pilar-container">
-                                            <div class="scale-modules-grid" style="margin-bottom: 8px;">
-                                                <div class="scale-cube-block">A</div>
-                                                <div class="scale-cube-block">B</div>
-                                                <div class="scale-cube-block future">+</div>
-                                                <div class="scale-cube-block future">+</div>
-                                            </div>
-                                            <div class="scale-modules-grid">
-                                                <div class="scale-cube-block future">+</div>
-                                                <div class="scale-cube-block future">+</div>
-                                                <div class="scale-cube-block future">+</div>
-                                                <div class="scale-cube-block future">+</div>
-                                            </div>
+                            
+                            <!-- El mockup del monitor de Uptime se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="mockup-pilar-container">
+                                    <div class="support-monitor-box">
+                                        <div class="support-header-row">
+                                            <span class="support-lbl">Uptime Óptimo</span>
+                                            <span class="support-val">99.99% (ONLINE)</span>
+                                        </div>
+                                        <div class="support-bars-grid">
+                                            <div class="support-bar-pillar"></div>
+                                            <div class="support-bar-pillar variant"></div>
+                                            <div class="support-bar-pillar variant-2"></div>
+                                            <div class="support-bar-pillar"></div>
+                                            <div class="support-bar-pillar variant"></div>
+                                            <div class="support-bar-pillar variant-2"></div>
+                                            <div class="support-bar-pillar"></div>
+                                            <div class="support-bar-pillar"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- 4. ESCALABILIDAD -->
+                        <div class="card-servicio-ancha">
+                            <!-- Envoltura de texto unificada y compacta arriba -->
+                            <div class="card-info-group">
+                                <div class="card-header-servicio"><h3>Escalabilidad</h3></div>
+                                <div class="card-split-text"><p>Diseñamos plataformas con arquitectura modular. Podrás sumar nuevas funcionalidades sin reescribir el núcleo del sistema.</p></div>
+                            </div>
+                            
+                            <!-- El mockup modular se queda abajo -->
+                            <div class="card-split-mockup">
+                                <div class="mockup-pilar-container">
+                                    <div class="scale-modules-grid" style="margin-bottom: 8px;">
+                                        <div class="scale-cube-block">A</div>
+                                        <div class="scale-cube-block">B</div>
+                                        <div class="scale-cube-block future">+</div>
+                                        <div class="scale-cube-block future">+</div>
+                                    </div>
+                                    <div class="scale-modules-grid">
+                                        <div class="scale-cube-block future">+</div>
+                                        <div class="scale-cube-block future">+</div>
+                                        <div class="scale-cube-block future">+</div>
+                                        <div class="scale-cube-block future">+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1618,78 +1611,73 @@
             };
             initMockups();
 
-                        // 4. Lógica Unificada: Carrusel Coverflow 3D e Interacción de Pestañas
-            let coverflowObserver = null;
+            // 4. Motor Coverflow 3D Avanzado: Proyección Circular Infinita con Angulación
+            let tarjetaActivaIndex = 0;
 
-            const initCoverflow3D = () => {
-                if (coverflowObserver) coverflowObserver.disconnect();
-
-                // Configuramos un observer que detecta qué tarjeta ocupa el centro del panel
-                coverflowObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const card = entry.target;
-                        
-                        if (entry.isIntersecting) {
-                            // Limpiamos estados anteriores
-                            card.classList.remove('is-left', 'is-right');
-                            card.classList.add('is-center');
-
-                            // Calculamos las tarjetas hermanas para inclinarlas hacia el centro
-                            let prevCard = card.previousElementSibling;
-                            if (prevCard && prevCard.classList.contains('card-servicio-ancha')) {
-                                prevCard.classList.remove('is-center', 'is-right');
-                                prevCard.classList.add('is-left');
-                            }
-
-                            let nextCard = card.nextElementSibling;
-                            if (nextCard && nextCard.classList.contains('card-servicio-ancha')) {
-                                nextCard.classList.remove('is-center', 'is-left');
-                                nextCard.classList.add('is-right');
-                            }
-                        }
-                    });
-                }, {
-                    root: document.querySelector('.service-panel.active'),
-                    threshold: 0.6 // Se activa cuando la tarjeta domina el 60% del centro
-                });
-
-                // Vinculamos todas las tarjetas del panel visible actualmente
-                document.querySelectorAll('.service-panel.active .card-servicio-ancha').forEach(card => {
-                    coverflowObserver.observe(card);
-                });
-            };
-
-            // Inicializar el efecto en la carga inicial de la página
-            setTimeout(initCoverflow3D, 100);
-
-            // Controladores de las Flechas Minimalistas
-            const btnPrev = document.querySelector('.carousel-arrow.prev');
-            const btnNext = document.querySelector('.carousel-arrow.next');
-
-            const desplazarCarrusel3D = (direccion) => {
+                        const actualizarCoverflow3D = () => {
                 const panelActivo = document.querySelector('.service-panel.active');
                 if (!panelActivo) return;
 
-                const tarjetaCentro = panelActivo.querySelector('.card-servicio-ancha.is-center');
-                if (!tarjetaCentro) return;
+                const tarjetas = Array.from(panelActivo.querySelectorAll('.card-servicio-ancha'));
+                const total = tarjetas.length;
+                if (total === 0) return;
 
-                if (direccion === 'next') {
-                    const siguiente = tarjetaCentro.nextElementSibling;
-                    if (siguiente) {
-                        panelActivo.scrollTo({ left: siguiente.offsetLeft - (panelActivo.offsetWidth / 2) + (siguiente.offsetWidth / 2), behavior: 'smooth' });
+                // Mantenemos el índice en un bucle aritmético circular infinito
+                tarjetaActivaIndex = (tarjetaActivaIndex + total) % total;
+
+                tarjetas.forEach((tarjeta, idx) => {
+                    tarjeta.classList.remove('is-center');
+                    
+                    // Calculamos la distancia relativa circular exacta respecto al centro activo
+                    let distancia = idx - tarjetaActivaIndex;
+                    if (distancia > total / 2) distancia -= total;
+                    if (distancia <= -total / 2) distancia += total;
+
+                    // 🌟 CONFIGURACIÓN MATRICIAL DE POSICIONAMIENTO ESPACIAL 3D RECALIBRADO
+                    if (distancia === 0) {
+                        tarjeta.classList.add('is-center');
+                        tarjeta.style.transform = `translateX(0px) scale(1) translateZ(100px) rotateY(0deg)`;
+                        tarjeta.style.opacity = '1';
+                        tarjeta.style.zIndex = '50';
+                        tarjeta.style.pointerEvents = 'auto';
+                    } else if (distancia === 1 || (total === 4 && distancia === 2 && tarjetaActivaIndex === 3)) {
+                        tarjeta.style.transform = `translateX(350px) scale(0.82) translateZ(-120px) rotateY(-35deg)`;
+                        tarjeta.style.opacity = '0.35';
+                        tarjeta.style.zIndex = '20';
+                        tarjeta.style.pointerEvents = 'none';
+                    } else if (distancia === -1 || (total === 4 && distancia === -2 && tarjetaActivaIndex === 0)) {
+                        tarjeta.style.transform = `translateX(-350px) scale(0.82) translateZ(-120px) rotateY(35deg)`;
+                        tarjeta.style.opacity = '0.35';
+                        tarjeta.style.zIndex = '20';
+                        tarjeta.style.pointerEvents = 'none';
+                    } else {
+                        // Ocultamos de forma segura las tarjetas excedentes en el fondo
+                        tarjeta.style.transform = `translateX(0px) scale(0.6) translateZ(-200px) rotateY(0deg)`;
+                        tarjeta.style.opacity = '0';
+                        tarjeta.style.zIndex = '1';
+                        tarjeta.style.pointerEvents = 'none';
                     }
-                } else {
-                    const anterior = tarjetaCentro.previousElementSibling;
-                    if (anterior) {
-                        panelActivo.scrollTo({ left: anterior.offsetLeft - (panelActivo.offsetWidth / 2) + (anterior.offsetWidth / 2), behavior: 'smooth' });
-                    }
-                }
+                });
             };
 
-            btnNext.addEventListener('click', () => desplazarCarrusel3D('next'));
-            btnPrev.addEventListener('click', () => desplazarCarrusel3D('prev'));
+            // Inicialización segura tras la carga del DOM
+            setTimeout(actualizarCoverflow3D, 150);
 
-            // Manejo de clicks en las pestañas superiores (Tabs)
+            // Controladores de Flechas Directos
+            const btnPrev = document.querySelector('.carousel-arrow.prev');
+            const btnNext = document.querySelector('.carousel-arrow.next');
+
+            btnNext.addEventListener('click', () => {
+                tarjetaActivaIndex++;
+                actualizarCoverflow3D();
+            });
+
+            btnPrev.addEventListener('click', () => {
+                tarjetaActivaIndex--;
+                actualizarCoverflow3D();
+            });
+
+            // Lógica de Pestañas Superiores (Tabs) con Reinicio de Escenario 3D
             const tabs = document.querySelectorAll('.tab-btn-crystal');
             const panels = document.querySelectorAll('.service-panel');
             
@@ -1704,21 +1692,20 @@
                     
                     const nuevoPanel = document.getElementById(targetId);
                     nuevoPanel.classList.add('active');
-                    nuevoPanel.scrollLeft = 0; // Reseteamos la posición del carrusel al inicio
+                    
+                    // Reseteamos el puntero al inicio
+                    tarjetaActivaIndex = 0; 
 
-                    // Reiniciamos las pausas de animación globales
                     animObserver.disconnect();
                     document.querySelectorAll('.tab-btn-crystal.active, .badge-track').forEach(el => animObserver.observe(el));
                     
-                    // Volvemos a encender las animaciones mecánicas y el efecto espacial 3D
                     setTimeout(() => {
                         document.querySelectorAll('.service-panel.active .card-split-mockup > div').forEach(m => m.classList.remove('revealed'));
                         initMockups();
-                        initCoverflow3D(); // 🔥 Re-calcula la grilla tridimensional para las nuevas tarjetas
+                        actualizarCoverflow3D(); // Proyecta el nuevo escenario 3D balanceado al cambiar de tab
                     }, 50);
                 });
             });
-
         });
     </script>
 </body>
