@@ -4,763 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xonda</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root{--bg-pure-black:#000;--text-primary:#fff;--text-secondary:#9CA3AF;--neon-cyan:#06B6D4;--neon-purple:#8B5CF6;--cubic-apple:cubic-bezier(0.16,1,0.3,1)}
-        *{margin:0;padding:0;box-sizing:border-box;outline:0;font-family:"Roboto",sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-        html{scroll-behavior:smooth}
-        body{background-color:var(--bg-pure-black);color:var(--text-primary);font-weight:300;letter-spacing:.03em;min-height:100vh;overflow-x:hidden;position:relative;}
-        @media(max-width:768px){body{background-attachment:scroll}}
-        .techo-luz{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:rgba(255,255,255,.09);border-radius:400px 400px 0 0;filter:blur(80px);z-index:0;pointer-events:none}
-        .reveal{opacity:0;transform:translateY(30px);transition:all 1s var(--cubic-apple)} .reveal.activa{opacity:1;transform:translateY(0)}
-        .navbar{display:flex;justify-content:space-between;align-items:center;padding:2rem 7rem;position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:120rem;z-index:10000;background:0 0}
-        .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;font-size:1.8rem;color:var(--text-primary);letter-spacing:-.05em;font-weight:380;transform:scaleY(1.15);transform-origin:center top}
-        .btn-contact,.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:1rem;text-decoration:none;transition:all .3s ease}
-        .btn-contact{background:rgba(37,37,37,.692);border-radius:10px;padding:6px 12px;color:#fff;font-size:1.35rem;font-weight:400}
-        .btn-contact:hover{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2)}
-        .btn-primary{background-color:#fff;color:#000000bd;font-weight:700;font-size:15px;padding:16px 36px;border-radius:8px}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.15)}
-        /* --- NUEVA ESTÉTICA DE TÍTULOS (Blanco a Gris Horizontal) --- */
-        .problemas-main-title,
-        .section-title-premium {
-            background: linear-gradient(90deg, #ffffff 20%, #6b6b6b 100%) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            background-clip: text !important;
-        }
-
-        /* Permitir que la segunda línea del título herede el degradado */
-        .section-title-premium span {
-            color: inherit !important;
-            -webkit-text-fill-color: transparent !important;
-        }
-        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;padding-top:80px}
-        .hero-layout{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;max-width:950px;z-index:10;margin:0 auto}
-        .hero-title,.problemas-main-title,.section-title-premium{font-weight:400;letter-spacing:-.04em;line-height:1;text-align:center;background:linear-gradient(to bottom,#fff 30%,#ffffffc7 40%,#ffffffc5 50%,#ffffffbe 60%,#ffffff8f 70%,#ffffff98 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .hero-title{font-weight:400;font-size:6rem;margin-bottom:1rem}
-        .hero-subtitle{font-size:2rem;font-weight:490;color:#949499;max-width:22em;margin:0 auto 2.5rem;line-height:1.2;letter-spacing:-.005em;text-align:center}
-        .seccion-capas{position:relative;padding:180px 24px 140px;width:100%;background-color:var(--bg-pure-black);margin-top:-120px;z-index:1}
-        .seccion-capas::before{content:"";position:absolute;top:0;left:-50%;width:200%;height:100%;background:linear-gradient(to bottom,#121214 0,var(--bg-pure-black) 15%);border-radius:50% 50% 0 0;z-index:-2;will-change:transform;transform:translateZ(0);box-shadow:0 -1px 3px rgba(255,255,255,.1),0 -30px 80px rgba(255,255,255,.12),0 -80px 200px rgba(255,255,255,.06),0 20px 50px rgba(0,0,0,.9)}
-        .seccion-capas::after{content:"";position:absolute;top:-50px;left:50%;transform:translateX(-50%);width:800px;height:300px;filter:blur(40px);z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.25) 0,transparent 70%)}
-        .privacy-card{display:flex;align-items:center;gap:24px;width:100%;max-width:80rem;margin:2rem auto 20rem;padding:3rem;background:var(--bg-pure-black);border:1px solid rgba(133,133,133,.5);border-radius:18px;box-shadow:0 25px 50px rgba(0,0,0,.6);position:relative;z-index:2}
-        .privacy-badge{display:flex;align-items:center;justify-content:center;width:5rem;height:5rem;flex-shrink:0}
-        .privacy-content h4{font-size:1.6rem;font-weight:500;margin-bottom:6px} .privacy-content p{font-size:1.5rem;color:#8E8E93;line-height:1.5}
-        .problemas-seccion{width:100%;max-width:80rem;margin:0 auto 12rem;position:relative} .problemas-main-title{font-size:4rem;margin-bottom:6.5rem;}
-        .solucion-destacada,.soluciones-secundarias{display:grid;align-items:center;position:relative}
-        .solucion-destacada{grid-template-columns:1fr 1fr;gap:6rem;margin-bottom:6rem}
-        .soluciones-secundarias{grid-template-columns:1fr 1fr;gap:5rem;border-top:1px solid rgba(255,255,255,.04);padding-top:6rem;margin-top:4rem}
-        .soluciones-secundarias::after{content:"";position:absolute;top:6rem;bottom:0;left:50%;transform:translateX(-50%);width:1px;background:rgba(255,255,255,.06)}
-        .solucion-info,.solucion-box-mini{text-align:left;z-index:2;display:flex;flex-direction:column}
-        .solucion-tag-premium{display:inline-flex;align-items:center;gap:8px;font-size:1rem;font-weight:600;text-transform:uppercase;letter-spacing:.18em;margin-bottom:1.2rem;filter:brightness(.85);background:linear-gradient(45deg,var(--neon-cyan) 0,var(--neon-purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .solucion-tag-premium svg{stroke:var(--neon-cyan);flex-shrink:0;opacity:.8}
-        .solucion-info h3{font-size:2.2rem;line-height:1.2;font-weight:600;margin-bottom:1.5rem;letter-spacing:-.02em} .solucion-info p{font-size:1.05rem;color:#8E8E93;line-height:1.6;max-width:440px;margin:0}
-        .solucion-box-mini h3{font-size:1.8rem;line-height:1.3;font-weight:600;margin-bottom:1.2rem;letter-spacing:-.02em} .solucion-box-mini p{font-size:1rem;color:#8E8E93;line-height:1.6;margin:0}
-        .esfera-central-3d{position:absolute;width:10rem;height:10rem;top:90%;left:50%;border-radius:50%;z-index:0;pointer-events:none;will-change:transform;transform:translate(-65%,-20%) translateZ(0);background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.82) 0,rgba(255,255,255,.6) 30%,rgba(255,255,255,.4) 60%,rgba(255,255,255,.3) 100%);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:-10px 15px 35px rgba(0,0,0,.4),inset -4px -4px 10px rgba(0,0,0,.3),inset 6px 6px 15px rgba(255,255,255,.25)}
-        .esfera-fondo-carrusel {
-            position: absolute;
-            top: 2%;
-            left: -1%; 
-            width: 170px;
-            height: 170px;
-            border-radius: 50%;
-            background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.82) 0,rgba(255,255,255,.6) 30%,rgba(255,255,255,.3) 60%,rgba(255,255,255,.2) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: -15px 15px 40px rgba(0, 0, 0, 0.6), inset 5px 5px 15px rgba(255, 255, 255, 0.4);
-            z-index: 0;
-            pointer-events: none;
-            animation: flotarEsfera 6s ease-in-out infinite;
-        }
-        .geometria-capsula-3d,.geometria-cubo-3d{position:absolute;z-index:0;pointer-events:none;border:1px solid rgba(255,255,255,.25);background:radial-gradient(circle at 40% 30%,rgba(255,255,255,.82) 0,rgba(255,255,255,.5) 40%,rgba(255,255,255,.2) 70%,rgba(0,0,0,.4) 100%)}
-        .geometria-capsula-3d{width:90px;height:140px;border-radius:50px;bottom:20px;left:-35px;transform:rotate(35deg) translateZ(-10px);box-shadow:-15px 15px 30px rgba(0,0,0,.5)}
-        .geometria-cubo-3d{width:110px;height:110px;border-radius:28px;top:10px;right:-30px;transform:rotate(-20deg) rotateX(15deg) translateZ(-10px);box-shadow:15px 15px 35px rgba(0,0,0,.5)}
-        .toroide-cristal-3d{position:absolute;width:140px;height:140px;top:55%!important;bottom:auto!important;left:44.5%;transform:translate(-50%,35px) rotate(35deg)!important;border-radius:50%;z-index:0;pointer-events:none;box-sizing:border-box;border:34px solid transparent;background:linear-gradient(135deg,rgba(255,255,255,.65) 0,rgba(142,142,147,.3) 35%,rgba(255,255,255,.55) 60%,rgba(28,28,30,.2) 100%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;filter:brightness(1.4) drop-shadow(0 0 15px rgba(255,255,255,.08))}
-        .toroide-cristal-3d::before{content:'';position:absolute;top:-34px;left:-34px;right:-34px;bottom:-34px;border-radius:50%;border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 0 12px rgba(255,255,255,.15);z-index:-1}
-        .solucion-visual-wrapper{display:flex;align-items:center;justify-content:flex-end;perspective:1200px;z-index:1;width:100%}
-        .mini-visual-wrapper{position:relative;width:100%;height:340px;margin-top:3.5rem;display:flex;align-items:center;justify-content:center;perspective:1200px}
-        .interfaz-mockup {
-            width: 40rem;
-            height: 30rem;
-            background: radial-gradient(circle at 80% 0,rgba(6,182,212,.28) 0,transparent 50%),radial-gradient(circle at 40% 0,rgba(139,92,246,.28) 0,transparent 60%),radial-gradient(circle at 0 0,rgba(236,72,153,.18) 0,transparent 40%),linear-gradient(185deg,rgba(17,17,21,.75) 0,rgba(5,5,7,.35) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,.06);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 40px 80px rgba(0,0,0,.9);
-            transform: rotateY(-8deg) rotateX(3deg);
-            z-index: 1;
-        }
-
-        .mini-mockup-card {
-            width: 100%;
-            max-width: 440px;
-            height: 280px;
-            background: linear-gradient(185deg,rgba(17,17,21,.75) 0,rgba(5,5,7,.6) 100%);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,.05);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 30px 60px rgba(0,0,0,.8);
-            transform: rotateY(-6deg) rotateX(2deg);
-            z-index: 1;
-        }        
-        .mockup-header{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);padding:12px 16px;border-radius:12px;font-size:1.4rem;color:#8E8E93;margin-bottom:20px}
-        .mockup-response-card{background:rgba(255,255,255,.01);border:1px solid rgba(255,255,255,.03);border-radius:14px;padding:16px} .mockup-response-card p{font-size:1.4rem;line-height:1.5;color:#E5E5EA;margin-bottom:12px}
-        .mockup-inner-pill{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);padding:10px;border-radius:8px;display:flex;justify-content:space-between;font-size:1.3rem} .mockup-inner-pill span{color:#fff} .mockup-inner-pill small{color:#636366}
-        .mini-header{font-size:.8rem;color:#8E8E93;font-weight:500;margin-bottom:16px} .mini-list{display:flex;flex-direction:column;gap:10px}
-        .mini-email-item,.mini-item{display:flex;gap:12px;padding:12px;border-radius:10px;background:rgba(255,255,255,.01);border:1px solid rgba(255,255,255,.03)} .mini-item.active-todo{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.06)}
-        .todo-check{width:14px;height:14px;border:1px solid #ff9f0a;border-radius:3px;margin-top:3px;flex-shrink:0} .email-body,.todo-body{font-size:.8rem;line-height:1.4;color:#E5E5EA} .todo-body span{display:block;color:#636366;font-size:.72rem;margin-top:2px}
-        .email-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;flex-shrink:0} .email-top{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:2px} .email-top span,.mini-email-item p{color:#8E8E93;font-size:.75rem}
-        .section-header{text-align:center;margin:50px auto 90px;display:flex;flex-direction:column;align-items:center}
-        .section-title-premium{font-size:4.2rem;font-weight:450;line-height:1.1;color:#fff;margin-bottom:24px} .section-title-premium span{color:#8E8E93;font-weight:400} .section-subtitle-premium{font-size:1.3rem;color:#636366;line-height:1.5;max-width:520px;margin:0 auto}
-        @property --gradient-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
-        .servicios-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:3rem;width:100%;position:relative;z-index:1000}
-        .tab-btn-crystal{background:rgb(0, 0, 0);border:1.5px solid transparent;border-radius:5px;margin: top 0;;padding:1.5rem;text-align:left;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:5px;z-index:1;transition:all .3s ease;mask-image:linear-gradient(#fff,#fff),linear-gradient(#fff,#fff);mask-clip:padding-box,border-box;mask-composite:intersect;-webkit-mask-image:-webkit-linear-gradient(#fff,#fff),-webkit-linear-gradient(#fff,#fff);-webkit-mask-clip:padding-box,border-box;-webkit-mask-composite:source-in}
-        .tab-btn-crystal .tab-title{font-size:1.4rem;font-weight:500;color:#8E8E93;transition:color .3s ease} .tab-btn-crystal .tab-desc{font-size:.9rem;color:#48484A;line-height:1.4;transition:color .3s ease} .tab-btn-crystal:hover{background:rgba(255, 255, 255, 0.04)} .tab-btn-crystal:hover .tab-title{color:#fff}
-        .tab-btn-crystal.active{background:linear-gradient(#0a0a0a,#0a0a0a) padding-box,conic-gradient(from var(--gradient-angle),transparent 30%,#8B5CF6 45%,var(--neon-cyan) 55%,transparent 70%) border-box;animation:rotarBordeFino 4s linear infinite} .tab-btn-crystal.active .tab-title{color:#fff} .tab-btn-crystal.active .tab-desc{color:#8E8E93}
-        @keyframes rotarBordeFino{0%{--gradient-angle:0deg}100%{--gradient-angle:360deg}}
-        .badge-running-container{position:absolute;top:16px;right:-45px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));padding:6px 0;transform:rotate(18deg);box-shadow:0 4px 15px rgba(139,92,246,.25);width:260px;overflow:hidden;display:flex} .badge-track{display:flex;animation:marqueeContinuo 8s linear infinite;width:max-content} .badge-running-container span{font-size:.58rem;font-weight:800;color:#000;letter-spacing:.06em;flex-shrink:0}
-        @keyframes marqueeContinuo{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
-        
-        /* ESTRUCTURA DEL NUEVO CARRUSEL PREMIUM FIJO */
-        .servicios-interactive-wrapper {
-            position: relative;
-            max-width: 1200px;
-            margin: 40px auto 0;
-            width: 100%;
-            height: 440px;
-            overflow: visible;
-            z-index: 100; /* ¡AQUÍ ESTÁ LA SOLUCIÓN! */
-        }
-        .contenedor-servicios-fijo{position:relative;width:100%;height:100%}
-        .service-panel{display:none;visibility:hidden;opacity:0;width:100%;height:100%;transition:opacity .4s var(--cubic-apple)}
-        .service-panel.active{display:block!important;visibility:visible!important;opacity:1;position:relative;z-index:10}
-        
-        /* TARJETAS UNIFICADAS CON ESTILO ESMERILADO EMULANDO APPLE */
-        .card-servicio-ancha {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%) scale(0.96);
-            width: 100%;
-            max-width: 1160px;
-            height: 420px;
-            background: transparent !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            border: none;
-            display: grid;
-            align-items: center;
-            gap: 60px;
-            padding: 44px;
-            box-shadow: none !important;
-            pointer-events: none;
-            transition: transform 0.4s var(--cubic-apple); /* SOLO ANIMAMOS EL MOVIMIENTO AQUÍ */
-            z-index: 1;
-            grid-template-columns: 42% 58%;
-        }
-        .card-servicio-ancha.is-center {
-            transform: translateX(-50%) scale(1);
-            pointer-events: auto;
-            z-index: 10;
-        }
-
-        .card-info-group,
-        .app-window-mockup {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s;
-        }
-        .carousel-controls {
-            position: absolute;
-            bottom: -35px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 32px;
-            z-index: 100;
-            pointer-events: auto; /* Restaurado */
-        }
-        
-        /* CONTENEDOR DE TEXTO LIMPIO Y ALTAMENTE LEGIBLE */
-        .card-info-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 16px;
-    height: auto;
-    width: 100%;
-    text-align: left;
-    background: rgba(0, 0, 0, 0.267) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.027) !important;
-    border-radius: 10px !important;
-    padding: 40px 48px !important;
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-    position: relative;
-    z-index: 2;
-    overflow: hidden;
-} 
-        .card-info-group::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 1.5px;
-            background: linear-gradient(90deg,transparent 0%, rgba(255,255,255,1) 50%,transparent 100%);
-            z-index: 10;
-            pointer-events: none;
-        }   
-        .card-servicio-ancha.is-center .card-info-group,
-        .card-servicio-ancha.is-center .app-window-mockup {
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.4s ease, visibility 0s;
-        }
-
-        .card-header-servicio{display:flex;flex-direction:column;gap:8px;width:100%} .card-mini-title-premium{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--neon-cyan);opacity:.8;font-family:monospace} #pilares .card-mini-title-premium{color:var(--neon-purple)}
-        .card-header-servicio h3{font-size: 2.8rem;font-weight:500;line-height: 1;letter-spacing:-.03em;color:#fff;margin:0;-webkit-font-smoothing:antialiased} .card-header-servicio h3 span{color: #8E8E93;font-size: 2.8rem;font-weight: 500;line-height: 1;display:block;margin-top: 14px}
-        .card-split-mockup {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            justify-content: center;
-            width: 100%;
-            background: transparent;
-            border: none;
-            padding: 0;
-            position: relative;
-            perspective: 1200px;
-            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to right, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
-        }     
-        .carousel-arrow {
-            position: relative !important; /* Permite que el z-index funcione */
-            pointer-events: auto !important; /* ...pero activamos el click SÓLO en las flechas */
-            width: 44px;
-            height: 44px;
-            background:transparent;
-            border: .5px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 99999 !important;
-            color: #fff;
-            transition: all .2s ease;
-        }
-        .carousel-arrow svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2} 
-        .carousel-arrow:hover {
-            transform: scale(1.08);
-            background: rgba(15, 15, 20, 0.8); 
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 
-                inset 10px 10px 25px rgba(138, 92, 246, 0.123),  
-                inset -10px -10px 25px rgba(6, 181, 212, 0.116), 
-                0 8px 15px rgba(0, 0, 0, 0.5); 
-        }
-        .carousel-indicators {
-            position: static;
-            transform: none;
-            display: flex;
-            gap: 12px;
-        }
-        .indicator-dot {
-            padding: 0;
-            width: 13px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .indicator-dot.active {
-            background: rgba(10, 10, 14, 0.9);
-            border:none;
-            transform: scale(1.4);
-            box-shadow: 
-                inset 3px 3px 8px rgba(139, 92, 246, 0.7),
-                inset -3px -3px 8px rgba(6, 182, 212, 0.7),
-                0 4px 8px rgba(0, 0, 0, 0.5);
-        }
-        .app-window-mockup {
-    transform: rotateY(-12deg) !important;
-    transform-origin: left center;
-    height: 340px !important;
-    background: rgba(15, 15, 18, 0.35) !important;
-    backdrop-filter: blur(25px) !important;
-    -webkit-backdrop-filter: blur(25px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    cursor: default; 
-    user-select: none; 
-    -webkit-user-select: none;
-}
-        .app-top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(0,0,0,.15);border-bottom:1px solid rgba(255,255,255,.05)} .app-search-trigger{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:5px;padding:4px 10px;font-size:.65rem;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px;width:52%}
-        .app-body-layout{display:flex;flex:1;height:calc(100% - 35px);width:100%} .app-side-panel{width:32%;background:rgba(0,0,0,.1);border-right:1px solid rgba(255,255,255,.05);padding:12px;display:flex;flex-direction:column;gap:8px} .app-main-content{width:68%;background:0 0;padding:12px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
-        .app-list-item{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:6px;padding:9px 11px;display:flex;flex-direction:column;gap:4px} .app-list-item.active{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
-        .status-pill-mini{padding:2px 5px;border-radius:3px;font-size:.52rem;font-weight:500;font-family:monospace;color:rgba(255,255,255,.5);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
-        .app-item-title{font-size:.7rem;font-weight:500;color:#fff} .app-item-subtitle{font-size:.62rem;color:rgba(255,255,255,.4);line-height:1.3} .app-item-meta{display:flex;justify-content:space-between;align-items:center;font-size:.58rem;color:rgba(255,255,255,.25);font-weight:400}
-        .roadmap-timeline-flex{display:flex;align-items:center;justify-content:space-between;width:100%;padding:24px 14px;position:relative} .roadmap-step-node{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:2;width:33%} .roadmap-node-circle{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-family:monospace;font-weight:600;color:rgba(255,255,255,.35)}
-        .roadmap-step-node.active .roadmap-node-circle{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15);color:#fff} .roadmap-vector-line{position:absolute;top:42px;left:15%;right:15%;height:1px;border-bottom:1px dashed rgba(255,255,255,.08);z-index:1}
-        .ux-control-card{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:8px;width:100%} .ux-control-card.active{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08)}
-        .ux-wireframe-switch{width:34px;height:18px;border-radius:10px;background:rgba(255,255,255,.08);position:relative;border:1px solid rgba(255,255,255,.04)} .ux-wireframe-switch.active{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.15)} .ux-wireframe-switch::after{content:'';position:absolute;left:2px;top:2px;width:12px;height:12px;background:rgba(255,255,255,.3);border-radius:50%} .ux-wireframe-switch.active::after{left:auto;right:2px;background:#fff}
-        .ux-slider-track{flex:1;max-width:150px;height:4px;background:rgba(255,255,255,.04);border-radius:2px;position:relative} .ux-slider-fill{width:75%;height:100%;background:rgba(255,255,255,.15);border-radius:2px}
-        .monitor-grid-bars{display:flex;align-items:flex-end;justify-content:space-between;height:70px;width:100%;padding:0 4px;gap:6px;margin-top:8px} .monitor-bar-pillar{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.02);border-radius:2px} .monitor-bar-pillar.active{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)}
-        .scale-blocks-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;margin-top:4px} .scale-cube-unit{height:48px;border-radius:6px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);display:flex;flex-direction:column;justify-content:space-between;padding:8px 10px} .scale-cube-unit.active{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
-        .window-dots{display:flex;gap:6px} .window-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15)}
-        .app-item-title { font-size: 0.9rem !important; } 
-        .app-item-subtitle { font-size: 0.78rem !important; line-height: 1.45 !important; } 
-        .app-item-meta { font-size: 0.65rem !important; } 
-        .status-pill-mini { font-size: 0.65rem !important; padding: 3px 8px !important; }
-        .app-search-trigger { font-size: 0.75rem !important; padding: 6px 12px !important; }
-
-        /* 2. Forzamos el aumento en los textos con estilos en línea (HTML) proporcionalmente */
-        .app-window-mockup div[style*="font-size: 0.5"] { font-size: 0.65rem !important; }
-        .app-window-mockup div[style*="font-size: 0.6"] { font-size: 0.75rem !important; }
-        .app-window-mockup div[style*="font-size: 0.7"] { font-size: 0.85rem !important; }
-        .app-window-mockup div[style*="font-size: 0.8"] { font-size: 0.95rem !important; }
-
-        /* --- SECCIÓN DE CONTACTO PREMIUM --- */
-.seccion-contacto {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 140px 24px 60px;
-    margin-top: 100px;
-    z-index: 2;
-}
-
-/* 1. Base negra sólida de la cúpula */
-.seccion-contacto::before {
-    content: "";
-    position: absolute;
-    top: 35%; 
-    left: -50%;
-    width: 200%;
-    bottom: 0; /* EL FIX CLAVE: Muere exactamente en la línea del footer */
-    background: var(--bg-pure-black);
-    border-radius: 50% 50% 0 0;
-    z-index: -2;
-    box-shadow: 0 -15px 100px rgba(255, 255, 255, 0.15), 
-                0 -40px 200px rgba(255, 255, 255, 0.08),
-                0 -90px 500px rgba(255, 255, 255, 0.03);
-}
-
-/* 2. La línea curva que se afina a los costados (Máscara radial) */
-.seccion-contacto::after {
-    content: "";
-    position: absolute;
-    top: 35%;
-    left: -50%;
-    width: 200%;
-    bottom: 0; /* EL FIX CLAVE: Muere exactamente en la línea del footer */
-    border-radius: 50% 50% 0 0;
-    z-index: -1;
-    pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse 45% 100% at 50% 0%, black 0%, transparent 100%);
-    mask-image: radial-gradient(ellipse 45% 100% at 50% 0%, black 0%, transparent 100%);
-}
-
-/* 3. Luz Superior: El "Amanecer" semicircular que nace del horizonte */
-.luz-contacto-top {
-    /* La apagamos por completo, ya que el brillo ahora lo emite la curva misma uniformemente */
-    display: none; 
-}
-
-/* Icono estilo logo superior */
-.cta-icon-wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 54px;
-    height: 54px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    margin-bottom: 32px;
-    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05);
-}
-
-/* Textos */
-.cta-card-front h2 {
-    font-size: 4.2rem;
-    line-height: 1.05;
-    font-weight: 500;
-    color: #fff;
-    margin-bottom: 24px;
-    letter-spacing: -0.03em;
-    max-width: 600px;
-    background: linear-gradient(90deg, #ffffff 20%, #6b6b6b 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.cta-card-front p {
-    font-size: 1.15rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 48px;
-    line-height: 1.5;
-    max-width: 500px;
-}
-
-/* MOTOR 3D Y PARALLAX */
-.cta-card-scene {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 1000px;
-    perspective: 2000px;
-    transform-origin: center 60%;
-    will-change: transform;
-    transition: transform 0.1s ease-out;
-}
-.cta-card-inner {
-    position: relative;
-    width: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.8s var(--cubic-apple);
-}
-.cta-card-inner.is-flipped {
-    transform: rotateY(180deg);
-}
-
-/* CARAS (Mantiene tu estética original) */
-.cta-card-front, .cta-card-back {
-    width: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    background: rgb(0, 0, 0);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 15px;
-    padding: 80px 70px;
-    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(255,255,255,0.02);
-}
-.cta-card-front {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-}
-.cta-card-back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    transform: rotateY(180deg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.cta-card-back h3 {
-    font-size: 3.2rem;
-    line-height: 1.1;
-    font-weight: 500;
-    margin-bottom: 32px;
-    letter-spacing: -0.03em;
-    
-    /* El mismo degradado premium del frente */
-    background: linear-gradient(90deg, #ffffff 20%, #6b6b6b 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* LUZ SUPERIOR */
-.cta-card-front::before, .cta-card-back::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 1.5px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,1) 50%, transparent 100%);
-    z-index: 10;
-    pointer-events: none;
-}
-
-/* FORMULARIO */
-.form-contacto { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
-.form-input { width: 100%; padding: 16px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: #fff; font-size: 1rem; outline: none; transition: all 0.3s ease; }
-.form-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-.form-input:focus { border-color: rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.08); }
-.form-textarea {resize: none;height: 110px;font-family: inherit;}
-.btn-volver { background: none; border: none; color: rgba(255, 255, 255, 0.5); font-size: 0.95rem; cursor: pointer; transition: color 0.3s ease; }
-.btn-volver:hover { color: #fff; }
-
-/* Botón Blanco Fuerte e Iluminado */
-.btn-blanco-fuerte {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    background: #ffffff;
-    color: #000000;
-    font-size: 1.15rem;
-    font-weight: 600;
-    padding: 16px 32px;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.3), 0 10px 20px rgba(0, 0, 0, 0.5);
-}
-
-.btn-blanco-fuerte:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 60px rgba(255, 255, 255, 0.5), 0 15px 25px rgba(0, 0, 0, 0.6);
-    background: #fafafa;
-}
-        
-        /* Adaptación móvil */
-        @media(max-width: 968px) {
-            .cta-card { padding: 50px 30px; align-items: center; text-align: center; }
-            .cta-card h2 { font-size: 3rem; }
-            .btn-blanco-fuerte { width: 100%; justify-content: center; }
-        }
-
-        @media(max-width:1320px){.carousel-arrow.prev{left:10px}.carousel-arrow.next{right:10px}}
-        @media(max-width:968px){
-            .navbar{padding:20px 24px}.hero-title{font-size:42px}.section-title-premium{font-size:2.5rem}.section-subtitle-premium{font-size:1.1rem;max-width:90%}.solucion-destacada,.soluciones-secundarias,.servicios-tabs{grid-template-columns:1fr;gap:3rem}.soluciones-secundarias::after{display:none}.esfera-central-3d,.geometria-capsula-3d,.geometria-cubo-3d,.toroide-cristal-3d{display:none!important}
-            .contenedor-servicios-fijo,.servicios-interactive-wrapper{height:auto!important;margin-bottom:0!important}
-            .service-panel.active{display:flex!important;flex-direction:column;gap:32px;height:auto!important}
-            .card-servicio-ancha{position:relative!important;top:auto!important;left:auto!important;transform:none!important;width:100%!important;max-width:100%!important;height:auto!important;display:flex!important;flex-direction:column;gap:32px;padding:32px 20px;opacity:1!important;pointer-events:auto!important;background:rgba(15,15,18,0.6)!important}
-            .card-split-mockup{-webkit-mask-image:none;mask-image:none;height:auto;width:100%}
-            .app-window-mockup{height:280px!important}
-            .carousel-arrow{display:none!important}
-        }
-
-/* --- BANNER METODOLOGÍA PREMIUM ACTUALIZADO --- */
-
-.banner-metodologia-premium {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    width: 100%;
-    max-width: 900px; 
-    margin-top: 60px; 
-    padding: 32px 40px; 
-    background: #000000; /* Negro opaco puro */
-    border-radius: 20px;
-    
-    /* Sombreado interno blanco desde arriba (difuminado superior) */
-    box-shadow: inset 0 30px 40px -20px rgba(255, 255, 255, 0.15), 0 30px 60px rgba(0, 0, 0, 0.8);
-    
-    position: relative;
-    z-index: 10;
-    border: 1px solid rgba(255, 255, 255, 0.05); /* Borde base muy tenue */
-    overflow: hidden; /* Contiene el difuminado dentro de los bordes redondeados */
-}
-
-/* Línea superior brillante difuminada hacia los costados */
-.banner-metodologia-premium::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1.5px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
-    z-index: 11;
-    pointer-events: none;
-}
-
-.banner-icon-premium {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 54px; 
-    height: 54px;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-    z-index: 12;
-}
-
-.banner-icon-premium svg {
-    width: 24px;
-    height: 24px;
-}
-
-.banner-text-premium {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; 
-    text-align: left;
-    z-index: 12;
-}
-
-/* Título con más relleno */
-.banner-text-premium h3 {
-    font-size: 2rem; 
-    line-height: 1.1;
-    font-weight: 600; /* Aumentado para darle más cuerpo */
-    margin: 0;
-    letter-spacing: -0.02em;
-    background: linear-gradient(90deg, #ffffff 20%, #9ca3af 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* Texto de abajo más grande */
-.banner-text-premium p {
-    font-size: 1.25rem; /* Tamaño aumentado */
-    color: #8ab4f8; 
-    margin: 0;
-    line-height: 1.5;
-    max-width: 800px;
-}
-
-.banner-text-premium p a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    transition: color 0.3s ease;
-}
-
-.banner-text-premium p a:hover {
-    color: #fff;
-}
-
-/* Adaptación Móvil */
-@media(max-width: 768px) {
-    .banner-metodologia-premium {
-        flex-direction: column;
-        text-align: center;
-        padding: 40px 24px;
-    }
-    .banner-text-premium {
-        align-items: center;
-        text-align: center;
-    }
-}
-/* --- FOOTER PREMIUM ESTILO XONDA (Una sola línea) --- */
-
-.footer-premium {
-    position: relative;
-    width: 100%;
-    background-color: #000000; 
-    padding: 32px 24px !important; /* Padding exacto, sin excedentes */
-    margin-bottom: 0 !important; /* Mata el espacio inferior */
-    z-index: 100; 
-    border-top: 1px solid rgba(255, 255, 255, 0.15); 
-    overflow: hidden; /* Evita que la luz o márgenes internos se escapen */
-}
-
-/* El contenedor principal ahora es una fila */
-.footer-inner {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between; 
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto !important; /* Fuerza el centrado pero sin margen arriba/abajo */
-    padding: 0 !important;
-}
-
-.footer-logo-premium {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    font-size: 1.25rem;
-    font-weight: 380;
-    color: var(--text-primary);
-    transition: transform 0.3s var(--cubic-apple);
-}
-
-.footer-logo-premium:hover {
-    transform: scale(1.05);
-}
-
-.footer-links-premium {
-    display: flex;
-    gap: 32px;
-    margin: 0; /* Quitamos el margin-bottom viejo */
-}
-
-.footer-links-premium a {
-    color: rgba(255, 255, 255, 0.5); 
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-}
-
-.footer-links-premium a:hover {
-    color: #fff; 
-}
-
-.copyright-premium {
-    color: rgba(255, 255, 255, 0.25); 
-    font-size: 0.85rem;
-    margin: 0; /* Quitamos márgenes residuales */
-}
-
-/* Adaptación móvil: Si la pantalla es chica, apilamos los elementos de nuevo */
-@media(max-width: 968px) {
-    .footer-inner {
-        flex-direction: column;
-        gap: 24px;
-        text-align: center;
-    }
-    .footer-links-premium {
-        flex-direction: column;
-        gap: 16px;
-    }
-}
-
-/* 1. Eliminamos el espacio fantasma que separaba la sección del footer */
-.seccion-capas {
-    padding-bottom: 0 !important;
-}
-
-/* 2. Ajustamos la luz en la capa perfecta (detrás de las tarjetas, delante del fondo negro) */
-.luz-cenital-fondo {
-    position: absolute;
-    bottom: 0; /* Nace estrictamente en la base de la sección */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100vw;
-    max-width: 1400px;
-    height: 550px; /* Mayor alcance hacia arriba */
-    background: radial-gradient(ellipse at bottom center, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.08) 45%, transparent 75%);
-    pointer-events: none;
-    z-index: -1; /* CLAVE: -1 la pone detrás del banner y tarjetas, pero DELANTE de tu fondo negro (-2) */
-}
-
-/* Detalles Premium */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-pure-black); }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
-::selection { background: rgba(255, 255, 255, 0.9); color: #000; }
-::-moz-selection { background: rgba(255, 255, 255, 0.9); color: #000; }
-
-@keyframes spinner { to { transform: rotate(360deg); } }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="global.css">
 </head>
 <body>
     <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: #000000; z-index: 999999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease;">
@@ -768,35 +17,205 @@
     </div>
 
     <div class="techo-luz"></div>
-    <nav class="navbar"><a href="#" class="logo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="12" height="12" stroke="white" stroke-width="1.2"/><rect x="9" y="9" width="12" height="12" stroke="white" stroke-width="1.2"/></svg><span>Xonda</span></a><a href="#metodologia" class="btn-contact"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Cómo trabajamos</a></nav>
-    <main class="hero" id="hero"><div class="container hero-layout reveal"><h1 class="hero-title">Tu Empresa,<br>Automatizada.</h1><p class="hero-subtitle">Simplificamos operaciones complejas. Desarrollamos software a medida y agentes autónomos de IA.</p><a href="#ingenieria-target" class="btn-primary">Ver Ecosistemas</a></div></main>
+    
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <svg width="28" height="25" viewBox="0 0 2490 2242" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(0, 2242) scale(0.1, -0.1)" fill="currentColor" stroke="none">
+                    <path d="M12160 22313 c-315 -7 -880 -52 -1180 -93 -551 -76 -1030 -174 -1540 -314 -306 -85 -725 -228 -853 -292 -16 -8 -35 -14 -43 -14 -8 0 -25 -6 -37 -14 -12 -8 -51 -24 -85 -35 -35 -11 -79 -30 -97 -41 -18 -11 -44 -20 -59 -20 -14 0 -26 -3 -26 -7 0 -9 -69 -38 -112 -49 -16 -3 -28 -10 -28 -15 0 -5 -7 -9 -15 -9 -8 0 -38 -11 -67 -25 -28 -14 -56 -25 -61 -25 -6 0 -52 -20 -104 -45 -51 -25 -96 -45 -98 -45 -3 0 -42 -17 -88 -39 -45 -21 -120 -56 -167 -77 -361 -164 -886 -471 -1365 -798 -769 -524 -1523 -1203 -2160 -1946 -389 -453 -799 -1026 -1101 -1536 -206 -349 -498 -918 -634 -1234 -204 -473 -381 -968 -489 -1365 -42 -156 -102 -384 -111 -425 -5 -19 -25 -109 -45 -200 -20 -91 -45 -201 -55 -245 -32 -133 -107 -569 -129 -750 -31 -261 -59 -586 -71 -845 -6 -129 -13 -241 -16 -249 -12 -35 -4 -810 11 -1013 45 -642 122 -1215 225 -1668 4 -19 20 -89 34 -155 83 -375 241 -922 351 -1215 30 -80 55 -149 55 -152 0 -4 18 -46 40 -93 22 -47 40 -92 40 -98 1 -7 14 -37 30 -67 17 -30 30 -65 30 -77 0 -13 3 -23 8 -23 8 0 37 -69 48 -112 3 -16 10 -28 15 -28 5 0 9 -7 9 -16 0 -8 11 -34 23 -57 13 -23 27 -55 31 -72 11 -44 39 -105 48 -105 4 0 8 -5 8 -11 0 -15 93 -203 102 -207 4 -2 8 -8 8 -14 0 -34 385 -789 478 -938 8 -12 300 276 1378 1357 753 754 2212 2217 3243 3250 1030 1033 1884 1892 1898 1909 l24 32 -26 38 c-14 22 -883 894 -1931 1939 l-1906 1900 1 1975 c1 1864 2 1976 19 1989 14 11 416 12 2507 6 1370 -4 2560 -10 2645 -14 l155 -6 6 -960 c3 -528 7 -1939 8 -3135 1 -1196 4 -2185 7 -2198 5 -16 13 -22 26 -20 21 3 -102 -119 3596 3583 1467 1468 2686 2686 2710 2707 l43 38 1055 0 c580 0 1054 4 1054 8 0 11 -46 32 -70 32 -25 0 -80 48 -80 70 0 33 -452 363 -845 617 -580 374 -1364 775 -1892 967 -40 14 -103 37 -141 51 -37 14 -74 25 -82 25 -8 0 -24 7 -34 15 -11 8 -28 15 -39 15 -10 0 -33 6 -50 14 -18 7 -63 23 -101 35 -37 12 -86 30 -109 41 -22 11 -55 20 -72 20 -17 0 -40 7 -51 15 -10 8 -31 15 -46 15 -15 0 -29 4 -32 9 -3 5 -23 12 -43 16 -21 4 -42 10 -48 15 -5 4 -37 15 -70 24 -33 9 -73 22 -90 27 -16 6 -43 15 -60 19 -16 5 -77 23 -135 40 -370 112 -664 176 -1215 264 -432 69 -842 107 -1360 126 -253 9 -340 10 -605 3z"/>
+                    <path d="M21915 16839 c-66 -35 -141 -95 -187 -151 -24 -29 -104 -111 -177 -183 -74 -71 -189 -185 -255 -253 -285 -289 -869 -865 -956 -943 -96 -85 -181 -171 -530 -532 -107 -111 -386 -390 -619 -622 -234 -231 -540 -537 -680 -680 -140 -143 -357 -361 -481 -485 -2170 -2164 -2652 -2648 -2656 -2666 -3 -13 -2 -33 2 -46 4 -13 330 -345 725 -738 1576 -1568 3109 -3101 3124 -3123 13 -21 15 -242 15 -1963 0 -1734 -1 -1940 -15 -1950 -35 -26 -5222 -30 -5289 -4 -18 6 -24 19 -30 56 -10 74 -6 2564 4 2709 21 285 23 410 9 565 -11 123 -14 439 -14 1530 0 1300 -1 1377 -18 1403 -9 15 -23 27 -29 27 -14 0 45 59 -2112 -2095 -2751 -2747 -4205 -4190 -4228 -4197 -13 -3 -451 -6 -975 -7 -523 -1 -958 -4 -966 -7 -23 -8 8 -41 133 -141 166 -132 596 -430 816 -563 31 -19 73 -45 92 -58 19 -13 128 -78 241 -144 235 -138 417 -231 701 -360 25 -11 95 -45 157 -74 61 -30 116 -54 122 -54 6 0 11 -4 11 -8 0 -9 61 -37 105 -48 17 -4 49 -18 72 -31 23 -12 49 -23 57 -23 9 0 16 -4 16 -9 0 -5 12 -12 28 -15 43 -11 112 -40 112 -48 0 -5 12 -8 26 -8 15 0 41 -9 58 -19 17 -11 63 -31 101 -45 70 -26 105 -41 137 -57 18 -9 48 -20 158 -59 36 -12 70 -26 75 -30 15 -12 284 -94 435 -134 72 -19 159 -43 205 -56 17 -5 48 -12 70 -16 22 -4 54 -13 72 -21 18 -7 46 -13 62 -13 16 0 33 -5 36 -10 3 -6 21 -10 39 -10 19 0 50 -7 69 -15 20 -8 52 -15 71 -15 19 0 36 -5 38 -11 2 -6 26 -13 53 -16 28 -3 55 -10 62 -15 7 -6 40 -12 73 -15 33 -3 63 -10 66 -14 3 -5 26 -9 52 -9 26 -1 58 -7 72 -15 14 -8 40 -14 58 -15 18 0 43 -5 54 -11 11 -6 44 -15 72 -19 28 -5 114 -19 191 -33 77 -14 185 -30 240 -37 55 -6 136 -16 180 -22 44 -6 136 -15 205 -19 69 -4 168 -14 220 -23 73 -13 105 -14 140 -6 31 7 68 7 120 0 182 -26 366 -40 408 -31 26 5 74 5 120 -1 91 -12 582 -4 792 12 80 7 161 11 180 11 19 -1 80 6 135 15 55 9 154 19 220 23 66 3 130 12 142 19 12 6 55 12 97 12 41 0 87 5 103 11 15 6 73 15 128 19 179 15 384 50 590 100 51 12 79 19 170 40 28 6 68 14 90 17 22 3 49 12 60 19 11 8 32 14 48 14 16 0 38 5 50 12 12 6 42 15 67 19 48 8 126 26 225 54 33 9 76 20 95 25 159 40 491 139 560 166 36 14 83 33 105 41 22 8 53 21 68 29 16 8 36 14 45 14 9 0 26 7 36 15 11 8 26 15 33 15 7 0 36 11 65 25 28 14 59 25 67 25 9 0 41 13 71 30 30 16 67 29 82 30 14 0 28 3 30 8 5 11 69 40 106 47 17 4 32 11 32 16 0 5 7 9 16 9 8 0 34 11 57 23 23 13 56 27 72 31 44 11 105 39 105 48 0 4 5 8 11 8 15 0 203 93 207 102 2 4 10 8 17 8 7 0 53 20 101 44 78 39 173 84 334 159 25 11 92 48 150 81 91 52 133 77 225 133 11 7 40 23 65 35 25 13 47 25 50 28 3 3 32 23 65 45 33 22 62 42 65 45 3 3 23 14 45 24 22 11 63 36 90 57 28 20 66 45 85 55 19 10 39 23 45 27 5 4 66 45 135 91 202 134 270 181 370 261 52 42 114 90 138 107 24 18 42 40 42 51 0 27 37 57 70 57 26 0 90 51 90 72 0 4 7 8 15 8 8 0 15 4 15 8 0 5 18 16 40 26 21 9 54 36 72 59 48 62 59 72 99 90 21 9 66 43 102 74 251 224 334 303 540 512 349 355 641 679 828 921 37 47 150 198 251 335 240 325 401 563 553 817 18 30 41 72 192 347 42 77 82 153 209 401 38 74 75 141 82 148 6 7 12 19 12 27 0 17 33 75 43 75 4 0 7 5 7 10 0 6 28 68 61 138 57 118 113 250 211 497 22 55 53 134 70 175 17 41 44 113 60 160 16 47 43 119 59 160 36 95 149 473 149 501 0 11 5 30 12 42 6 12 15 38 19 57 4 19 15 62 24 95 28 99 46 177 54 225 4 25 13 55 19 67 7 12 12 34 12 50 0 16 6 37 14 48 7 11 16 38 19 60 5 37 15 82 37 175 60 248 120 576 120 659 0 14 6 64 14 111 23 132 37 237 46 335 5 50 13 126 19 170 27 198 51 668 51 988 0 557 -38 1180 -85 1399 -8 37 -15 82 -15 101 0 19 -7 51 -15 70 -8 20 -15 64 -15 97 0 33 -4 68 -10 78 -10 17 -25 112 -39 237 -4 39 -13 83 -19 98 -7 16 -12 45 -12 65 -1 20 -7 48 -15 62 -8 14 -14 48 -15 77 0 28 -4 54 -9 57 -4 3 -11 35 -14 72 -4 36 -11 71 -15 78 -5 6 -12 36 -14 66 -3 30 -11 56 -17 58 -6 2 -11 19 -11 39 0 19 -6 58 -14 86 -7 29 -21 88 -31 132 -30 139 -133 490 -190 645 -7 19 -18 53 -25 75 -7 22 -18 54 -25 70 -8 17 -29 77 -48 135 -19 58 -40 116 -45 130 -6 14 -36 95 -68 180 -67 183 -158 395 -243 572 -33 70 -61 132 -61 137 0 5 -3 11 -8 13 -8 4 -102 193 -102 207 0 5 -3 11 -7 13 -5 2 -26 39 -47 83 -22 44 -42 82 -46 85 -3 3 -14 24 -23 48 -9 23 -27 59 -40 80 -13 20 -40 71 -61 112 -21 41 -63 117 -93 168 -60 103 -69 107 -138 71z"/>
+                </g>
+            </svg>
+            <span>Xonda</span>
+        </a>
+        <a href="blueprint.html" class="btn-contact">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="16" y="16" width="6" height="6" rx="1"></rect>
+                <rect x="2" y="16" width="6" height="6" rx="1"></rect>
+                <rect x="9" y="2" width="6" height="6" rx="1"></rect>
+                <path d="M5 16v-3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"></path>
+                <line x1="12" y1="8" x2="12" y2="11"></line>
+            </svg> ¿Cómo trabajamos?
+        </a>
+    </nav>
+    
+    <main class="hero" id="hero">
+        <div class="container hero-layout reveal">
+            <h1 class="hero-title">Tu Empresa,<br>Automatizada.</h1>
+            <p class="hero-subtitle">Simplificamos operaciones complejas. Desarrollamos software a medida y agentes autónomos de IA.</p>
+            <a href="#ingenieria-target" class="btn-primary">Descubre nuestros servicios</a>
+        </div>
+    </main>
+    
     <section id="ingenieria" class="seccion-capas">
         <div class="container">
-            <div class="privacy-card reveal"><div class="privacy-badge"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 11h4.5c.1.4.1.7.1 1.1 0 2.7-1.8 4.7-4.6 4.7-2.7 0-4.9-2.2-4.9-4.9s2.2-4.9 4.9-4.9c1.3 0 2.4.5 3.3 1.3l-1.3 1.3c-.5-.5-1.2-.8-2-.8-1.7 0-3.1 1.4-3.1 3.1s1.4 3.1 3.1 3.1c2 0 2.7-1.4 2.8-2.1H12v-1.9z" fill="white"/></svg></div><div class="privacy-content"><h4>Google-approved. Privacy Protected.</h4><p class="privacy-text">Xonda has gone through a rigorous process with Google to make sure your systems are secure.</p></div></div>
+            <div class="privacy-card reveal">
+                <div class="privacy-badge">
+                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 11h4.5c.1.4.1.7.1 1.1 0 2.7-1.8 4.7-4.6 4.7-2.7 0-4.9-2.2-4.9-4.9s2.2-4.9 4.9-4.9c1.3 0 2.4.5 3.3 1.3l-1.3 1.3c-.5-.5-1.2-.8-2-.8-1.7 0-3.1 1.4-3.1 3.1s1.4 3.1 3.1 3.1c2 0 2.7-1.4 2.8-2.1H12v-1.9z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="privacy-content">
+                    <h4>Aprobado por Google. Privacidad Protegida.</h4>
+                    <p class="privacy-text">Xonda ha superado un riguroso proceso con Google para garantizar la seguridad de tus sistemas.</p>
+                </div>
+            </div>
+            
             <div class="problemas-seccion reveal">
                 <h2 class="problemas-main-title">¿Has tenido estos problemas?</h2>
-                <div class="solucion-destacada"><div class="solucion-info"><span class="solucion-tag-premium"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg> Agente Cognitivo Avanzado</span><h3>Personal email assistant.<br>Now you can chat with your emails.</h3><p>A ChatGPT-like assistant means a wealth of insights are just a few words away. Imagine that.</p></div><div class="esfera-central-3d"></div><div class="solucion-visual-wrapper"><div class="interfaz-mockup"><div class="mockup-header">🔍 When did I first meet John?</div><div class="mockup-response-card"><p>Looks like you first met <strong>John on Dec 21, 2024</strong>. Here's some relevant emails.</p><div class="mockup-inner-pill"><span>Let's catch up 🤝</span><small>Dec 21, 2024</small></div></div></div></div></div>
-                <div class="soluciones-secundarias"><div class="solucion-box-mini reveal"><span class="solucion-tag-premium"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> AI Powered Actions</span><h3>Extracted To-Do's.<br>Let Ultra tell you what needs your attention.</h3><p>No more slogging through your emails to figure out what you need to take action on. Ultra finds what's important.</p><div class="mini-visual-wrapper"><div class="geometria-capsula-3d"></div><div class="mini-mockup-card"><div class="mini-header">✦ Action emails</div><div class="mini-list"><div class="mini-item active-todo"><div class="todo-check"></div><div class="todo-body"><strong>Coinbase:</strong> Review ticket #4517<span>://mercury.com...</span></div></div><div class="mini-item"><div class="todo-check"></div><div class="todo-body"><strong>F.inc:</strong> Review ticket #4467<span>://mercury.com...</span></div></div><div class="mini-item"><div class="todo-check"></div><div class="todo-body"><strong>Fluid:</strong> Review ticket #4567<span>://mercury.com...</span></div></div></div></div></div></div><div class="solucion-box-mini reveal"><span class="solucion-tag-premium"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> AI Powered Email Summary</span><h3>Smart Summaries.<br>Read the key takeaways and skip the rest.</h3><p>Read the key details first and choose to read the whole thing after. Tell Ultra what you want.</p><div class="mini-visual-wrapper"><div class="geometria-cubo-3d"></div><div class="mini-mockup-card"><div class="mini-header">📋 Important emails</div><div class="mini-list"><div class="mini-email-item"><div class="email-avatar">AM</div><div class="email-body"><div class="email-top"><strong>Angus MacGyver</strong> <span>2:34 PM</span></div><p>Product sync - Matt wants to chat...</p></div></div><div class="mini-email-item"><div class="email-avatar">BB</div><div class="email-body"><div class="email-top"><strong>Dr. Bonnie Barstow</strong> <span>2:34 PM</span></div><p>Card review - Dr. Bonnie wants to...</p></div></div><div class="mini-email-item"><div class="email-avatar">AB</div><div class="email-body"><div class="email-top"><strong>Arc Browser 4</strong> <span>2:34 PM</span></div><p>2023 Arc Event - Matt wants to chat...</p></div></div></div></div></div></div></div>
+                
+                <div class="solucion-destacada">
+                    <div class="solucion-info">
+                        <span class="solucion-tag-premium">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 
+                            Pérdida de Oportunidades
+                        </span>
+                        <h3>Clientes sin respuesta.<br>Ventas perdidas por no estar 24/7.</h3>
+                        <p>En la era de la inmediatez, hacer esperar a un cliente por una cotización o consulta técnica significa regalarle la venta a tu competencia directa.</p>
+                    </div>
+                    <div class="esfera-central-3d"></div>
+                    <div class="solucion-visual-wrapper">
+                        <div class="interfaz-mockup">
+                            <div class="mockup-header">💬 Bandeja de entrada saturada</div>
+                            
+                            <div class="mockup-response-card" style="margin-bottom: 12px; padding: 14px;">
+                                <p style="font-size: 0.9rem; color: #8E8E93; margin-bottom: 4px;">De: <strong style="color: #E5E5EA;">Cliente Potencial</strong></p>
+                                <p style="font-size: 1.05rem; line-height: 1.4; margin-bottom: 10px;">"Hola, pedí un presupuesto hace 2 días, ¿tienen stock disponible para envío inmediato?"</p>
+                                <div class="mockup-inner-pill" style="border-color: rgba(255, 59, 48, 0.2); background: rgba(255, 59, 48, 0.05); padding: 8px 10px;">
+                                    <span style="color: #ff3b30; font-size: 0.9rem;">Estado: Sin responder ❌</span><small>Hace 48 hrs</small>
+                                </div>
+                            </div>
+                            
+                            <div class="mockup-response-card" style="padding: 14px;">
+                                <p style="font-size: 0.9rem; color: #8E8E93; margin-bottom: 4px;">De: <strong style="color: #E5E5EA;">Proveedor</strong></p>
+                                <p style="font-size: 1.05rem; line-height: 1.4; margin-bottom: 10px;">"Necesitamos confirmación urgente del pedido corporativo para mantener el precio pactado."</p>
+                                <div class="mockup-inner-pill" style="border-color: rgba(255, 59, 48, 0.2); background: rgba(255, 59, 48, 0.05); padding: 8px 10px;">
+                                    <span style="color: #ff3b30; font-size: 0.9rem;">Estado: Demorado ⚠️</span><small>Hace 12 hrs</small>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="soluciones-secundarias">
+                    
+                    <div class="solucion-box-mini reveal">
+                        <span class="solucion-tag-premium">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                            Cuellos de Botella
+                        </span>
+                        <h3>Atrapados en lo manual.<br>Tu equipo no tiene tiempo.</h3>
+                        <p>Copiar y pegar datos, facturación manual y tareas robóticas que agotan a tu personal y consumen el 40% de su jornada laboral útil.</p>
+                        <div class="mini-visual-wrapper">
+                            <div class="geometria-capsula-3d"></div>
+                            <div class="mini-mockup-card">
+                                <div class="mini-header">⚠️ Tareas operativas pendientes</div>
+                                <div class="mini-list">
+                                    <div class="mini-item active-todo">
+                                        <div class="todo-check"></div>
+                                        <div class="todo-body"><strong>Ingreso de Datos:</strong> Migrar 250 leads al CRM<span>Impacto: Retraso en ciclo de ventas...</span></div>
+                                    </div>
+                                    <div class="mini-item">
+                                        <div class="todo-check"></div>
+                                        <div class="todo-body"><strong>Finanzas:</strong> Cargar y conciliar facturas<span>Impacto: Cierre de mes demorado...</span></div>
+                                    </div>
+                                    <div class="mini-item">
+                                        <div class="todo-check"></div>
+                                        <div class="todo-body"><strong>Logística:</strong> Actualizar stock en tienda<span>Impacto: Riesgo de quiebre de stock...</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="solucion-box-mini reveal">
+                        <span class="solucion-tag-premium">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            Ecosistemas Frágiles
+                        </span>
+                        <h3>El caos del Excel.<br>Tu negocio atado con alambre.</h3>
+                        <p>Tomar decisiones críticas basadas en hojas de cálculo desactualizadas y software genérico que no se adapta a la forma real en que trabajas.</p>
+                        <div class="mini-visual-wrapper">
+                            <div class="geometria-cubo-3d"></div>
+                            <div class="mini-mockup-card">
+                                <div class="mini-header">📊 Reporte de Sincronización</div>
+                                <div class="mini-list">
+                                    <div class="mini-email-item">
+                                        <div class="email-avatar" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.2);">XL</div>
+                                        <div class="email-body">
+                                            <div class="email-top"><strong style="color: #E5E5EA;">Inventario_Final_v4.xlsx</strong> <span>10:42 AM</span></div>
+                                            <p style="color: #ff3b30;">Error crítico: Fórmulas rotas en fila 42.</p>
+                                        </div>
+                                    </div>
+                                    <div class="mini-email-item">
+                                        <div class="email-avatar" style="background: rgba(255, 255, 255, 0.05); color: #E5E5EA; border: 1px solid rgba(255, 255, 255, 0.1);">BD</div>
+                                        <div class="email-body">
+                                            <div class="email-top"><strong style="color: #E5E5EA;">Base de Datos (CRM)</strong> <span>09:15 AM</span></div>
+                                            <p style="color: rgba(255, 255, 255, 0.6);">Aviso: Discrepancia de datos.</p>
+                                        </div>
+                                    </div>
+                                    <div class="mini-email-item">
+                                        <div class="email-avatar" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.2);">SG</div>
+                                        <div class="email-body">
+                                            <div class="email-top"><strong style="color: #E5E5EA;">Software Genérico</strong> <span>Ayer</span></div>
+                                            <p style="color: #ff3b30;">Error: Límite de integraciones superado.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div id="ingenieria-target" class="section-header reveal"><span class="solucion-tag-premium"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg> Infraestructura Propietaria</span><h2 class="section-title-premium">Ingeniería sin fricción <br><span>para que no pierdas el foco.</span></h2></div>
+            
+            <div id="ingenieria-target" class="section-header reveal">
+                <span class="solucion-tag-premium">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg> 
+                    Infraestructura Propietaria
+                </span>
+                <h2 class="section-title-premium">Ingeniería sin fricción <br><span>para que no pierdas el foco.</span></h2>
+            </div>
+            
             <div class="servicios-interactive-wrapper reveal">
                 <div class="servicios-tabs">
-                    <button class="tab-btn-crystal active" data-target="software"><span class="tab-title">Software a Medida</span><span class="tab-desc">Sistemas y plataformas web de alta gama</span></button>
-                    <button class="tab-btn-crystal" data-target="ia"><div class="badge-running-container"><div class="badge-track"><span>NUEVA ERA • IA AUTÓNOMA • NUEVA ERA • IA AUTÓNOMA •&nbsp;</span><span>NUEVA ERA • IA AUTÓNOMA • NUEVA ERA • IA AUTÓNOMA •&nbsp;</span></div></div><span class="tab-title font-neon">Inteligencia Artificial</span><span class="tab-desc">Agentes autónomos y flujos cognitivos</span></button>
-                    <button class="tab-btn-crystal" data-target="pilares"><span class="tab-title">Pilares Fundamentales</span><span class="tab-desc">Garantía, diseño y soporte continuo</span></button>
+                    <button class="tab-btn-crystal active" data-target="software">
+                        <span class="tab-title">Software a Medida</span>
+                        <span class="tab-desc">Sistemas y plataformas web de alta gama</span>
+                    </button>
+                    <button class="tab-btn-crystal" data-target="ia">
+                        <div class="badge-running-container">
+                            <div class="badge-track">
+                                <span>NUEVA ERA • IA AUTÓNOMA • NUEVA ERA • IA AUTÓNOMA •&nbsp;</span>
+                                <span>NUEVA ERA • IA AUTÓNOMA • NUEVA ERA • IA AUTÓNOMA •&nbsp;</span>
+                            </div>
+                        </div>
+                        <span class="tab-title font-neon">Inteligencia Artificial</span>
+                        <span class="tab-desc">Agentes autónomos y flujos cognitivos</span>
+                    </button>
+                    <button class="tab-btn-crystal" data-target="pilares">
+                        <span class="tab-title">Pilares Fundamentales</span>
+                        <span class="tab-desc">Garantía, diseño y soporte continuo</span>
+                    </button>
                 </div>
+                
                 <div class="contenedor-servicios-fijo">
                     <div class="esfera-fondo-carrusel"></div>
+                    
                     <div class="carousel-controls">
                         <button class="carousel-arrow prev" aria-label="Tarjeta anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
                         <div class="carousel-indicators"></div>
                         <button class="carousel-arrow next" aria-label="Siguiente tarjeta"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                     </div>
+                    
                     <div id="software" class="service-panel active">
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Enterprise Architecture</span>
+                                    <span class="card-mini-title-premium">✦ Arquitectura Corporativa</span>
                                     <h3>Control centralizado.<br><span>Diseñados específicamente para optimizar tus tareas.</span></h3>
                                 </div>
                             </div>
@@ -804,28 +223,29 @@
                                 <div class="app-window-mockup">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.25); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div class="app-search-trigger"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>Talk to your enterprise assistant...</span></div>
+                                        <div class="app-search-trigger"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>Habla con tu asistente corporativo...</span></div>
                                         <div style="width: 20px;"></div>
                                     </div>
                                     <div class="app-body-layout">
                                         <div class="app-side-panel" style="padding: 14px 12px;">
-                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Core Systems</div>
-                                            <div class="app-list-item" style="padding: 10px 12px;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>API NODE</span><span class="status-pill-mini">99.9%</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Ecosistema Base</div></div>
-                                            <div class="app-list-item" style="padding: 10px 12px;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>DATA REPO</span><span class="status-pill-mini">LIVE</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Bases Seguras</div></div>
+                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Sistemas Centrales</div>
+                                            <div class="app-list-item" style="padding: 10px 12px;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>NODO API</span><span class="status-pill-mini">99.9%</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Ecosistema Base</div></div>
+                                            <div class="app-list-item" style="padding: 10px 12px;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>REPO DE DATOS</span><span class="status-pill-mini">ACTIVO</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Bases Seguras</div></div>
                                         </div>
                                         <div class="app-main-content" style="padding: 16px 14px; gap: 12px;">
-                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px;">Global Operations</div>
-                                            <div class="app-list-item active" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>Automated Actions</span><span>Just now</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Procesamiento de Clientes.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.7); white-space: normal; line-height: 1.4;">Sincronizando el lote mensual de transacciones activas de forma directa con el CRM Core.</div></div>
-                                            <div class="app-list-item" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>Logistics System</span><span>2m ago</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.8);">Inventario Conciliado.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); white-space: normal; line-height: 1.4;">0 discrepancias encontradas en las auditorías automáticas de los servidores cloud.</div></div>
+                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px;">Operaciones Globales</div>
+                                            <div class="app-list-item active" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>Acciones Automatizadas</span><span>Justo ahora</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Procesamiento de Clientes.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.7); white-space: normal; line-height: 1.4;">Sincronizando el lote mensual de transacciones activas de forma directa con el CRM Core.</div></div>
+                                            <div class="app-list-item" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>Sistema de Logística</span><span>Hace 2m</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.8);">Inventario Conciliado.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); white-space: normal; line-height: 1.4;">0 discrepancias encontradas en las auditorías automáticas de los servidores cloud.</div></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Digital Experience</span>
+                                    <span class="card-mini-title-premium">✦ Experiencia Digital</span>
                                     <h3>Presencia digital premium.<br><span>Proyecta autoridad inmediata.</span></h3>
                                 </div>
                             </div>
@@ -833,8 +253,8 @@
                                 <div class="app-window-mockup" style="padding-bottom: 12px;">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.2); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div class="app-search-trigger" style="width: 45%;"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>https://enterprise.com</span></div>
-                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">UX Engine: 100%</div>
+                                        <div class="app-search-trigger" style="width: 45%;"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>https://empresa.com</span></div>
+                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">Motor UX: 100%</div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; flex: 1; padding: 16px; gap: 14px; overflow: hidden;">
                                         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 8px;">
@@ -843,22 +263,23 @@
                                             <div style="width: 38px; height: 12px; background: rgba(255,255,255,0.1); border-radius: 3px;"></div>
                                         </div>
                                         <div class="app-list-item" style="background: rgba(255, 255, 255, 0.01); border-color: rgba(255,255,255,0.03); padding: 18px 14px; align-items: center; text-align: center; gap: 8px;">
-                                            <div class="app-item-title" style="font-size: 0.85rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2;">Cinematic Digital Interfaces.</div>
-                                            <div class="app-item-subtitle" style="font-size: 0.75rem; width: 85%; line-height: 1.45; color: rgba(255,255,255,0.7);"> High-end web architectures designed exclusively to scale corporate authority and high-ticket sales.</div>
+                                            <div class="app-item-title" style="font-size: 0.85rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2;">Interfaces Digitales Cinemáticas.</div>
+                                            <div class="app-item-subtitle" style="font-size: 0.75rem; width: 85%; line-height: 1.45; color: rgba(255,255,255,0.7);"> Arquitecturas web de alta gama diseñadas exclusivamente para escalar la autoridad corporativa y cerrar ventas de alto valor.</div>
                                             <div style="display: flex; gap: 8px; margin-top: 4px;"><div style="width: 48px; height: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 3px;"></div><div style="width: 48px; height: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 3px;"></div></div>
                                         </div>
                                         <div style="display: flex; gap: 12px; width: 100%;">
-                                            <div class="app-list-item active" style="flex: 1.3; padding: 12px; gap: 4px;"><div class="app-item-meta"><span style="font-size: 0.52rem;">CONVERSION NODE</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">High Ticket Funnel</div></div>
-                                            <div class="app-list-item" style="flex: 1; padding: 12px; gap: 4px; background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.03);"><div class="app-item-meta"><span style="font-size: 0.52rem;">PERFORMANCE</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 500; color: rgba(255,255,255,0.8);">Speed Core</div></div>
+                                            <div class="app-list-item active" style="flex: 1.3; padding: 12px; gap: 4px;"><div class="app-item-meta"><span style="font-size: 0.52rem;">NODO DE CONVERSIÓN</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Embudo de Alto Valor</div></div>
+                                            <div class="app-list-item" style="flex: 1; padding: 12px; gap: 4px; background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.03);"><div class="app-item-meta"><span style="font-size: 0.52rem;">RENDIMIENTO</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 500; color: rgba(255,255,255,0.8);">Núcleo de Velocidad</div></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Data Hub Gateway</span>
+                                    <span class="card-mini-title-premium">✦ Centro de Datos</span>
                                     <h3>Ecosistemas conectados.<br><span>Tus herramientas en un solo idioma.</span></h3>
                                 </div>
                             </div>
@@ -866,28 +287,29 @@
                                 <div class="app-window-mockup">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.25); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div class="app-search-trigger"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span>gateway_orchestrator // active-pipelines</span></div>
+                                        <div class="app-search-trigger"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span>orquestador_enlace // canales-activos</span></div>
                                         <div style="width: 20px;"></div>
                                     </div>
                                     <div class="app-body-layout">
                                         <div class="app-side-panel" style="padding: 14px 12px; gap: 10px;">
-                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;">External Apps</div>
-                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>WEBHOOK IN</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.6);">Stripe / Pagos</div></div>
-                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>API REQUEST</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">HubSpot CRM</div></div>
+                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;">Apps Externas</div>
+                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>WEBHOOK ENTRADA</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.6);">Stripe / Pagos</div></div>
+                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>PETICIÓN API</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">HubSpot CRM</div></div>
                                         </div>
                                         <div class="app-main-content" style="padding: 16px 14px; gap: 12px;">
-                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px;">Xonda Translation Engine</div>
-                                            <div class="app-list-item active" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>PIPELINE UNIFICADO</span><span>0.02ms</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Traducción de Datos Central.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.7); white-space: normal; line-height: 1.4;">Eventos entrantes unificados de forma instantánea en un solo idioma de datos estructurado.</div></div>
-                                            <div class="app-list-item" style="background: rgba(0,0,0,0.2); font-family: monospace; padding: 10px 12px; gap: 4px; border-color: rgba(255,255,255,0.02);"><div style="font-size: 0.65rem; color: rgba(255,255,255,0.5);"><span style="color: rgba(255,255,255,0.2);">14:02</span> -> Payload translated from External Apps</div><div style="font-size: 0.65rem; color: rgba(255,255,255,0.4);"><span style="color: rgba(255,255,255,0.2);">14:02</span> -> Sincronizando: Ventas = Stock = ERP</div></div>
+                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px;">Motor de Traducción Xonda</div>
+                                            <div class="app-list-item active" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>CANAL UNIFICADO</span><span>0.02ms</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Traducción de Datos Central.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.7); white-space: normal; line-height: 1.4;">Eventos entrantes unificados de forma instantánea en un solo idioma de datos estructurado.</div></div>
+                                            <div class="app-list-item" style="background: rgba(0,0,0,0.2); font-family: monospace; padding: 10px 12px; gap: 4px; border-color: rgba(255,255,255,0.02);"><div style="font-size: 0.65rem; color: rgba(255,255,255,0.5);"><span style="color: rgba(255,255,255,0.2);">14:02</span> -> Datos traducidos desde Apps Externas</div><div style="font-size: 0.65rem; color: rgba(255,255,255,0.4);"><span style="color: rgba(255,255,255,0.2);">14:02</span> -> Sincronizando: Ventas = Stock = ERP</div></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Cloud Infrastructure</span>
+                                    <span class="card-mini-title-premium">✦ Infraestructura Cloud</span>
                                     <h3>Arquitecturas blindadas.<br><span>Escala sin perder velocidad.</span></h3>
                                 </div>
                             </div>
@@ -895,14 +317,14 @@
                                 <div class="app-window-mockup" style="padding-bottom: 12px;">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.25); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.03); padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);"><span>table: enterprise_transactions_secure</span></div>
-                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">Query Speed: 0.004ms</div>
+                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.03); padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);"><span>tabla: transacciones_corporativas_seguras</span></div>
+                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">Velocidad de Consulta: 0.004ms</div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; flex: 1; padding: 16px 14px; gap: 10px; overflow: hidden;">
-                                        <div style="display: flex; width: 100%; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: monospace; font-size: 0.65rem; color: rgba(255,255,255,0.3); text-transform: uppercase;"><div style="width: 15%;">id_hash</div><div style="width: 40%;">operation_node</div><div style="width: 25%;">cloud_cluster</div><div style="width: 20%; text-align: right;">status</div></div>
-                                        <div class="app-list-item active" style="flex-direction: row; padding: 10px 12px; font-family: monospace; font-size: 0.75rem; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.08);"><div style="width: 15%; color: rgba(255,255,255,0.4);">#x94f1</div><div style="width: 40%; color: #fff; font-weight: 600;">CRM_Data_Ingest</div><div style="width: 25%; color: rgba(255,255,255,0.5);">aws-us-east</div><div style="width: 20%; text-align: right; color: rgba(255,255,255,0.6);">[ INDEXED ]</div></div>
-                                        <div class="app-list-item" style="flex-direction: row; padding: 10px 12px; font-family: monospace; font-size: 0.75rem; background: rgba(255,255,255,0.01); border-color: transparent;"><div style="width: 15%; color: rgba(255,255,255,0.3);">#x94f2</div><div style="width: 40%; color: rgba(255,255,255,0.7);">Stock_Sync_Loop</div><div style="width: 25%; color: rgba(255,255,255,0.4);">aws-us-east</div><div style="width: 20%; text-align: right; color: rgba(255,255,255,0.4);">[ INDEXED ]</div></div>
-                                        <div class="app-list-item" style="flex-direction: row; padding: 10px 12px; font-family: monospace; font-size: 0.75rem; background: rgba(255,255,255,0.01); border-color: transparent;"><div style="width: 15%; color: rgba(255,255,255,0.3);">#x94f3</div><div style="width: 40%; color: rgba(255,255,255,0.7);">Invoice_Auto_Gen</div><div style="width: 25%; color: rgba(255,255,255,0.4);">aws-us-east</div><div style="width: 20%; text-align: right; color: rgba(255,255,255,0.4);">[ INDEXED ]</div></div>
+                                        <div style="display: flex; width: 100%; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: monospace; font-size: 0.65rem; color: rgba(255,255,255,0.3); text-transform: uppercase;"><div style="width: 15%;">id_hash</div><div style="width: 40%;">nodo_operacion</div><div style="width: 25%;">cluster_nube</div><div style="width: 20%; text-align: right;">estado</div></div>
+                                        <div class="app-list-item active" style="flex-direction: row; padding: 10px 12px; font-family: monospace; font-size: 0.75rem; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.08);"><div style="width: 15%; color: rgba(255,255,255,0.4);">#x94f1</div><div style="width: 40%; color: #fff; font-weight: 600;">Ingreso_Datos_CRM</div><div style="width: 25%; color: rgba(255,255,255,0.5);">aws-us-east</div><div style="width: 20%; text-align: right; color: rgba(255,255,255,0.6);">[ INDEXADO ]</div></div>
+                                        <div class="app-list-item" style="flex-direction: row; padding: 10px 12px; font-family: monospace; font-size: 0.75rem; background: rgba(255,255,255,0.01); border-color: transparent;"><div style="width: 15%; color: rgba(255,255,255,0.3);">#x94f2</div><div style="width: 40%; color: rgba(255,255,255,0.7);">Bucle_Sinc_Stock</div><div style="width: 25%; color: rgba(255,255,255,0.4);">aws-us-east</div><div style="width: 20%; text-align: right; color: rgba(255,255,255,0.4);">[ INDEXADO ]</div></div>
+                                        <div class="app-list-item" style="flex-direction: row; padding: 10px 12px; font-family: monospace; font-size: 0.75rem; background: rgba(255,255,255,0.01); border-color: transparent;"><div style="width: 15%; color: rgba(255,255,255,0.3);">#x94f3</div><div style="width: 40%; color: rgba(255,255,255,0.7);">Gen_Auto_Facturas</div><div style="width: 25%; color: rgba(255,255,255,0.4);">aws-us-east</div><div style="width: 20%; text-align: right; color: rgba(255,255,255,0.4);">[ INDEXADO ]</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -910,10 +332,11 @@
                     </div>
 
                     <div id="ia" class="service-panel">
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ AI Autonomous Agents</span>
+                                    <span class="card-mini-title-premium">✦ Agentes Autónomos IA</span>
                                     <h3>Atención ininterrumpida.<br><span>Respuestas precisas 24/7.</span></h3>
                                 </div>
                             </div>
@@ -921,12 +344,12 @@
                                 <div class="app-window-mockup">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.25); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px;"><span>whatsapp_gateway // active</span></div>
-                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">AI CHAT LIVE</div>
+                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px;"><span>puerta_enlace_whatsapp // activo</span></div>
+                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">CHAT IA ACTIVO</div>
                                     </div>
                                     <div class="app-body-layout">
                                         <div class="app-side-panel" style="width: 32%; padding: 14px 12px;">
-                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Incoming</div>
+                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Entrantes</div>
                                             <div class="app-list-item active" style="padding: 10px 12px;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>WhatsApp</span></div><div class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Carlos M. (CEO)</div></div>
                                             <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>Telegram</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">Marta S. (Logística)</div></div>
                                         </div>
@@ -944,10 +367,11 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Smart Workflows</span>
+                                    <span class="card-mini-title-premium">✦ Flujos de Trabajo Inteligentes</span>
                                     <h3>Operaciones aceleradas.<br><span>Eliminación del error humano.</span></h3>
                                 </div>
                             </div>
@@ -955,28 +379,29 @@
                                 <div class="app-window-mockup">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.25); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px;"><span>workflow_engine // process_monitor</span></div>
-                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">AUTOMATION ACTIVE</div>
+                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px;"><span>motor_flujos // monitor_procesos</span></div>
+                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">AUTOMATIZACIÓN ACTIVA</div>
                                     </div>
                                     <div class="app-body-layout">
                                         <div class="app-side-panel" style="width: 32%; padding: 14px 12px; gap: 10px;">
-                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;">Data Sources</div>
-                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>DOC_INGEST</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.6);">Facturas (PDF)</div></div>
-                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>MAIL_SCAN</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">Correos Clientes</div></div>
+                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;">Fuentes de Datos</div>
+                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>INGRESO_DOCS</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.6);">Facturas (PDF)</div></div>
+                                            <div class="app-list-item" style="padding: 10px 12px; background: rgba(255,255,255,0.01); border-color: transparent;"><div class="app-item-meta" style="font-size: 0.62rem; margin-bottom: 2px;"><span>ESCANEO_CORREOS</span></div><div class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">Correos Clientes</div></div>
                                         </div>
                                         <div class="app-main-content" style="width: 68%; left: 32%; padding: 16px 14px; gap: 12px;">
-                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px;">Live Cognitive Execution</div>
-                                            <div class="app-list-item active" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>STEP 01 // COGNITIVE OCR</span><span>Just now</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Lectura e Inteligencia Documental.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.7); white-space: normal; line-height: 1.4;">Procesando lote de 42 facturas. Extrayendo montos, fechas y datos fiscales sin intervención humana.</div></div>
-                                            <div class="app-list-item" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>STEP 02 // SYNC_LOOP</span><span>1m ago</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.8);">Actualización de Base de Datos.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); white-space: normal; line-height: 1.4;">Registros conciliados e indexados directamente en el ERP Core. Cero margen de error manual.</div></div>
+                                            <div style="font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px;">Ejecución Cognitiva en Vivo</div>
+                                            <div class="app-list-item active" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>PASO 01 // OCR COGNITIVO</span><span>Justo ahora</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Lectura e Inteligencia Documental.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.7); white-space: normal; line-height: 1.4;">Procesando lote de 42 facturas. Extrayendo montos, fechas y datos fiscales sin intervención humana.</div></div>
+                                            <div class="app-list-item" style="padding: 12px 14px; gap: 4px; background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>PASO 02 // BUCLE_SINC</span><span>Hace 1m</span></div><div class="app-item-title" style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.8);">Actualización de Base de Datos.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); white-space: normal; line-height: 1.4;">Registros conciliados e indexados directamente en el ERP Core. Cero margen de error manual.</div></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Cognitive Analytics</span>
+                                    <span class="card-mini-title-premium">✦ Analítica Cognitiva</span>
                                     <h3>Inteligencia estratégica.<br><span>Tus datos convertidos en decisiones.</span></h3>
                                 </div>
                             </div>
@@ -984,14 +409,14 @@
                                 <div class="app-window-mockup" style="padding-bottom: 14px;">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.2); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 4px 10px; border-radius: 4px;"><span>cognitive_analytics // executive_report</span></div>
-                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">DATA INSIGHTS LIVE</div>
+                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 4px 10px; border-radius: 4px;"><span>analitica_cognitiva // reporte_ejecutivo</span></div>
+                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">INSIGHTS DE DATOS ACTIVOS</div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; flex: 1; padding: 16px; gap: 14px; overflow: hidden;">
                                         <div class="app-list-item active" style="padding: 14px 16px; gap: 4px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);"><div class="app-item-meta" style="font-size: 0.58rem;"><span>INSIGHT IA GENERAL</span><span>Sincronizado</span></div><div class="app-item-title" style="font-size: 0.82rem; font-weight: 600; letter-spacing: -0.01em;">Detección Automática de Cuellos de Botella.</div><div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.72); white-space: normal; line-height: 1.45;">El procesamiento de facturas en logística ralentizaba el flujo comercial. La automatización del nodo liberó un 34% de capacidad operativa esta semana.</div></div>
                                         <div style="display: flex; gap: 12px; width: 100%;">
                                             <div class="app-list-item" style="flex: 1.2; padding: 12px; gap: 4px; background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.03);"><div class="app-item-meta" style="font-size: 0.55rem;"><span>EFICIENCIA GLOBAL</span></div><div class="app-item-title" style="font-size: 0.78rem; font-weight: 500;">Operaciones en Alza</div><div class="app-item-subtitle" style="font-size: 0.72rem; color: rgba(255,255,255,0.45);">Reducción de fricción: +45.8%</div></div>
-                                            <div class="app-list-item" style="flex: 1; padding: 12px; gap: 4px; background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.03);"><div class="app-item-meta" style="font-size: 0.55rem;"><span>DATA CLEANING</span></div><div class="app-item-title" style="font-size: 0.78rem; font-weight: 500;">Caos Eliminado</div><div class="app-item-subtitle" style="font-size: 0.72rem; color: rgba(255,255,255,0.45);">Planillas migradas: 100%</div></div>
+                                            <div class="app-list-item" style="flex: 1; padding: 12px; gap: 4px; background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.03);"><div class="app-item-meta" style="font-size: 0.55rem;"><span>LIMPIEZA DE DATOS</span></div><div class="app-item-title" style="font-size: 0.78rem; font-weight: 500;">Caos Eliminado</div><div class="app-item-subtitle" style="font-size: 0.72rem; color: rgba(255,255,255,0.45);">Planillas migradas: 100%</div></div>
                                         </div>
                                     </div>
                                 </div>
@@ -1000,16 +425,17 @@
                     </div>
 
                     <div id="pilares" class="service-panel">
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Strategic Roadmap</span>
+                                    <span class="card-mini-title-premium">✦ Hoja de Ruta Estratégica</span>
                                     <h3>Auditoría profunda.<br><span>Claridad antes de codificar.</span></h3>
                                 </div>
                             </div>
                             <div class="card-split-mockup">
                                 <div class="app-window-mockup" style="justify-content: center; padding: 24px 0; gap: 14px;">
-                                    <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; padding-left: 24px;">Strategic Deployment Steps</div>
+                                    <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em; padding-left: 24px;">Pasos de Despliegue Estratégico</div>
                                     <div class="roadmap-timeline-flex">
                                         <div class="roadmap-vector-line"></div>
                                         <div class="roadmap-step-node"><div class="roadmap-node-circle">01</div><div style="font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.4);">Auditoría</div></div>
@@ -1020,27 +446,28 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Human-Centered Design</span>
+                                    <span class="card-mini-title-premium">✦ Diseño Centrado</span>
                                     <h3>Adopción sin fricción.<br><span>Interfaces que tu equipo amará.</span></h3>
                                 </div>
                             </div>
                             <div class="card-split-mockup">
                                 <div class="app-window-mockup" style="padding: 18px 16px; gap: 14px;">
-                                    <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">UX Component Architecture</div>
+                                    <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">Arquitectura de Componentes UX</div>
                                     <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
                                         <div class="ux-control-card active">
                                             <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                <div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Simplified Core Layout</div>
+                                                <div class="app-item-title" style="font-size: 0.8rem; font-weight: 600;">Interfaz Central Simplificada</div>
                                                 <div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Oculta la complejidad técnica para operarios en planta.</div>
                                             </div>
                                             <div class="ux-wireframe-switch active"></div>
                                         </div>
                                         <div class="ux-control-card">
                                             <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                <div class="app-item-title" style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.8);">Response Threshold</div>
+                                                <div class="app-item-title" style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.8);">Umbral de Respuesta</div>
                                                 <div class="app-item-subtitle" style="font-size: 0.75rem; color: rgba(255,255,255,0.35);">Filtro adaptativo de tolerancia para reducir la carga cognitiva.</div>
                                             </div>
                                             <div class="ux-slider-track"><div class="ux-slider-fill"></div></div>
@@ -1049,10 +476,11 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Continuous Monitoring</span>
+                                    <span class="card-mini-title-premium">✦ Monitoreo Continuo</span>
                                     <h3>Mantenimiento activo.<br><span>Tu negocio nunca se detiene.</span></h3>
                                 </div>
                             </div>
@@ -1060,10 +488,10 @@
                                 <div class="app-window-mockup" style="padding: 18px 16px; gap: 16px;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 10px;">
                                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                                            <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">Infrastructure System</div>
-                                            <div class="app-item-title" style="font-size: 0.82rem; font-weight: 600; color: #FFFFFF;">Status: 99.99% Operational</div>
+                                            <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">Sistema de Infraestructura</div>
+                                            <div class="app-item-title" style="font-size: 0.82rem; font-weight: 600; color: #FFFFFF;">Estado: 99.99% Operativo</div>
                                         </div>
-                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">MONITORING LIVE</div>
+                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">MONITOREO ACTIVO</div>
                                     </div>
                                     <div class="monitor-grid-bars">
                                         <div class="monitor-bar-pillar active" style="height: 85%;"></div>
@@ -1081,10 +509,11 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="card-servicio-ancha">
                             <div class="card-info-group">
                                 <div class="card-header-servicio">
-                                    <span class="card-mini-title-premium">✦ Modular Architecture</span>
+                                    <span class="card-mini-title-premium">✦ Arquitectura Modular</span>
                                     <h3>Crecimiento sin límites.<br><span>Sistemas listos para el futuro.</span></h3>
                                 </div>
                             </div>
@@ -1092,28 +521,28 @@
                                 <div class="app-window-mockup" style="padding-bottom: 0;">
                                     <div class="app-top-bar" style="background: rgba(0, 0, 0, 0.2); padding: 12px 16px;">
                                         <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 4px 10px; border-radius: 4px;"><span>system_architecture // live</span></div>
-                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">MODULAR READY</div>
+                                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7); font-family: monospace; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 4px 10px; border-radius: 4px;"><span>arquitectura_sistema // activo</span></div>
+                                        <div class="status-pill-mini" style="font-size: 0.55rem; padding: 2px 6px;">LISTO PARA MÓDULOS</div>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; flex: 1; padding: 18px 16px; gap: 18px; overflow: hidden;">
                                         <div style="display: flex; flex-direction: column; gap: 10px;">
-                                            <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">Active Core Nodes</div>
+                                            <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">Nodos Centrales Activos</div>
                                             <div class="scale-blocks-grid" style="margin-top: 0;">
-                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">CORE_01</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Auth Node</span></div>
-                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">CORE_02</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">DB Link</span></div>
-                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">CORE_03</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">API Gateway</span></div>
-                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">CORE_04</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Security</span></div>
+                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">NÚCLEO_01</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Nodo de Acceso</span></div>
+                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">NÚCLEO_02</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Enlace BD</span></div>
+                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">NÚCLEO_03</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Puerta API</span></div>
+                                                <div class="scale-cube-unit active"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.3); font-family: monospace;">NÚCLEO_04</span><span class="app-item-title" style="font-size: 0.75rem; font-weight: 600;">Seguridad</span></div>
                                             </div>
                                         </div>
 
                                         <div style="display: flex; flex-direction: column; gap: 10px;">
-                                            <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">Available Expansion Slots</div>
+                                            <div style="font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.04em;">Ranuras de Expansión Disponibles</div>
                                             <div class="scale-blocks-grid" style="margin-top: 0;">
-                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_05</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ AI Agent</span></div>
-                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_06</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ ERP Sync</span></div>
-                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_07</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ Analytics</span></div>
-                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_08</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ CRM Node</span></div>
+                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_05</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ Agente IA</span></div>
+                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_06</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ Sinc. ERP</span></div>
+                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_07</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ Analítica</span></div>
+                                                <div class="scale-cube-unit" style="border-style: dashed; background: transparent; border-color: rgba(255,255,255,0.08);"><span style="font-size: 0.5rem; color: rgba(255,255,255,0.15); font-family: monospace;">EXT_08</span><span class="app-item-title" style="font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 400;">+ Nodo CRM</span></div>
                                             </div>
                                         </div>
 
@@ -1130,16 +559,18 @@
         </div>
 
         <div id="contacto" class="seccion-contacto">
-            
             <div class="container" style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                
                 <div class="cta-card-scene" id="card-scene">
                     <div class="cta-card-inner" id="card-inner">
                         
                         <div class="cta-card-front">
                             <div class="cta-icon-wrapper">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <rect x="3" y="3" width="12" height="12" stroke="white" stroke-width="1.5"/>
-                                    <rect x="9" y="9" width="12" height="12" stroke="white" stroke-width="1.5"/>
+                                <svg width="34" height="30" viewBox="0 0 2490 2242" xmlns="http://www.w3.org/2000/svg">
+                                    <g transform="translate(0, 2242) scale(0.1, -0.1)" fill="currentColor" stroke="none">
+                                        <path d="M12160 22313 c-315 -7 -880 -52 -1180 -93 -551 -76 -1030 -174 -1540 -314 -306 -85 -725 -228 -853 -292 -16 -8 -35 -14 -43 -14 -8 0 -25 -6 -37 -14 -12 -8 -51 -24 -85 -35 -35 -11 -79 -30 -97 -41 -18 -11 -44 -20 -59 -20 -14 0 -26 -3 -26 -7 0 -9 -69 -38 -112 -49 -16 -3 -28 -10 -28 -15 0 -5 -7 -9 -15 -9 -8 0 -38 -11 -67 -25 -28 -14 -56 -25 -61 -25 -6 0 -52 -20 -104 -45 -51 -25 -96 -45 -98 -45 -3 0 -42 -17 -88 -39 -45 -21 -120 -56 -167 -77 -361 -164 -886 -471 -1365 -798 -769 -524 -1523 -1203 -2160 -1946 -389 -453 -799 -1026 -1101 -1536 -206 -349 -498 -918 -634 -1234 -204 -473 -381 -968 -489 -1365 -42 -156 -102 -384 -111 -425 -5 -19 -25 -109 -45 -200 -20 -91 -45 -201 -55 -245 -32 -133 -107 -569 -129 -750 -31 -261 -59 -586 -71 -845 -6 -129 -13 -241 -16 -249 -12 -35 -4 -810 11 -1013 45 -642 122 -1215 225 -1668 4 -19 20 -89 34 -155 83 -375 241 -922 351 -1215 30 -80 55 -149 55 -152 0 -4 18 -46 40 -93 22 -47 40 -92 40 -98 1 -7 14 -37 30 -67 17 -30 30 -65 30 -77 0 -13 3 -23 8 -23 8 0 37 -69 48 -112 3 -16 10 -28 15 -28 5 0 9 -7 9 -16 0 -8 11 -34 23 -57 13 -23 27 -55 31 -72 11 -44 39 -105 48 -105 4 0 8 -5 8 -11 0 -15 93 -203 102 -207 4 -2 8 -8 8 -14 0 -34 385 -789 478 -938 8 -12 300 276 1378 1357 753 754 2212 2217 3243 3250 1030 1033 1884 1892 1898 1909 l24 32 -26 38 c-14 22 -883 894 -1931 1939 l-1906 1900 1 1975 c1 1864 2 1976 19 1989 14 11 416 12 2507 6 1370 -4 2560 -10 2645 -14 l155 -6 6 -960 c3 -528 7 -1939 8 -3135 1 -1196 4 -2185 7 -2198 5 -16 13 -22 26 -20 21 3 -102 -119 3596 3583 1467 1468 2686 2686 2710 2707 l43 38 1055 0 c580 0 1054 4 1054 8 0 11 -46 32 -70 32 -25 0 -80 48 -80 70 0 33 -452 363 -845 617 -580 374 -1364 775 -1892 967 -40 14 -103 37 -141 51 -37 14 -74 25 -82 25 -8 0 -24 7 -34 15 -11 8 -28 15 -39 15 -10 0 -33 6 -50 14 -18 7 -63 23 -101 35 -37 12 -86 30 -109 41 -22 11 -55 20 -72 20 -17 0 -40 7 -51 15 -10 8 -31 15 -46 15 -15 0 -29 4 -32 9 -3 5 -23 12 -43 16 -21 4 -42 10 -48 15 -5 4 -37 15 -70 24 -33 9 -73 22 -90 27 -16 6 -43 15 -60 19 -16 5 -77 23 -135 40 -370 112 -664 176 -1215 264 -432 69 -842 107 -1360 126 -253 9 -340 10 -605 3z"/>
+                                        <path d="M21915 16839 c-66 -35 -141 -95 -187 -151 -24 -29 -104 -111 -177 -183 -74 -71 -189 -185 -255 -253 -285 -289 -869 -865 -956 -943 -96 -85 -181 -171 -530 -532 -107 -111 -386 -390 -619 -622 -234 -231 -540 -537 -680 -680 -140 -143 -357 -361 -481 -485 -2170 -2164 -2652 -2648 -2656 -2666 -3 -13 -2 -33 2 -46 4 -13 330 -345 725 -738 1576 -1568 3109 -3101 3124 -3123 13 -21 15 -242 15 -1963 0 -1734 -1 -1940 -15 -1950 -35 -26 -5222 -30 -5289 -4 -18 6 -24 19 -30 56 -10 74 -6 2564 4 2709 21 285 23 410 9 565 -11 123 -14 439 -14 1530 0 1300 -1 1377 -18 1403 -9 15 -23 27 -29 27 -14 0 45 59 -2112 -2095 -2751 -2747 -4205 -4190 -4228 -4197 -13 -3 -451 -6 -975 -7 -523 -1 -958 -4 -966 -7 -23 -8 8 -41 133 -141 166 -132 596 -430 816 -563 31 -19 73 -45 92 -58 19 -13 128 -78 241 -144 235 -138 417 -231 701 -360 25 -11 95 -45 157 -74 61 -30 116 -54 122 -54 6 0 11 -4 11 -8 0 -9 61 -37 105 -48 17 -4 49 -18 72 -31 23 -12 49 -23 57 -23 9 0 16 -4 16 -9 0 -5 12 -12 28 -15 43 -11 112 -40 112 -48 0 -5 12 -8 26 -8 15 0 41 -9 58 -19 17 -11 63 -31 101 -45 70 -26 105 -41 137 -57 18 -9 48 -20 158 -59 36 -12 70 -26 75 -30 15 -12 284 -94 435 -134 72 -19 159 -43 205 -56 17 -5 48 -12 70 -16 22 -4 54 -13 72 -21 18 -7 46 -13 62 -13 16 0 33 -5 36 -10 3 -6 21 -10 39 -10 19 0 50 -7 69 -15 20 -8 52 -15 71 -15 19 0 36 -5 38 -11 2 -6 26 -13 53 -16 28 -3 55 -10 62 -15 7 -6 40 -12 73 -15 33 -3 63 -10 66 -14 3 -5 26 -9 52 -9 26 -1 58 -7 72 -15 14 -8 40 -14 58 -15 18 0 43 -5 54 -11 11 -6 44 -15 72 -19 28 -5 114 -19 191 -33 77 -14 185 -30 240 -37 55 -6 136 -16 180 -22 44 -6 136 -15 205 -19 69 -4 168 -14 220 -23 73 -13 105 -14 140 -6 31 7 68 7 120 0 182 -26 366 -40 408 -31 26 5 74 5 120 -1 91 -12 582 -4 792 12 80 7 161 11 180 11 19 -1 80 6 135 15 55 9 154 19 220 23 66 3 130 12 142 19 12 6 55 12 97 12 41 0 87 5 103 11 15 6 73 15 128 19 179 15 384 50 590 100 51 12 79 19 170 40 28 6 68 14 90 17 22 3 49 12 60 19 11 8 32 14 48 14 16 0 38 5 50 12 12 6 42 15 67 19 48 8 126 26 225 54 33 9 76 20 95 25 159 40 491 139 560 166 36 14 83 33 105 41 22 8 53 21 68 29 16 8 36 14 45 14 9 0 26 7 36 15 11 8 26 15 33 15 7 0 36 11 65 25 28 14 59 25 67 25 9 0 41 13 71 30 30 16 67 29 82 30 14 0 28 3 30 8 5 11 69 40 106 47 17 4 32 11 32 16 0 5 7 9 16 9 8 0 34 11 57 23 23 13 56 27 72 31 44 11 105 39 105 48 0 4 5 8 11 8 15 0 203 93 207 102 2 4 10 8 17 8 7 0 53 20 101 44 78 39 173 84 334 159 25 11 92 48 150 81 91 52 133 77 225 133 11 7 40 23 65 35 25 13 47 25 50 28 3 3 32 23 65 45 33 22 62 42 65 45 3 3 23 14 45 24 22 11 63 36 90 57 28 20 66 45 85 55 19 10 39 23 45 27 5 4 66 45 135 91 202 134 270 181 370 261 52 42 114 90 138 107 24 18 42 40 42 51 0 27 37 57 70 57 26 0 90 51 90 72 0 4 7 8 15 8 8 0 15 4 15 8 0 5 18 16 40 26 21 9 54 36 72 59 48 62 59 72 99 90 21 9 66 43 102 74 251 224 334 303 540 512 349 355 641 679 828 921 37 47 150 198 251 335 240 325 401 563 553 817 18 30 41 72 192 347 42 77 82 153 209 401 38 74 75 141 82 148 6 7 12 19 12 27 0 17 33 75 43 75 4 0 7 5 7 10 0 6 28 68 61 138 57 118 113 250 211 497 22 55 53 134 70 175 17 41 44 113 60 160 16 47 43 119 59 160 36 95 149 473 149 501 0 11 5 30 12 42 6 12 15 38 19 57 4 19 15 62 24 95 28 99 46 177 54 225 4 25 13 55 19 67 7 12 12 34 12 50 0 16 6 37 14 48 7 11 16 38 19 60 5 37 15 82 37 175 60 248 120 576 120 659 0 14 6 64 14 111 23 132 37 237 46 335 5 50 13 126 19 170 27 198 51 668 51 988 0 557 -38 1180 -85 1399 -8 37 -15 82 -15 101 0 19 -7 51 -15 70 -8 20 -15 64 -15 97 0 33 -4 68 -10 78 -10 17 -25 112 -39 237 -4 39 -13 83 -19 98 -7 16 -12 45 -12 65 -1 20 -7 48 -15 62 -8 14 -14 48 -15 77 0 28 -4 54 -9 57 -4 3 -11 35 -14 72 -4 36 -11 71 -15 78 -5 6 -12 36 -14 66 -3 30 -11 56 -17 58 -6 2 -11 19 -11 39 0 19 -6 58 -14 86 -7 29 -21 88 -31 132 -30 139 -133 490 -190 645 -7 19 -18 53 -25 75 -7 22 -18 54 -25 70 -8 17 -29 77 -48 135 -19 58 -40 116 -45 130 -6 14 -36 95 -68 180 -67 183 -158 395 -243 572 -33 70 -61 132 -61 137 0 5 -3 11 -8 13 -8 4 -102 193 -102 207 0 5 -3 11 -7 13 -5 2 -26 39 -47 83 -22 44 -42 82 -46 85 -3 3 -14 24 -23 48 -9 23 -27 59 -40 80 -13 20 -40 71 -61 112 -21 41 -63 117 -93 168 -60 103 -69 107 -138 71z"/>
+                                    </g>
                                 </svg>
                             </div>
                             <h2>Lleva tu empresa<br> al siguiente nivel.</h2>
@@ -1173,17 +604,16 @@
                 <div class="banner-metodologia-premium">
                     <div class="banner-icon-premium">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                            <polyline points="2 12 12 17 22 12"></polyline>
-                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="9 12 11 14 15 10"></polyline>
                         </svg>
                     </div>
                     <div class="banner-text-premium">
                         <h3>Transparencia absoluta. Calidad garantizada.</h3>
-                        
-                        <p>Te invitamos a leer nuestra <a href="#">Metodología de trabajo</a> para conocer cómo estructuramos cada ecosistema.</p>
+                        <p>Te invitamos a leer nuestra <a href="blueprint.html">Metodología de trabajo</a> para conocer cómo estructuramos cada ecosistema.</p>
                     </div>
                 </div>
+                
             </div>
             <div class="luz-cenital-fondo"></div>
         </div>
@@ -1193,17 +623,19 @@
         <div class="footer-inner">
             
             <a href="#hero" class="footer-logo-premium">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <rect x="3" y="3" width="12" height="12" stroke="white" stroke-width="1.2"/>
-                    <rect x="9" y="9" width="12" height="12" stroke="white" stroke-width="1.2"/>
+                <svg width="24" height="21" viewBox="0 0 2490 2242" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(0, 2242) scale(0.1, -0.1)" fill="currentColor" stroke="none">
+                        <path d="M12160 22313 c-315 -7 -880 -52 -1180 -93 -551 -76 -1030 -174 -1540 -314 -306 -85 -725 -228 -853 -292 -16 -8 -35 -14 -43 -14 -8 0 -25 -6 -37 -14 -12 -8 -51 -24 -85 -35 -35 -11 -79 -30 -97 -41 -18 -11 -44 -20 -59 -20 -14 0 -26 -3 -26 -7 0 -9 -69 -38 -112 -49 -16 -3 -28 -10 -28 -15 0 -5 -7 -9 -15 -9 -8 0 -38 -11 -67 -25 -28 -14 -56 -25 -61 -25 -6 0 -52 -20 -104 -45 -51 -25 -96 -45 -98 -45 -3 0 -42 -17 -88 -39 -45 -21 -120 -56 -167 -77 -361 -164 -886 -471 -1365 -798 -769 -524 -1523 -1203 -2160 -1946 -389 -453 -799 -1026 -1101 -1536 -206 -349 -498 -918 -634 -1234 -204 -473 -381 -968 -489 -1365 -42 -156 -102 -384 -111 -425 -5 -19 -25 -109 -45 -200 -20 -91 -45 -201 -55 -245 -32 -133 -107 -569 -129 -750 -31 -261 -59 -586 -71 -845 -6 -129 -13 -241 -16 -249 -12 -35 -4 -810 11 -1013 45 -642 122 -1215 225 -1668 4 -19 20 -89 34 -155 83 -375 241 -922 351 -1215 30 -80 55 -149 55 -152 0 -4 18 -46 40 -93 22 -47 40 -92 40 -98 1 -7 14 -37 30 -67 17 -30 30 -65 30 -77 0 -13 3 -23 8 -23 8 0 37 -69 48 -112 3 -16 10 -28 15 -28 5 0 9 -7 9 -16 0 -8 11 -34 23 -57 13 -23 27 -55 31 -72 11 -44 39 -105 48 -105 4 0 8 -5 8 -11 0 -15 93 -203 102 -207 4 -2 8 -8 8 -14 0 -34 385 -789 478 -938 8 -12 300 276 1378 1357 753 754 2212 2217 3243 3250 1030 1033 1884 1892 1898 1909 l24 32 -26 38 c-14 22 -883 894 -1931 1939 l-1906 1900 1 1975 c1 1864 2 1976 19 1989 14 11 416 12 2507 6 1370 -4 2560 -10 2645 -14 l155 -6 6 -960 c3 -528 7 -1939 8 -3135 1 -1196 4 -2185 7 -2198 5 -16 13 -22 26 -20 21 3 -102 -119 3596 3583 1467 1468 2686 2686 2710 2707 l43 38 1055 0 c580 0 1054 4 1054 8 0 11 -46 32 -70 32 -25 0 -80 48 -80 70 0 33 -452 363 -845 617 -580 374 -1364 775 -1892 967 -40 14 -103 37 -141 51 -37 14 -74 25 -82 25 -8 0 -24 7 -34 15 -11 8 -28 15 -39 15 -10 0 -33 6 -50 14 -18 7 -63 23 -101 35 -37 12 -86 30 -109 41 -22 11 -55 20 -72 20 -17 0 -40 7 -51 15 -10 8 -31 15 -46 15 -15 0 -29 4 -32 9 -3 5 -23 12 -43 16 -21 4 -42 10 -48 15 -5 4 -37 15 -70 24 -33 9 -73 22 -90 27 -16 6 -43 15 -60 19 -16 5 -77 23 -135 40 -370 112 -664 176 -1215 264 -432 69 -842 107 -1360 126 -253 9 -340 10 -605 3z"/>
+                        <path d="M21915 16839 c-66 -35 -141 -95 -187 -151 -24 -29 -104 -111 -177 -183 -74 -71 -189 -185 -255 -253 -285 -289 -869 -865 -956 -943 -96 -85 -181 -171 -530 -532 -107 -111 -386 -390 -619 -622 -234 -231 -540 -537 -680 -680 -140 -143 -357 -361 -481 -485 -2170 -2164 -2652 -2648 -2656 -2666 -3 -13 -2 -33 2 -46 4 -13 330 -345 725 -738 1576 -1568 3109 -3101 3124 -3123 13 -21 15 -242 15 -1963 0 -1734 -1 -1940 -15 -1950 -35 -26 -5222 -30 -5289 -4 -18 6 -24 19 -30 56 -10 74 -6 2564 4 2709 21 285 23 410 9 565 -11 123 -14 439 -14 1530 0 1300 -1 1377 -18 1403 -9 15 -23 27 -29 27 -14 0 45 59 -2112 -2095 -2751 -2747 -4205 -4190 -4228 -4197 -13 -3 -451 -6 -975 -7 -523 -1 -958 -4 -966 -7 -23 -8 8 -41 133 -141 166 -132 596 -430 816 -563 31 -19 73 -45 92 -58 19 -13 128 -78 241 -144 235 -138 417 -231 701 -360 25 -11 95 -45 157 -74 61 -30 116 -54 122 -54 6 0 11 -4 11 -8 0 -9 61 -37 105 -48 17 -4 49 -18 72 -31 23 -12 49 -23 57 -23 9 0 16 -4 16 -9 0 -5 12 -12 28 -15 43 -11 112 -40 112 -48 0 -5 12 -8 26 -8 15 0 41 -9 58 -19 17 -11 63 -31 101 -45 70 -26 105 -41 137 -57 18 -9 48 -20 158 -59 36 -12 70 -26 75 -30 15 -12 284 -94 435 -134 72 -19 159 -43 205 -56 17 -5 48 -12 70 -16 22 -4 54 -13 72 -21 18 -7 46 -13 62 -13 16 0 33 -5 36 -10 3 -6 21 -10 39 -10 19 0 50 -7 69 -15 20 -8 52 -15 71 -15 19 0 36 -5 38 -11 2 -6 26 -13 53 -16 28 -3 55 -10 62 -15 7 -6 40 -12 73 -15 33 -3 63 -10 66 -14 3 -5 26 -9 52 -9 26 -1 58 -7 72 -15 14 -8 40 -14 58 -15 18 0 43 -5 54 -11 11 -6 44 -15 72 -19 28 -5 114 -19 191 -33 77 -14 185 -30 240 -37 55 -6 136 -16 180 -22 44 -6 136 -15 205 -19 69 -4 168 -14 220 -23 73 -13 105 -14 140 -6 31 7 68 7 120 0 182 -26 366 -40 408 -31 26 5 74 5 120 -1 91 -12 582 -4 792 12 80 7 161 11 180 11 19 -1 80 6 135 15 55 9 154 19 220 23 66 3 130 12 142 19 12 6 55 12 97 12 41 0 87 5 103 11 15 6 73 15 128 19 179 15 384 50 590 100 51 12 79 19 170 40 28 6 68 14 90 17 22 3 49 12 60 19 11 8 32 14 48 14 16 0 38 5 50 12 12 6 42 15 67 19 48 8 126 26 225 54 33 9 76 20 95 25 159 40 491 139 560 166 36 14 83 33 105 41 22 8 53 21 68 29 16 8 36 14 45 14 9 0 26 7 36 15 11 8 26 15 33 15 7 0 36 11 65 25 28 14 59 25 67 25 9 0 41 13 71 30 30 16 67 29 82 30 14 0 28 3 30 8 5 11 69 40 106 47 17 4 32 11 32 16 0 5 7 9 16 9 8 0 34 11 57 23 23 13 56 27 72 31 44 11 105 39 105 48 0 4 5 8 11 8 15 0 203 93 207 102 2 4 10 8 17 8 7 0 53 20 101 44 78 39 173 84 334 159 25 11 92 48 150 81 91 52 133 77 225 133 11 7 40 23 65 35 25 13 47 25 50 28 3 3 32 23 65 45 33 22 62 42 65 45 3 3 23 14 45 24 22 11 63 36 90 57 28 20 66 45 85 55 19 10 39 23 45 27 5 4 66 45 135 91 202 134 270 181 370 261 52 42 114 90 138 107 24 18 42 40 42 51 0 27 37 57 70 57 26 0 90 51 90 72 0 4 7 8 15 8 8 0 15 4 15 8 0 5 18 16 40 26 21 9 54 36 72 59 48 62 59 72 99 90 21 9 66 43 102 74 251 224 334 303 540 512 349 355 641 679 828 921 37 47 150 198 251 335 240 325 401 563 553 817 18 30 41 72 192 347 42 77 82 153 209 401 38 74 75 141 82 148 6 7 12 19 12 27 0 17 33 75 43 75 4 0 7 5 7 10 0 6 28 68 61 138 57 118 113 250 211 497 22 55 53 134 70 175 17 41 44 113 60 160 16 47 43 119 59 160 36 95 149 473 149 501 0 11 5 30 12 42 6 12 15 38 19 57 4 19 15 62 24 95 28 99 46 177 54 225 4 25 13 55 19 67 7 12 12 34 12 50 0 16 6 37 14 48 7 11 16 38 19 60 5 37 15 82 37 175 60 248 120 576 120 659 0 14 6 64 14 111 23 132 37 237 46 335 5 50 13 126 19 170 27 198 51 668 51 988 0 557 -38 1180 -85 1399 -8 37 -15 82 -15 101 0 19 -7 51 -15 70 -8 20 -15 64 -15 97 0 33 -4 68 -10 78 -10 17 -25 112 -39 237 -4 39 -13 83 -19 98 -7 16 -12 45 -12 65 -1 20 -7 48 -15 62 -8 14 -14 48 -15 77 0 28 -4 54 -9 57 -4 3 -11 35 -14 72 -4 36 -11 71 -15 78 -5 6 -12 36 -14 66 -3 30 -11 56 -17 58 -6 2 -11 19 -11 39 0 19 -6 58 -14 86 -7 29 -21 88 -31 132 -30 139 -133 490 -190 645 -7 19 -18 53 -25 75 -7 22 -18 54 -25 70 -8 17 -29 77 -48 135 -19 58 -40 116 -45 130 -6 14 -36 95 -68 180 -67 183 -158 395 -243 572 -33 70 -61 132 -61 137 0 5 -3 11 -8 13 -8 4 -102 193 -102 207 0 5 -3 11 -7 13 -5 2 -26 39 -47 83 -22 44 -42 82 -46 85 -3 3 -14 24 -23 48 -9 23 -27 59 -40 80 -13 20 -40 71 -61 112 -21 41 -63 117 -93 168 -60 103 -69 107 -138 71z"/>
+                    </g>
                 </svg>
                 <span>Xonda</span>
             </a>
             
             <div class="footer-links-premium">
-                <a href="#">Metodología de Trabajo</a>
-                <a href="#">Términos de servicio</a>
-                <a href="#">Política de privacidad</a>
+                <a href="blueprint.html">Metodología de Trabajo</a>
+                <a href="terms.html">Términos de servicio</a>
+                <a href="priv.html">Política de privacidad</a>
             </div>
             
             <p class="copyright-premium">© 2026 Xonda. Ingeniería Absoluta. Mendoza, Argentina.</p>
@@ -1211,162 +643,6 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-
-            // Ocultar pantalla de carga dándole tiempo a las texturas (800ms)
-            window.addEventListener("load", () => {
-                setTimeout(() => {
-                    const preloader = document.getElementById("preloader");
-                    if (preloader) {
-                        preloader.style.opacity = "0";
-                        setTimeout(() => { preloader.style.visibility = "hidden"; }, 600);
-                    }
-                }, 800); 
-            });
-
-            let idx = 0;
-            
-            // FUNCIÓN DE CONTROL DE CARRUSEL REESCRITA (MÁS SILLERA, LIMPIA Y COMPATIBLE)
-            const updateCarousel = () => {
-                const activePanel = document.querySelector('.service-panel.active');
-                if (!activePanel) return;
-                
-                const cards = activePanel.querySelectorAll('.card-servicio-ancha');
-                const total = cards.length;
-                if (!total) return;
-                
-                idx = (idx + total) % total;
-                cards.forEach((card, i) => {
-                    if (i === idx) {
-                        card.classList.add('is-center');
-                    } else {
-                        card.classList.remove('is-center');
-                    }
-                });
-
-                // Actualizar puntos
-                const dotsContainer = document.querySelector('.carousel-indicators');
-                if (dotsContainer) {
-                    dotsContainer.innerHTML = '';
-                    cards.forEach((_, i) => {
-                        const dot = document.createElement('div');
-                        dot.className = `indicator-dot ${i === idx ? 'active' : ''}`;
-                        dot.addEventListener('click', () => { idx = i; updateCarousel(); });
-                        dotsContainer.appendChild(dot);
-                    });
-                }
-            };
-
-            const obs1 = new IntersectionObserver((entries, o) => entries.forEach(e => {
-                if (e.isIntersecting) { e.target.classList.add('activa'); o.unobserve(e.target); }
-            }), { threshold: 0.15 });
-            document.querySelectorAll('.reveal').forEach(el => obs1.observe(el));
-
-            const obs2 = new IntersectionObserver(entries => entries.forEach(e => {
-                e.target.style.animationPlayState = e.isIntersecting ? 'running' : 'paused';
-            }));
-            document.querySelectorAll('.tab-btn-crystal.active, .badge-track').forEach(el => obs2.observe(el));
-
-            setTimeout(updateCarousel, 50);
-
-            const prev = document.querySelector('.carousel-arrow.prev');
-            const next = document.querySelector('.carousel-arrow.next');
-            if (next) next.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); idx++; updateCarousel(); });
-            if (prev) prev.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); idx--; updateCarousel(); });
-
-            const tabs = document.querySelectorAll('.tab-btn-crystal');
-            const panels = document.querySelectorAll('.service-panel');
-            tabs.forEach(t => t.addEventListener('click', (e) => {
-                tabs.forEach(tab => tab.classList.remove('active'));
-                panels.forEach(p => p.classList.remove('active'));
-                
-                const btn = e.currentTarget;
-                btn.classList.add('active');
-                
-                const targetPanel = document.getElementById(btn.getAttribute('data-target'));
-                if (targetPanel) targetPanel.classList.add('active');
-                
-                idx = 0; // Reinicia el contador de tarjetas al cambiar de sección
-                obs2.disconnect();
-                document.querySelectorAll('.tab-btn-crystal.active, .badge-track').forEach(el => obs2.observe(el));
-                updateCarousel();
-            }));
-
-            // Efecto Parallax 3D aplicado a la tarjeta y a los 3 mockups iniciales
-            const cardScene = document.getElementById('card-scene');
-            const cardInner = document.getElementById('card-inner');
-            const btnFlipForm = document.getElementById('btn-flip-form');
-            const btnFlipBack = document.getElementById('btn-flip-back');
-            
-            // Seleccionamos los 3 mockups
-            const mockups = document.querySelectorAll('.interfaz-mockup, .mini-mockup-card');
-
-            if (cardScene || mockups.length > 0) {
-                const updateTilt = () => {
-                    const winH = window.innerHeight;
-                    const scrollY = window.scrollY; // Detecta la posición del scroll
-
-                    // 1. Tilt de la tarjeta de contacto
-                    if (cardScene) {
-                        const rect = cardScene.getBoundingClientRect();
-                        if (rect.top < winH && rect.bottom > 0) {
-                            let progress = (rect.top - (winH * 0.1)) / (winH * 0.9);
-                            progress = Math.max(0, Math.min(1, progress)); 
-                            const angle = progress * 45; 
-                            cardScene.style.transform = `perspective(2000px) rotateX(${angle}deg)`;
-                        }
-                    }
-
-                    // 2. Tilt de los mockups al scrollear
-                    mockups.forEach(mockup => {
-                        const rect = mockup.getBoundingClientRect();
-                        if (rect.top < winH && rect.bottom > 0) {
-                            let progress = (rect.top - (winH * 0.2)) / (winH * 0.8);
-                            progress = Math.max(0, Math.min(1, progress));
-                            const angleX = progress * 20; 
-                            mockup.style.transform = `perspective(1200px) rotateY(-6deg) rotateX(${angleX}deg) translateZ(0)`;
-                        }
-                    });
-
-                    // 3. Efecto Parallax en figuras 3D de fondo (Ajustado para no esconderlas)
-                    const parallaxGeometries = document.querySelectorAll('.esfera-central-3d, .geometria-capsula-3d, .geometria-cubo-3d');
-                    parallaxGeometries.forEach(el => {
-                        const speed = 0.05; 
-                        // Calculamos la posición relativa al elemento para que no se escape
-                        const rectTop = el.parentElement.getBoundingClientRect().top;
-                        
-                        // Solo aplicamos el efecto si está visible en pantalla
-                        if (rectTop < winH && rectTop > -winH) {
-                            const yPos = (winH - rectTop) * speed; 
-                            
-                            if (el.classList.contains('esfera-central-3d')) {
-                                el.style.transform = `translate(-65%, calc(-20% - ${yPos}px)) translateZ(0)`;
-                            } else if (el.classList.contains('geometria-capsula-3d')) {
-                                el.style.transform = `rotate(35deg) translateZ(-10px) translateY(${-yPos}px)`;
-                            } else if (el.classList.contains('geometria-cubo-3d')) {
-                                el.style.transform = `rotate(-20deg) rotateX(15deg) translateZ(-10px) translateY(${-yPos}px)`;
-                            }
-                        }
-                    });
-                };
-
-                window.addEventListener('scroll', updateTilt, { passive: true });
-                updateTilt(); 
-            }
-
-            // Giro 180 del formulario
-            if (btnFlipForm && btnFlipBack && cardInner) {
-                btnFlipForm.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    cardInner.classList.add('is-flipped');
-                });
-                btnFlipBack.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    cardInner.classList.remove('is-flipped');
-                });
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

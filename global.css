@@ -1,0 +1,107 @@
+/* =========================================
+    VARIABLES Y RESETEO GENERAL
+========================================= */
+:root {
+    --bg-pure-black: #000;
+    --text-primary: #fff;
+    --text-secondary: #9CA3AF;
+    --neon-cyan: #6ff1ff;
+    --neon-purple: #cea0ff;
+    --cubic-apple: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+    margin: 0; padding: 0; box-sizing: border-box; outline: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-pure-black);
+    color: var(--text-primary);
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    letter-spacing: .03em;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================
+    ESTÉTICA DE TÍTULOS GLOBALES
+========================================= */
+.problemas-main-title,
+.section-title-premium {background: linear-gradient(90deg, #ffffff 20%, #6b6b6b 100%) !important;-webkit-background-clip: text !important;-webkit-text-fill-color: transparent !important;background-clip: text !important;}
+
+.section-title-premium span {color: inherit !important;-webkit-text-fill-color: transparent !important;}
+
+.hero-title, .problemas-main-title, .section-title-premium {font-weight: 400;letter-spacing: -.04em;line-height: 1;text-align: center;background: linear-gradient(to bottom, #fff 30%, #ffffffc7 40%, #ffffffc5 50%, #ffffffbe 60%, #ffffff8f 70%, #ffffff98 80%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-clip: text;padding-bottom: 12px;}
+
+/* =========================================
+    UTILIDADES GLOBALES (Luces, Animaciones, Etiquetas)
+========================================= */
+.reveal {opacity: 0; transform: translateY(30px); transition: all 1s var(--cubic-apple);}
+.reveal.activa { opacity: 1; transform: translateY(0); }
+
+.techo-luz {position: absolute; top: -150px; left: 50%; transform: translateX(-50%);width: 800px; height: 400px; background: rgba(255, 255, 255, .09);border-radius: 0 0 400px 400px; filter: blur(80px); z-index: 0; pointer-events: none;}
+
+.solucion-tag-premium, .card-mini-title-premium {display: inline-flex; align-items: center; gap: 8px; width: fit-content; margin-bottom: 1.2rem;font-size: 1.3rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.16em; font-family: monospace;background: linear-gradient(90deg, #9cc5d6 0%, #d3aaf8 50%, #dfb7e6 100%);-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;}
+
+/* =========================================
+    NAVBAR Y BOTONES GLOBALES
+========================================= */
+.navbar {display: flex; justify-content: space-between; align-items: center;padding: 2rem 7rem; position: absolute; top: 0; left: 50%; transform: translateX(-50%);width: 100%; max-width: 120rem; z-index: 10000;}
+
+.logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; font-size: 1.6rem; color: var(--text-primary); letter-spacing: -.05em; font-weight: 400; }
+
+.btn-contact, .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 1rem; text-decoration: none; transition: all .3s ease; }
+.btn-contact { background: rgba(37, 37, 37, .69); border-radius: 10px; padding: 6px 12px; color: #fff; font-size: 1.35rem; border: 1px solid transparent; }
+.btn-contact:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .2); }
+
+.btn-primary { background: #fff; color: #000; font-weight: 500; font-size: 1.5rem; padding: 16px 36px; border-radius: 8px; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, .15); }
+
+/* =========================================
+    FOOTER PREMIUM
+========================================= */
+.footer-premium {
+    position: relative; width: 100%; background: #000; padding: 32px 24px; border-top: 1px solid rgba(255, 255, 255, 0.15); overflow: hidden; z-index: 100;
+}
+.footer-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; }
+
+.footer-logo-premium { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.25rem; font-weight: 380; color: var(--text-primary); transition: transform 0.3s var(--cubic-apple); }
+.footer-logo-premium:hover { transform: scale(1.05); }
+
+.footer-links-premium { display: flex; gap: 32px; }
+.footer-links-premium a { color: rgba(255, 255, 255, 0.5); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; }
+.footer-links-premium a:hover { color: #fff; }
+
+.copyright-premium { color: rgba(255, 255, 255, 0.25); font-size: 0.85rem; }
+
+.luz-cenital-fondo {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100vw; max-width: 1400px; height: 550px; pointer-events: none; z-index: -1;
+    background: radial-gradient(ellipse at bottom center, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.08) 45%, transparent 75%);
+}
+
+/* =========================================
+    SCROLLBARS & SPINNER
+========================================= */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-pure-black); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+::selection { background: rgba(255, 255, 255, 0.9); color: #000; }
+::-moz-selection { background: rgba(255, 255, 255, 0.9); color: #000; }
+@keyframes spinner { to { transform: rotate(360deg); } }
+
+/* =========================================
+    MEDIA QUERIES GLOBALES (Solo Navbar y Footer)
+========================================= */
+@media(max-width: 968px) {
+    .navbar { padding: 20px 24px; }
+    .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-links-premium { flex-direction: column; gap: 16px; }
+}

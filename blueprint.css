@@ -1,0 +1,112 @@
+/* =========================================
+   PÁGINA: XONDA BLUEPRINT (METODOLOGÍA)
+========================================= */
+
+/* HERO DE BLUEPRINT */
+.blueprint-hero {
+    min-height: 50vh; display: flex; align-items: center; justify-content: center; padding: 12rem 2rem 6rem; position: relative;
+    /* Luz Cenital Invertida (Spotlight) */
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255, 255, 255, 0.10) 0%, transparent 100%);
+}
+
+.blueprint-hero-content { max-width: 800px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+
+.blueprint-title {
+    font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 1rem;
+    background: linear-gradient(90deg, #FFFFFF 0%, rgba(255, 255, 255, 0.25) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.blueprint-desc { font-size: 1.25rem; color: rgba(255, 255, 255, 0.8); line-height: 1.6; }
+.blueprint-desc-sub { font-size: 1.05rem; color: rgba(255, 255, 255, 0.5); line-height: 1.6; }
+
+/* =========================================
+   LÍNEA DE TIEMPO (TIMELINE)
+========================================= */
+.timeline-section { padding: 4rem 2rem 10rem; display: flex; justify-content: center; }
+.timeline-container { max-width: 900px; width: 100%; position: relative; padding-left: 3rem; }
+
+/* El hilo conductor vertical */
+.timeline-line { position: absolute; top: 0; left: 11px; width: 2px; height: 100%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.05) 100%); border-radius: 2px; }
+
+/* Nodos individuales (Fases) */
+.timeline-node { position: relative; margin-bottom: 5rem; }
+.timeline-node:last-child { margin-bottom: 0; }
+
+.timeline-dot {
+    position: absolute; top: 6px; left: -3rem; width: 24px; height: 24px; z-index: 2; border-radius: 50%;
+    background: var(--bg-pure-black); border: 2px solid var(--text-primary);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4), inset 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Tarjetas de Cristal Premium */
+.timeline-content {
+    background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 3rem; position: relative; overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.timeline-content:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.15); }
+.timeline-content::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%); }
+
+/* Textos de la Línea de Tiempo */
+.phase-number { display: inline-block; font-family: monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 1rem; color: var(--neon-purple); }
+.timeline-content h3 { font-size: 2rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; letter-spacing: -0.02em; }
+.timeline-content h3 span { font-weight: 400; color: rgba(255, 255, 255, 0.4); font-size: 1.3rem; margin-left: 8px; }
+.phase-intro { font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+/* Grillas Internas */
+.phase-details { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+.phase-item h4 { font-size: 1.1rem; color: var(--text-primary); font-weight: 500; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+.phase-item h4::before { content: ''; display: block; width: 6px; height: 6px; background: var(--text-primary); border-radius: 50%; }
+.phase-item p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.5); line-height: 1.5; padding-left: 14px; }
+
+/* =========================================
+   BOTÓN DE DESCARGA PDF
+========================================= */
+.btn-download-blueprint {
+    display: inline-flex; align-items: center; gap: 10px; padding: 0.9rem 1.6rem; margin-top: 1rem; border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-primary);
+    font-size: 0.95rem; font-weight: 500; text-decoration: none; letter-spacing: -0.01em; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); transition: all 0.3s var(--cubic-apple);
+}
+.btn-download-blueprint:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); }
+.btn-download-blueprint svg { transition: transform 0.3s ease; }
+.btn-download-blueprint:hover svg { transform: translateY(2px); }
+
+/* =========================================
+   TARJETA FINANCIERA (FASE 5)
+========================================= */
+.financial-card { background: radial-gradient(circle at 90% 10%, rgba(217, 70, 239, 0.04) 0%, rgba(255, 255, 255, 0.01) 60%); }
+.legal-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+.legal-box { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 1.5rem; }
+.legal-box h4 { font-size: 1.05rem; color: var(--text-primary); font-weight: 500; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 10px; }
+.legal-box h4 svg { color: rgba(255, 255, 255, 0.4); }
+.legal-box p { font-size: 0.9rem; color: rgba(255, 255, 255, 0.4); line-height: 1.5; }
+
+/* DASHBOARD DE HONORARIOS */
+.pricing-dashboard { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 16px; overflow: hidden; }
+.dashboard-header { background: rgba(255, 255, 255, 0.02); padding: 1rem 1.5rem; font-size: 0.9rem; font-weight: 600; color: rgba(255, 255, 255, 0.6); letter-spacing: 0.02em; text-transform: uppercase; font-family: monospace; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.dashboard-grid { display: flex; flex-direction: column; }
+.dashboard-row { display: grid; grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+.dashboard-row:last-child { border-bottom: none; }
+.header-row { background: rgba(255, 255, 255, 0.01); padding: 0.8rem 1.5rem; font-size: 0.8rem; color: rgba(255, 255, 255, 0.3); font-weight: 500; }
+
+.project-type { font-size: 1.1rem; color: var(--text-primary); font-weight: 500; }
+.project-duration { font-size: 0.95rem; color: var(--neon-purple); font-family: monospace; font-weight: 600; }
+.project-payment { font-size: 0.95rem; color: rgba(255, 255, 255, 0.5); line-height: 1.6; }
+.project-payment strong { color: rgba(255, 255, 255, 0.85); }
+
+/* =========================================
+   MEDIA QUERIES (Responsividad Blueprint)
+========================================= */
+@media (min-width: 768px) {
+    .phase-details, .legal-grid { grid-template-columns: 1fr 1fr; }
+    .dashboard-row { grid-template-columns: 1.2fr 1fr 2fr; align-items: center; }
+}
+
+@media (max-width: 768px) {
+    .timeline-container { padding-left: 2rem; }
+    .timeline-dot { left: -2rem; width: 20px; height: 20px; top: 8px; }
+    .timeline-line { left: 9px; }
+    .timeline-content { padding: 2rem; }
+    .header-row { display: none; }
+}
