@@ -486,7 +486,7 @@
     }
 
     .btn-primary {font-weight: 500; 
-        font-size: 1.5rem !important; 
+        font-size: 1.3rem !important; 
         padding: 1rem 1rem !important; 
         border-radius: 5px; 
         width: 100%;
@@ -1071,5 +1071,66 @@
         background: rgba(255, 255, 255, 0.13) !important; 
     }
 
+    
 
+
+}
+
+/* =======================================================
+   RECONSTRUCCIÓN FINAL: PRIORIDAD A LA LECTURA
+======================================================= */
+
+@media screen and (max-width: 480px) {
+    
+    .seccion-contacto {
+        padding: 60px 20px 80px !important;
+        margin-top: 40px !important;
+    }
+
+    .cta-card-scene {
+        width: 100% !important;
+        max-width: 400px !important;
+    }
+
+    .cta-card-front, .cta-card-back {
+        padding: 40px 28px !important; 
+        border-radius: 24px !important;
+    }
+
+    /* 1. Ícono más pequeño (el detalle que acompaña, no el protagonista) */
+    .cta-icon-wrapper {
+        width: 40px !important;
+        height: 40px !important;
+        margin-bottom: 24px !important;
+    }
+    .cta-icon-wrapper svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    /* 2. Títulos más grandes y legibles */
+    .cta-card-front h2 {
+        font-size: 2.6rem !important; 
+        line-height: 1 !important;
+        margin-bottom: 20px !important;
+    }
+    .cta-card-back h3 {
+        font-size: 2.2rem !important;
+        margin-bottom: 24px !important;
+    }
+
+    /* 3. Textos con mayor peso visual */
+    .cta-card-front p {
+        font-size: 1.05rem !important; /* Texto un poco más grande para mejor lectura */
+        margin-bottom: 32px !important;
+        color: rgba(255, 255, 255, 0.7) !important; /* Subimos un poco el contraste */
+    }
+
+    /* 4. Botón ajustado para ser una llamada a la acción clara */
+    .btn-blanco-fuerte {
+        font-size: 1.05rem !important;
+        padding: 16px 28px !important;
+        width: 100% !important;
+        justify-content: center !important;
+    }
 }
