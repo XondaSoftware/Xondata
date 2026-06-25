@@ -1546,14 +1546,17 @@
     }
 
     /* --- 6. AJUSTE DE ALTURA FINAL DEL CARRUSEL --- */
+    /* --- 6. AJUSTE REAL PARA iPHONE FÍSICO (Anti-solapamiento) --- */
     .servicios-interactive-wrapper {
-        height: 410px !important; /* Le rebanamos 70px de vacío */
-        min-height: 410px !important;
-        margin-bottom: 20px !important; /* Acercamos la tarjeta de contacto */
+        height: 485px !important; /* Expandido de 410px a 485px para absorber la fuente de iOS */
+        min-height: 485px !important;
+        margin-bottom: 35px !important; /* Empuja la tarjeta de contacto hacia abajo */
     }
     
     .carousel-controls {
-        bottom: 10px !important; /* Subimos los puntos para pegarlos al mockup */
+        bottom: 5px !important; /* Clava los puntos estrictamente en el piso de los 485px */
+        top: auto !important;
+        z-index: 1000 !important;
     }
 }
 
