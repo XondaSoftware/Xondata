@@ -193,3 +193,44 @@ body {
     }
 
 }
+
+/* --- A. UNIFICACIÓN DE MINITÍTULOS (PC y Móvil) --- */
+.solucion-tag-premium, 
+.card-mini-title-premium, 
+[class*="mini-title"] {
+    font-family: monospace !important;
+    font-size: 0.75rem !important; /* Tamaño idéntico para todos */
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    background: linear-gradient(90deg, #9cc5d6 0%, #d3aaf8 50%, #dfb7e6 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    white-space: nowrap !important;
+}
+
+@media screen and (max-width: 480px) {
+    .solucion-tag-premium, 
+    .card-mini-title-premium {
+        font-size: 0.65rem !important; /* Pequeña reducción para que entre en 320px */
+        letter-spacing: 0.03em !important;
+    }
+}
+
+.solucion-tag-premium,
+.card-mini-title-premium,
+.phase-number {
+    font-family: monospace !important;
+    font-size: 0.75rem !important; 
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    background: linear-gradient(90deg, #9cc5d6 0%, #d3aaf8 50%, #dfb7e6 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    white-space: nowrap !important;
+    margin-bottom: 12px !important;
+    display: inline-block !important;
+}

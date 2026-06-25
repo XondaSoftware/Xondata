@@ -110,3 +110,125 @@
     .timeline-content { padding: 2rem; }
     .header-row { display: none; }
 }
+
+@media screen and (max-width: 480px) {
+    /* --- D. SASTRERÍA BLUEPRINT MÓVIL --- */
+    
+    /* 1. Reducimos el tope inmenso del título principal */
+    .blueprint-hero, /* Cambia por tu clase real del hero */
+    .seccion-blueprint-inicio { 
+        padding-top: 100px !important; /* Subimos el título a la zona visible */
+    }
+
+    /* 2. Pegamos la línea de tiempo al borde físico izquierdo de la pantalla */
+    .timeline-container, /* Reemplaza por tu contenedor de la línea */
+    .hoja-ruta-wrapper {
+        margin-top: 0;
+        padding-top: 0;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        width: 100vw !important; /* Forzamos ancho total */
+        position: relative !important;
+        left: -12px !important; /* Compensa el padding general del body si lo hay */
+    }
+
+    /* La línea vertical brillante */
+    .timeline-line, 
+    .linea-vertical {
+        left: 0 !important;
+    }
+
+    /* Las bolitas luminosas (Mitad adentro, mitad afuera) */
+    .timeline-dot,
+    .circulo-fase {
+        left: 0 !important;
+        transform: translateX(-50%) !important;
+    }
+
+    /* 3. Ensanchamos las tarjetas de Fase */
+    .timeline-card,
+    .fase-card {
+        width: calc(100vw - 16px) !important; /* 100% de la pantalla menos el margen de la línea */
+        margin-left: 20px !important; /* Se alejan un poquito de la línea */
+        padding: 24px 20px !important; /* Más respiro interno */
+        box-sizing: border-box !important;
+    }
+    
+}
+
+/* =================================================================
+   17. PULIDO FINAL (Blueprint, Minitítulos y Carrusel)
+================================================================= */
+
+@media screen and (max-width: 480px) {
+    /* Achicamos la letra para que entre perfecto en 320px (iPhone SE/16) */
+    .solucion-tag-premium,
+    .card-mini-title-premium,
+    .phase-number {
+        font-size: 1rem !important;
+        letter-spacing: 0.03em !important;
+    }
+
+    /* --- B. BLUEPRINT: HERO MÁS COMPACTO --- */
+    .blueprint-hero {
+        min-height: 0 !important; /* Matamos el 50vh que dejaba tanto vacío */
+        padding: 100px 20px 20px !important; /* Lo empujamos hacia arriba */
+    }
+
+    .blueprint-title {
+        font-size: 2.8rem !important;
+    }
+
+    /* El subtítulo "Hoja de Ruta" que agregaste lo subimos un poquito */
+    .hoja-de-ruta {
+        margin-top: 30px !important; 
+    }
+
+/* --- C. BLUEPRINT: LÍNEA AL BORDE Y TARJETAS GIGANTES --- */
+    
+    .timeline-section {
+        padding: 30px 0 80px !important; 
+        overflow: hidden !important; 
+    }
+
+    .timeline-container {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Movemos la línea 12px hacia la derecha para que no se la trague el marco del iPhone */
+    .timeline-line {
+        left: 12px !important;
+    }
+
+    /* El círculo se clava exactamente sobre la línea (a los 12px) */
+    .timeline-dot {
+        left: 12px !important;
+        transform: translateX(-50%) !important;
+        width: 18px !important; 
+        height: 18px !important;
+    }
+
+    /* Las tarjetas respetan los 12px de la línea y usan todo el espacio sobrante */
+    /* 4. Las tarjetas rozando el límite derecho absoluto */
+    .timeline-content {
+        width: calc(100% - 34px) !important; /* 28px a la izq + solo 6px a la derecha = 34px */
+        margin-left: 28px !important; 
+        padding: 24px 16px !important; /* Reduje 2px el padding interno para que el texto tenga aún más lugar */
+    }
+
+    .timeline-content h3 {
+        font-size: 1.5rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    .timeline-content h3 span {
+        display: block !important;
+        margin-left: 0 !important;
+        margin-top: 4px !important;
+        font-size: 0.9rem !important;
+    }
+
+
+}

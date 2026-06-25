@@ -135,6 +135,38 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { passive: true });
     }
 
+    // ====================================================================
+    // [ INYECCIÓN MÓVIL C ]: SWIPE EN LAS PESTAÑAS (Auto-selección)
+    // ====================================================================
+    if (tabsContainer && window.innerWidth <= 480) {
+        let tabStartX = 0;
+        let tabEndX = 0;
+
+        tabsContainer.addEventListener('touchstart', e => {
+            tabStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        tabsContainer.addEventListener('touchend', e => {
+            tabEndX = e.changedTouches[0].screenX;
+            const dist = tabStartX - tabEndX;
+            const umbralTab = 40; // Sensibilidad de arrastre
+
+            // Solo actuamos si el swipe fue suficientemente largo
+            if (Math.abs(dist) > umbralTab) {
+                let activeTabIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+                if (activeTabIndex === -1) activeTabIndex = 0;
+
+                if (dist > 0 && activeTabIndex < tabs.length - 1) {
+                    // Swipe a la izquierda -> Simula clic en la SIGUIENTE pestaña
+                    tabs[activeTabIndex + 1].click();
+                } else if (dist < 0 && activeTabIndex > 0) {
+                    // Swipe a la derecha -> Simula clic en la pestaña ANTERIOR
+                    tabs[activeTabIndex - 1].click();
+                }
+            }
+        }, { passive: true });
+    }
+
 
     // Efecto Parallax 3D 
     const cardScene = document.getElementById('card-scene');

@@ -805,6 +805,7 @@
         margin-left: calc(-50vw + 50%) !important; 
         padding: 0 !important; 
         gap: 12px !important;
+        align-content: start !important;
     }
 
     .card-info-group {
@@ -1330,6 +1331,27 @@
         padding-left: 20px !important;
         padding-right: 20px !important;
     }
+
+    /* =================================================================
+       16. EL FIX FINAL (Carrusel suave, Espacios y Blueprint)
+    ================================================================= */
+
+    /* --- 1. EL SECRETO DEL CARRUSEL SUAVE --- */
+    .servicios-interactive-wrapper,
+    .servicios-tabs {
+        /* Magia negra de CSS: Le prohíbe al iPhone intentar hacer scroll horizontal nativo.
+           Ahora el 100% de tu dedo es controlado por tu JavaScript. Cero bugs. */
+        touch-action: pan-y !important; 
+    }
+
+    /* --- 2. SEPARACIÓN: PUNTOS DEL CARRUSEL VS CONTACTO --- */
+    .servicios-interactive-wrapper {
+        margin-bottom:0 !important; /* Le damos piso al carrusel para que respiren los puntos */
+    }
+    
+    .seccion-contacto {
+        margin-top: 15rem !important; /* Empujamos la tarjeta de contacto hacia abajo */
+    }
 }
 
 /* =================================================================
@@ -1495,3 +1517,43 @@
         ) !important;
     }
 }
+
+/* --- B. FIX BUG "DOBLE TOQUE" EN MÓVILES (iOS Hover Bug) --- */
+@media (hover: none) {
+    /* Si el dispositivo es táctil, aniquilamos el hover físico */
+    .btn-blanco-fuerte:hover, 
+    .carousel-arrow:hover,
+    .btn-primary:hover {
+        transform: none !important;
+        box-shadow: inherit !important;
+        background: inherit !important;
+    }
+}
+
+/* --- C. CONGELAMIENTO DE ALTURA (Anti-saltos en el Carrusel) --- */
+@media screen and (max-width: 480px) {
+    /* Fijamos el contenedor maestro para que no suba ni baje */
+    .servicios-interactive-wrapper {
+        height: 480px !important; 
+        min-height: 480px !important;
+    }
+    /* Fijamos la caja de texto interna a una altura estricta */
+    .card-servicio-ancha.is-center .card-info-group {
+            height: fit-content !important; 
+            min-height: 0 !important;
+            max-height: none !important;
+            padding: 24px 20px !important; /* Respiro interno parejo, sin vacío abajo */
+    }
+
+    /* --- 6. AJUSTE DE ALTURA FINAL DEL CARRUSEL --- */
+    .servicios-interactive-wrapper {
+        height: 410px !important; /* Le rebanamos 70px de vacío */
+        min-height: 410px !important;
+        margin-bottom: 20px !important; /* Acercamos la tarjeta de contacto */
+    }
+    
+    .carousel-controls {
+        bottom: 10px !important; /* Subimos los puntos para pegarlos al mockup */
+    }
+}
+
